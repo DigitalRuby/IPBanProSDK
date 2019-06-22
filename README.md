@@ -1,2 +1,2 @@
 # IPBanProSDK
-IPBan Pro API and SDK Integrations
+IPBan Pro API and Application Integrations
