@@ -41,9 +41,14 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Ban time
         /// </summary>
-        [DisplayFormat(DataFormatString = "{0:dd\\:hh\\:mm\\:ss}", ApplyFormatInEditMode = true)]
         [LocalizedDisplayName(nameof(IPBanResources.BanTime))]
-        public TimeSpan? BanTime { get; set; }
+        public string BanTime { get; set; }
+
+        /// <summary>
+        /// Whether to reset failed login count to 0 for unbanned ip addresses
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.ResetFailedLoginCountForUnbannedIPAddresses))]
+        public bool? ResetFailedLoginCountForUnbannedIPAddresses { get; set; }
 
         /// <summary>
         /// Clear bans on restart
