@@ -9,13 +9,9 @@ namespace DigitalRuby.IPBanProSDK
 {
     public class IPAddressEvents
     {
-        public IPAddressEntry IPAddress { get; set; }
-        public IReadOnlyList<FailedLoginAttempt> FailedLoginAttempts;
-        public IReadOnlyList<SuccessLoginAttempt> SuccessLoginAttempts;
-
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(AllowEmptyStrings = true)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public bool Banned { get; set; }
+        public IPAddress IPAddress { get; set; }
+        public IReadOnlyList<FailedLoginAttempt> FailedLoginAttempts { get; set; } = new FailedLoginAttempt[0];
+        public IReadOnlyList<SuccessLoginAttempt> SuccessLoginAttempts { get; set; } = new SuccessLoginAttempt[0];
+        public IReadOnlyList<BlacklistedIPAddress> BlacklistedIPAddresses { get; set; } = new BlacklistedIPAddress[0];
     }
 }

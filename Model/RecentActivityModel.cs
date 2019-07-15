@@ -48,5 +48,10 @@ namespace DigitalRuby.IPBanProSDK
         /// Recent failed login attempts
         /// </summary>
         public List<FailedLoginAttempt> FailedLoginAttempts { get; set; }
+
+        /// <summary>
+        /// Machine if activity is for a single machine, null for all machines
+        /// </summary>
+        public Machine Machine { get; set; }
     }
 }
