@@ -148,12 +148,6 @@ namespace DigitalRuby.IPBanProSDK
         public string ProcessToRunOnBan { get; set; }
 
         /// <summary>
-        /// Whether to use the default banned ip address handler
-        /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.UseDefaultBannedIPAddressHandler))]
-        public bool? UseDefaultBannedIPAddressHandler { get; set; }
-
-        /// <summary>
         /// Event viewer expressions to block (failed logins)
         /// </summary>
         public EventViewerExpressionsToBlock EventViewerExpressionsBlock { get; set; } = new EventViewerExpressionsToBlock();
