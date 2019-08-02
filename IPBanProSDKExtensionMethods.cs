@@ -148,5 +148,21 @@ namespace DigitalRuby.IPBanProSDK
             JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
             return serializer.Deserialize<WebSocketMessageResponse>(jsonReader);
         }
+
+        /// <summary>
+        /// Truncate a string to max length, adding ellipsis if needed
+        /// </summary>
+        /// <param name="s">String</param>
+        /// <param name="maxLength">Max length</param>
+        /// <returns>Truncated string or original string if no truncation</returns>
+        public static string Truncate(this string s, int maxLength)
+        {
+            maxLength--;
+            if (s != null && maxLength >= 0 && s.Length > maxLength)
+            {
+                s = s.Substring(0, maxLength) + "…";
+            }
+            return s;
+        }
     }
 }

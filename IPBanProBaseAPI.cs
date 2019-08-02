@@ -547,7 +547,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Http headers</returns>
         public ICollection<KeyValuePair<string, object>> GetApiRequestHeaders(Uri uri)
         {
-            string timestamp = ((long)Timestamp.UnixTimestampFromDateTimeMilliseconds()).ToString(CultureInfo.InvariantCulture);
+            string timestamp = Timestamp.ToUnixMillisecondsLong().ToString(CultureInfo.InvariantCulture);
             List<KeyValuePair<string, object>> headers = new List<KeyValuePair<string, object>>();
             if (PublicApiKey != null && PrivateApiKey != null)
             {
