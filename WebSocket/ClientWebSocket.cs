@@ -528,45 +528,51 @@ namespace DigitalRuby.IPBanProSDK
                         while (result != null && !result.EndOfMessage);
                         if (stream.Length != 0)
                         {
-                            // if text message and we are handling text messages
-                            if (result.MessageType == WebSocketMessageType.Text && OnTextMessage != null)
+                            try
                             {
-                                messageQueue.Enqueue(Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length));
-                            }
-                            // otherwise treat message as binary
-                            else
-                            {
-                                // make a copy of the bytes, the memory stream will be re-used and could potentially corrupt in multi-threaded environments
-                                // not using ToArray just in case it is making a slice/span from the internal bytes, we want an actual physical copy
-                                byte[] bytesCopy = new byte[stream.Length];
-                                Array.Copy(stream.GetBuffer(), bytesCopy, stream.Length);
-                                if (OnMessage != null)
+                                // if text message and we are handling text messages
+                                if (result.MessageType == WebSocketMessageType.Text && OnTextMessage != null)
                                 {
-                                    WebSocketMessageResponse message = bytesCopy.ParseWebSocketCompressedJsonMessage();
-
-                                    // remove acks
-                                    if (message.Name == IPBanProBaseAPI.MessageAck && !string.IsNullOrWhiteSpace(message.Id))
+                                    messageQueue.Enqueue(Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length));
+                                }
+                                // otherwise treat message as binary
+                                else
+                                {
+                                    // make a copy of the bytes, the memory stream will be re-used and could potentially corrupt in multi-threaded environments
+                                    // not using ToArray just in case it is making a slice/span from the internal bytes, we want an actual physical copy
+                                    byte[] bytesCopy = new byte[stream.Length];
+                                    Array.Copy(stream.GetBuffer(), bytesCopy, stream.Length);
+                                    if (OnMessage != null)
                                     {
-                                        lock (acks)
+                                        WebSocketMessageResponse message = bytesCopy.ParseWebSocketCompressedJsonMessage();
+
+                                        // remove acks
+                                        if (message.Name == IPBanProBaseAPI.MessageAck && !string.IsNullOrWhiteSpace(message.Id))
                                         {
-                                            if (acks.TryGetValue(message.Id, out ManualResetEvent evt))
+                                            lock (acks)
                                             {
-                                                acks.Remove(message.Id);
-                                                evt.Set();
+                                                if (acks.TryGetValue(message.Id, out ManualResetEvent evt))
+                                                {
+                                                    acks.Remove(message.Id);
+                                                    evt.Set();
+                                                }
                                             }
+                                        }
+                                        else
+                                        {
+                                            messageQueue.Enqueue(message);
                                         }
                                     }
                                     else
                                     {
-                                        messageQueue.Enqueue(message);
+                                        messageQueue.Enqueue(bytesCopy);
                                     }
                                 }
-                                else
-                                {
-                                    messageQueue.Enqueue(bytesCopy);
-                                }
                             }
-                            stream.SetLength(0);
+                            finally
+                            {
+                                stream.SetLength(0);
+                            }
                         }
                         result = null;
                     }
