@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace DigitalRuby.IPBanProSDK
+﻿namespace DigitalRuby.IPBanProSDK
 {
     /// <summary>
     /// Handler for settings changes
