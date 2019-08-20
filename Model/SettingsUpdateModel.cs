@@ -145,6 +145,10 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string ProcessToRunOnBan { get; set; }
 
+        [LocalizedDisplayName(nameof(IPBanResources.FirewallRules))]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string FirewallRules { get; set; }
+
         /// <summary>
         /// Event viewer expressions to block (failed logins)
         /// </summary>
