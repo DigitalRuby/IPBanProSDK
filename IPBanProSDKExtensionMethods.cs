@@ -155,9 +155,21 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Truncated string or original string if no truncation</returns>
         public static string Truncate(this string s, int maxLength)
         {
-            if (s != null && maxLength > 0 && s.Length > maxLength)
+            if (s != null)
             {
-                s = s.Substring(0, maxLength - 1) + "…";
+                try
+                {
+                    s = s.Normalize(NormalizationForm.FormKC);
+                }
+                catch
+                {
+                    // we don't want this crashing or bringing down entire functions
+                }
+                if (maxLength > 0 && s.Length > maxLength)
+                {
+                    s = s.Substring(0, maxLength - 1) + "…";
+                }
+
             }
             return s;
         }
