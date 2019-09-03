@@ -148,30 +148,65 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
-        /// Truncate a string to max length, adding ellipsis if needed
+        /// Truncate a string to max length, adding ellipsis if needed. Used for monospace font scenarios only. CJK is counted as 5.0f / 3.0f chars.
         /// </summary>
         /// <param name="s">String</param>
         /// <param name="maxLength">Max length</param>
+        /// <param name="padding">True to pad with spaces</param>
         /// <returns>Truncated string or original string if no truncation</returns>
-        public static string Truncate(this string s, int maxLength)
+        public static string Truncate(this string s, int maxLength, bool padding = false)
         {
-            if (s != null)
+            const float cjkRatio = 5.0f / 3.0f;
+            if (s != null && maxLength > 0)
             {
-                try
+                float charCount = 0.0f;
+                for (int i = 0; i < s.Length; i++)
                 {
-                    s = s.Normalize(NormalizationForm.FormKC);
-                }
-                catch
-                {
-                    // we don't want this crashing or bringing down entire functions
-                }
-                if (maxLength > 0 && s.Length > maxLength)
-                {
-                    s = s.Substring(0, maxLength - 1) + "…";
-                }
+                    char c = s[i];
+                    switch (char.GetUnicodeCategory(c))
+                    {
+                        case System.Globalization.UnicodeCategory.Format:
+                        case System.Globalization.UnicodeCategory.ModifierLetter:
+                        case System.Globalization.UnicodeCategory.ModifierSymbol:
+                        case System.Globalization.UnicodeCategory.NonSpacingMark:
+                        case System.Globalization.UnicodeCategory.SpacingCombiningMark:
+                        case System.Globalization.UnicodeCategory.Surrogate:
+                            break;
 
+                        default:
+                            if (c.IsCJK())
+                            {
+                                charCount += cjkRatio;
+                            }
+                            else
+                            {
+                                charCount++;
+                            }
+                            break;
+                    }
+                    if (charCount > maxLength)
+                    {
+                        charCount = maxLength;
+                        s = s.Substring(0, i - 1) + "…";
+                        break;
+                    }
+                }
+                if (padding)
+                {
+                    s += new string(' ', maxLength - (int)charCount);
+                }
             }
             return s;
+        }
+
+        /// <summary>
+        /// Detect if char is Chinese, Japanese or Korean
+        /// </summary>
+        /// <param name="c">Char to check</param>
+        /// <returns>True if CJK, false if not</returns>
+        public static bool IsCJK(this char c)
+        {
+            return (c >= 0x4E00 && c <= 0x2FA1F);
         }
     }
 }
