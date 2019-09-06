@@ -149,6 +149,11 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushConfig = "push_config";
 
         /// <summary>
+        /// API key message name
+        /// </summary>
+        public const string MessagePushAPIKey = "push_api_key";
+
+        /// <summary>
         /// Pull the local blacklist
         /// </summary>
         public const string MessagePullLocalBlacklist = "pull_local_blacklist";
