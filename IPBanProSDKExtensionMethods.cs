@@ -16,14 +16,17 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using DigitalRuby.IPBan;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Security;
 using System.Text;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+using DigitalRuby.IPBan;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -110,9 +113,9 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Get a deflate compressed json message from an object
         /// </summary>
-        /// <param name="obj">Object to get compressed bytes for</param>
+        /// <param name="obj">Object to get compressed bytes for. Can be byte[], string, JToken or a json serializable object</param>
         /// <returns>Compressed json bytes using deflate compression</returns>
-        public static byte[] CreateWegbSocketCompressedJsonMessage(object obj)
+        public static byte[] CreateWebSocketCompressedJsonMessage(object obj)
         {
             MemoryStream ms = new MemoryStream();
             using (JsonTextWriter jsonWriter = new JsonTextWriter(new StreamWriter(new DeflateStream(ms, CompressionLevel.Optimal, true), IPBanExtensionMethods.Utf8EncodingNoPrefix)))
@@ -124,6 +127,10 @@ namespace DigitalRuby.IPBanProSDK
                 else if (obj is string text)
                 {
                     jsonWriter.WriteRaw(text);
+                }
+                else if (obj is JToken token)
+                {
+                    jsonWriter.WriteRaw(token.ToString(Formatting.None));
                 }
                 else
                 {
@@ -139,12 +146,12 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         /// <param name="json">JSON</param>
         /// <returns>Object</returns>
-        public static WebSocketMessageResponse ParseWebSocketCompressedJsonMessage(this byte[] json)
+        public static WebSocketMessage ParseWebSocketCompressedJsonMessage(this byte[] json)
         {
             StreamReader reader = new StreamReader(new DeflateStream(new MemoryStream(json), CompressionMode.Decompress), Encoding.UTF8);
             JsonTextReader jsonReader = new JsonTextReader(reader);
             JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
-            return serializer.Deserialize<WebSocketMessageResponse>(jsonReader);
+            return serializer.Deserialize<WebSocketMessage>(jsonReader);
         }
 
         /// <summary>

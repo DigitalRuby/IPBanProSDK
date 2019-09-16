@@ -58,7 +58,7 @@ namespace DigitalRuby.IPBanProSDK
                 }
                 else
                 {
-                    Data = IPBanProSDKExtensionMethods.CreateWegbSocketCompressedJsonMessage(obj).AsMemory();
+                    Data = IPBanProSDKExtensionMethods.CreateWebSocketCompressedJsonMessage(obj).AsMemory();
                 }
                 MessageType = messageType;
             }

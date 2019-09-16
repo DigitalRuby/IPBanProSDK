@@ -196,7 +196,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Action to handle incoming parsed messages
         /// </summary>
-        public Func<IWebSocket, WebSocketMessageResponse, Task> OnMessage { get; set; }
+        public Func<IWebSocket, WebSocketMessage, Task> OnMessage { get; set; }
 
         /// <summary>
         /// Interval to call connect at regularly (default is 1 hour)
@@ -315,7 +315,7 @@ namespace DigitalRuby.IPBanProSDK
             }
 
             string id = null;
-            if (message is WebSocketMessageRequest request && !string.IsNullOrWhiteSpace(request.Id))
+            if (message is WebSocketMessage request && !string.IsNullOrWhiteSpace(request.Id))
             {
                 id = request.Id;
                 lock (acks)
@@ -540,7 +540,7 @@ namespace DigitalRuby.IPBanProSDK
                                     Array.Copy(stream.GetBuffer(), bytesCopy, stream.Length);
                                     if (OnMessage != null)
                                     {
-                                        WebSocketMessageResponse message = bytesCopy.ParseWebSocketCompressedJsonMessage();
+                                        WebSocketMessage message = bytesCopy.ParseWebSocketCompressedJsonMessage();
 
                                         // remove acks
                                         if (message.Name == IPBanProBaseAPI.MessageAck && !string.IsNullOrWhiteSpace(message.Id))
@@ -629,9 +629,9 @@ namespace DigitalRuby.IPBanProSDK
                         {
                             await action();
                         }
-                        else if (message is WebSocketMessageResponse parsedMessage)
+                        else if (message is WebSocketMessage parsedMessage)
                         {
-                            Func<IWebSocket, WebSocketMessageResponse, Task> actionCopy = OnMessage;
+                            Func<IWebSocket, WebSocketMessage, Task> actionCopy = OnMessage;
                             if (actionCopy != null)
                             {
                                 await actionCopy.Invoke(this, parsedMessage);

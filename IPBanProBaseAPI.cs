@@ -214,6 +214,11 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushCountryBlacklistEntry = "push_country_blacklist_entry";
 
         /// <summary>
+        /// Push an action, the client should perform the action with the data. Parameters contains 'action' key and the value is the action to perform.
+        /// </summary>
+        public const string MessagePushAction = "push_action";
+
+        /// <summary>
         /// Key for ip address
         /// </summary>
         public const string KeyIPAddress = "IPAddress";

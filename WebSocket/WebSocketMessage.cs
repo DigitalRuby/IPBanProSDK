@@ -16,9 +16,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -26,7 +28,7 @@ namespace DigitalRuby.IPBanProSDK
     /// Web socket message to send
     /// </summary>
     [Serializable]
-    public class WebSocketMessageRequest
+    public class WebSocketMessage
     {
         /// <summary>
         /// Unique id for the message, null if none
@@ -42,7 +44,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Command parameters
         /// </summary>
-        public KeyValuePair<string, object>[] Parameters { get; set; }
+        public List<KeyValuePair<string, object>> Parameters { get; set; }
 
         /// <summary>
         /// Command data
