@@ -37,6 +37,11 @@ namespace DigitalRuby.IPBanProSDK
         System.Net.IPAddress RemoteIPAddress { get; }
 
         /// <summary>
+        /// The remote port of the connecting client
+        /// </summary>
+        int RemotePort { get; }
+
+        /// <summary>
         /// Connection specific state
         /// </summary>
         Dictionary<object, object> Items { get; }
@@ -56,6 +61,11 @@ namespace DigitalRuby.IPBanProSDK
         /// Client remote ip address
         /// </summary>
         public System.Net.IPAddress RemoteIPAddress { get; set; }
+
+        /// <summary>
+        /// Remote port of the connecting client
+        /// </summary>
+        public int RemotePort { get; set; }
 
         /// <summary>
         /// Client specific state
