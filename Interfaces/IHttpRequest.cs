@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System;
 using System.Collections.Generic;
+using System.Net;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -32,9 +33,14 @@ namespace DigitalRuby.IPBanProSDK
         Uri Uri { get; }
 
         /// <summary>
-        /// The remove ip address of the connecting client
+        /// Remote end point
         /// </summary>
-        System.Net.IPAddress RemoteIPAddress { get; }
+        IPEndPoint RemoteEndPoint { get; }
+
+        /// <summary>
+        /// Local end point
+        /// </summary>
+        IPEndPoint LocalEndPoint { get; }
 
         /// <summary>
         /// The remote port of the connecting client
@@ -58,9 +64,14 @@ namespace DigitalRuby.IPBanProSDK
         public Uri Uri { get; set; }
 
         /// <summary>
-        /// Client remote ip address
+        /// Remote end point
         /// </summary>
-        public System.Net.IPAddress RemoteIPAddress { get; set; }
+        public IPEndPoint RemoteEndPoint { get; set; }
+
+        /// <summary>
+        /// Local end point
+        /// </summary>
+        public IPEndPoint LocalEndPoint { get; set; }
 
         /// <summary>
         /// Remote port of the connecting client
