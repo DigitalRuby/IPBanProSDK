@@ -25,7 +25,7 @@ using Newtonsoft.Json.Linq;
 namespace DigitalRuby.IPBanProSDK
 {
     /// <summary>
-    /// Web socket message to send
+    /// Represents a message sent over a web socket. Data will most likely be a JToken as json is the format used internally.
     /// </summary>
     [Serializable]
     public class WebSocketMessage
