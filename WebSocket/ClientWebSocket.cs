@@ -37,7 +37,7 @@ namespace DigitalRuby.IPBanProSDK
     /// <summary>
     /// Wraps a client web socket for easy dispose later, along with auto-reconnect and message and reader queues
     /// </summary>
-    public sealed class ClientWebSocket : IWebSocket
+    public sealed class ClientWebSocket : IQueueMessage
     {
         /// <summary>
         /// Client web socket implementation
@@ -186,17 +186,17 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Action to handle incoming text messages. If null, text messages are handled with OnBinaryMessage.
         /// </summary>
-        public Func<IWebSocket, string, Task> OnTextMessage { get; set; }
+        public Func<IQueueMessage, string, Task> OnTextMessage { get; set; }
 
         /// <summary>
         /// Action to handle incoming binary messages
         /// </summary>
-        public Func<IWebSocket, byte[], Task> OnBinaryMessage { get; set; }
+        public Func<IQueueMessage, byte[], Task> OnBinaryMessage { get; set; }
 
         /// <summary>
         /// Action to handle incoming parsed messages
         /// </summary>
-        public Func<IWebSocket, WebSocketMessage, Task> OnMessage { get; set; }
+        public Func<IQueueMessage, WebSocketMessage, Task> OnMessage { get; set; }
 
         /// <summary>
         /// Interval to call connect at regularly (default is 1 hour)
@@ -305,54 +305,33 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Queue a message to the WebSocket server, it will be sent as soon as possible.
         /// </summary>
-        /// <param name="message">Message to send, can be string, byte[] or object (which get json serialized)</param>
+        /// <param name="message">Message to send, can be byte[], string, WebSocketRawMessage or serializable object</param>
+        /// <param name="groupId">Group id, ignored for now</param>
         /// <returns>True if success, false if error</returns>
-        public bool QueueMessage(object message)
+        public bool QueueMessage(object message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone)
         {
-            if (webSocket == null || webSocket.State == WebSocketState.Closed || webSocket.State == WebSocketState.CloseReceived)
+            if (webSocket == null || webSocket.State == WebSocketState.Closed || webSocket.State == WebSocketState.CloseReceived || message == null)
             {
                 return false;
             }
 
             string id = null;
-            if (message is WebSocketMessage request && !string.IsNullOrWhiteSpace(request.Id))
+            if (message is WebSocketMessage webSocketMessage && !string.IsNullOrWhiteSpace(webSocketMessage.Id))
             {
-                id = request.Id;
+                id = webSocketMessage.Id;
                 lock (acks)
                 {
                     acks.Add(id, new ManualResetEvent(false));
                 }
             }
 
-            async Task enqueueCallback(IWebSocket socket)
+            async Task enqueueCallback(IQueueMessage socket)
             {
                 try
                 {
-                    byte[] bytes;
-                    WebSocketMessageType messageType;
-                    if (message is string s)
-                    {
-                        bytes = s.ToBytesUTF8();
-                        messageType = WebSocketMessageType.Text;
-                    }
-                    else if (message is byte[] b)
-                    {
-                        bytes = b;
-                        messageType = WebSocketMessageType.Binary;
-                    }
-                    else
-                    {
-                        bytes = JsonConvert.SerializeObject(message).ToBytesUTF8();
-                        MemoryStream ms = new MemoryStream();
-                        using (DeflateStream def = new DeflateStream(ms, CompressionLevel.Optimal, true))
-                        {
-                            def.Write(bytes, 0, bytes.Length);
-                        }
-                        bytes = ms.ToArray();
-                        messageType = WebSocketMessageType.Binary;
-                    }
-                    ArraySegment<byte> messageArraySegment = new ArraySegment<byte>(bytes);
-                    await webSocket.SendAsync(messageArraySegment, messageType, true, cancellationTokenSource.Token);
+                    WebSocketRawMessage rawMessage = ((message as WebSocketRawMessage) ?? new WebSocketRawMessage(message));
+                    ArraySegment<byte> messageArraySegment = new ArraySegment<byte>(rawMessage.Data);
+                    await webSocket.SendAsync(messageArraySegment, rawMessage.MessageType, true, cancellationTokenSource.Token);
                 }
                 catch
                 {
@@ -403,11 +382,11 @@ namespace DigitalRuby.IPBanProSDK
             }
         }
 
-        private void QueueActions(params Func<IWebSocket, Task>[] actions)
+        private void QueueActions(params Func<IQueueMessage, Task>[] actions)
         {
             if (actions != null && actions.Length != 0)
             {
-                Func<IWebSocket, Task>[] actionsCopy = actions;
+                Func<IQueueMessage, Task>[] actionsCopy = actions;
                 Func<Task> enqueueActionsFunc = async () =>
                 {
                     foreach (var action in actionsCopy.Where(a => a != null))
@@ -427,11 +406,11 @@ namespace DigitalRuby.IPBanProSDK
             }
         }
 
-        private void QueueActionsWithNoExceptions(params Func<IWebSocket, Task>[] actions)
+        private void QueueActionsWithNoExceptions(params Func<IQueueMessage, Task>[] actions)
         {
             if (actions != null && actions.Length != 0)
             {
-                Func<IWebSocket, Task>[] actionsCopy = actions;
+                Func<IQueueMessage, Task>[] actionsCopy = actions;
                 messageQueue.Enqueue((Func<Task>)(async () =>
                 {
                     foreach (var action in actionsCopy.Where(a => a != null))
@@ -453,7 +432,7 @@ namespace DigitalRuby.IPBanProSDK
             }
         }
 
-        private async Task InvokeConnected(IWebSocket socket)
+        private async Task InvokeConnected(IQueueMessage socket)
         {
             var connected = Connected;
             if (connected != null)
@@ -464,7 +443,7 @@ namespace DigitalRuby.IPBanProSDK
             }
         }
 
-        private async Task InvokeDisconnected(IWebSocket socket)
+        private async Task InvokeDisconnected(IQueueMessage socket)
         {
             var disconnected = Disconnected;
             if (disconnected != null)
@@ -631,7 +610,7 @@ namespace DigitalRuby.IPBanProSDK
                         }
                         else if (message is WebSocketMessage parsedMessage)
                         {
-                            Func<IWebSocket, WebSocketMessage, Task> actionCopy = OnMessage;
+                            Func<IQueueMessage, WebSocketMessage, Task> actionCopy = OnMessage;
                             if (actionCopy != null)
                             {
                                 await actionCopy.Invoke(this, parsedMessage);
@@ -640,7 +619,7 @@ namespace DigitalRuby.IPBanProSDK
                         else if (message is byte[] messageBytes)
                         {
                             // multi-thread safe null check
-                            Func<IWebSocket, byte[], Task> actionCopy = OnBinaryMessage;
+                            Func<IQueueMessage, byte[], Task> actionCopy = OnBinaryMessage;
                             if (actionCopy != null)
                             {
                                 await actionCopy.Invoke(this, messageBytes);
@@ -649,7 +628,7 @@ namespace DigitalRuby.IPBanProSDK
                         else if (message is string messageString)
                         {
                             // multi-thread safe null check
-                            Func<IWebSocket, string, Task> actionCopy = OnTextMessage;
+                            Func<IQueueMessage, string, Task> actionCopy = OnTextMessage;
                             if (actionCopy != null)
                             {
                                 await actionCopy.Invoke(this, messageString);
@@ -683,28 +662,19 @@ namespace DigitalRuby.IPBanProSDK
     /// <param name="socket">Web socket</param>
     /// <param name="reconnect">False if first connection, true if a subsequent reconnection or reping</param>
     /// <returns>Task</returns>
-    public delegate Task WebSocketConnectionDelegate(IWebSocket socket, bool reconnect);
+    public delegate Task WebSocketConnectionDelegate(IQueueMessage socket, bool reconnect);
 
     /// <summary>
     /// Web socket interface
     /// </summary>
-    public interface IWebSocket : IDisposable
+    public interface IQueueMessage : IDisposable
     {
-        /// <summary>
-        /// Connected event
-        /// </summary>
-        event WebSocketConnectionDelegate Connected;
-
-        /// <summary>
-        /// Disconnected event
-        /// </summary>
-        event WebSocketConnectionDelegate Disconnected;
-
         /// <summary>
         /// Queue a message to send as soon as possible
         /// </summary>
-        /// <param name="message">Message to send, can be string, byte[] or object (which get serialized to json)</param>
+        /// <param name="message">Message to send</param>
+        /// <param name="groupId">Group id, or 0 for none</param>
         /// <returns>True if success, false if error</returns>
-        bool QueueMessage(object message);
+        bool QueueMessage(object message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone);
     }
 }

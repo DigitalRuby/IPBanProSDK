@@ -47,18 +47,18 @@ namespace DigitalRuby.IPBanProSDK
         {
             if (obj is string text)
             {
-                Data = (Encoding.UTF8.GetBytes(text)).AsMemory();
+                Data = (Encoding.UTF8.GetBytes(text));
                 MessageType = WebSocketMessageType.Text;
             }
             else
             {
                 if (obj is byte[] bytes)
                 {
-                    Data = bytes.AsMemory();
+                    Data = bytes;
                 }
                 else
                 {
-                    Data = IPBanProSDKExtensionMethods.CreateWebSocketCompressedJsonMessage(obj).AsMemory();
+                    Data = IPBanProSDKExtensionMethods.CreateWebSocketCompressedJsonMessage(obj);
                 }
                 MessageType = messageType;
             }
@@ -71,7 +71,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="messageType">Message type</param>
         public WebSocketRawMessage(string text)
         {
-            Data = (Encoding.UTF8.GetBytes(text)).AsMemory();
+            Data = (Encoding.UTF8.GetBytes(text));
             MessageType = WebSocketMessageType.Text;
         }
 
@@ -82,14 +82,14 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="messageType">Message type</param>
         public WebSocketRawMessage(byte[] bytes, WebSocketMessageType messageType = WebSocketMessageType.Binary)
         {
-            Data = bytes.AsMemory();
+            Data = bytes;
             MessageType = messageType;
         }
 
         /// <summary>
-        /// Message data, if length is 0 there is no message
+        /// Message data, if null or length is 0 there is no message
         /// </summary>
-        public Memory<byte> Data { get; set; }
+        public byte[] Data { get; set; }
 
         /// <summary>
         /// Message type
