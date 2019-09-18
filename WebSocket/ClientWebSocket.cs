@@ -184,6 +184,11 @@ namespace DigitalRuby.IPBanProSDK
         public Uri Uri { get; set; }
 
         /// <summary>
+        /// Amount to wait between dropped connections for a reconnect attempt, default is 5 seconds
+        /// </summary>
+        public TimeSpan ReconnectInterval { get; set; } = TimeSpan.FromSeconds(5.0);
+
+        /// <summary>
         /// Action to handle incoming text messages. If null, text messages are handled with OnBinaryMessage.
         /// </summary>
         public Func<IQueueMessage, string, Task> OnTextMessage { get; set; }
@@ -581,7 +586,7 @@ namespace DigitalRuby.IPBanProSDK
                 {
                     // wait 5 seconds before attempting reconnect
                     CreateWebSocket();
-                    await Task.Delay(5000);
+                    await Task.Delay(ReconnectInterval);
                 }
             }
         }
