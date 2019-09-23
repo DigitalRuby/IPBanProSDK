@@ -168,7 +168,7 @@ namespace DigitalRuby.IPBanProSDK
 
         private void CreateWebSocket()
         {
-            if (webSocketCreator == null)
+            if (webSocketCreator is null)
             {
                 webSocket = new ClientWebSocketImplementation(RequestHeaders ?? emptyRequestHeaders);
             }
@@ -315,7 +315,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>True if success, false if error</returns>
         public bool QueueMessage(object message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone)
         {
-            if (webSocket == null || webSocket.State == WebSocketState.Closed || webSocket.State == WebSocketState.CloseReceived || message == null)
+            if (webSocket is null || webSocket.State == WebSocketState.Closed || webSocket.State == WebSocketState.CloseReceived || message is null)
             {
                 return false;
             }

@@ -58,7 +58,7 @@ namespace DigitalRuby.IPBanProSDK
             /// </summary>
             public bool IsCompleted
             {
-                get { return SynchronizationContext.Current == null; }
+                get { return SynchronizationContext.Current is null; }
             }
 
             /// <summary>
@@ -68,7 +68,7 @@ namespace DigitalRuby.IPBanProSDK
             public void OnCompleted(Action continuation)
             {
                 var prevContext = SynchronizationContext.Current;
-                if (prevContext == null)
+                if (prevContext is null)
                 {
                     continuation?.Invoke();
                 }
@@ -416,7 +416,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 byte[] messageBytes = IPBanProSDKExtensionMethods.BytesFromObject(message, false);
                 byte[] privateKeyBytes = IPBanProSDKExtensionMethods.BytesFromObject(privateKey, true);
-                if (privateKeyBytes == null || privateKeyBytes.Length == 0)
+                if (privateKeyBytes is null || privateKeyBytes.Length == 0)
                 {
                     return null;
                 }
@@ -603,12 +603,12 @@ namespace DigitalRuby.IPBanProSDK
                 Uri uri = new Uri(BaseUri, pathAndQuery);
                 ICollection<KeyValuePair<string, object>> headers = GetApiRequestHeaders(uri);
                 string postJsonString = postJson as string;
-                if (postJsonString == null && postJson != null)
+                if (postJsonString is null && postJson != null)
                 {
                     postJsonString = JsonConvert.SerializeObject(postJson);
                 }
                 byte[] response = await RequestMaker.MakeRequestAsync(uri, postJsonString, headers);
-                if (response == null || response.Length == 0)
+                if (response is null || response.Length == 0)
                 {
                     return null;
                 }
@@ -626,7 +626,7 @@ namespace DigitalRuby.IPBanProSDK
                 string responseText = "Unknown Error";
                 if (ex is WebException wex)
                 {
-                    if (wex.Response == null)
+                    if (wex.Response is null)
                     {
                         responseText = wex.ToString();
                     }
@@ -647,7 +647,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>IDisposable, when disposed, api keys are set to null. Ignore the return value to set keys permanently.</returns>
         public IDisposable SetKeys(object publicApiKey, object privateApiKey)
         {
-            if (publicApiKey == null || privateApiKey == null)
+            if (publicApiKey is null || privateApiKey is null)
             {
                 return new SetKeysScopedDisposable(this, null, null);
             }
