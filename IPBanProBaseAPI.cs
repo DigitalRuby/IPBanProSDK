@@ -114,7 +114,7 @@ namespace DigitalRuby.IPBanProSDK
         public const int WebSocketGroupIdNone = 0;
 
         /// <summary>
-        /// Web socket group id for commands
+        /// Web socket group id for commands, commands are always sent regardless of whether the client is subscribed
         /// </summary>
         public const int WebSocketGroupIdCommands = 2000;
 
