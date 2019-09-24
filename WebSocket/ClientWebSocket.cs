@@ -240,6 +240,12 @@ namespace DigitalRuby.IPBanProSDK
         public NLog.ILogger Logger { get; set; }
 
         /// <summary>
+        /// Whether ack is async or synchronous. By default they are synchronous, meaning the socket will block after sending a message with an id until an ack has been received.
+        /// For asynchronous ack mode, the socket will not block and the event handler will need to check for ack messages with the correct id and perform appropriate processing.
+        /// </summary>
+        public bool AckSynchronous { get; set; } = true;
+
+        /// <summary>
         /// Register a function that will be responsible for creating the underlying web socket implementation
         /// By default, C# built-in web sockets are used (Windows 8.1+ required). But you could swap out
         /// a different web socket for other platforms, testing, or other specialized needs.
@@ -321,7 +327,7 @@ namespace DigitalRuby.IPBanProSDK
             }
 
             string id = null;
-            if (message is WebSocketMessage webSocketMessage && !string.IsNullOrWhiteSpace(webSocketMessage.Id))
+            if (AckSynchronous && message is WebSocketMessage webSocketMessage && !string.IsNullOrWhiteSpace(webSocketMessage.Id))
             {
                 id = webSocketMessage.Id;
                 lock (acks)
@@ -367,23 +373,29 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
-        /// Wait for an ack message, the Id field of an object will trigger an Ack if it is detected
+        /// Wait for an ack message, the Id field of an object will trigger an Ack if it is detected.
+        /// If AckSynchronous is false, this method immediately returns.
         /// </summary>
         /// <param name="id">Id</param>
-        public void WaitForAck(string id)
+        /// <param name="timeoutMilliseconds">Timeout in milliseconds</param>
+        /// <exception cref="System.TimeoutException">Timeout before ack</exception>
+        public void WaitForAck(string id, int timeoutMilliseconds = 5000)
         {
-            ManualResetEvent evt;
-            lock (acks)
+            if (AckSynchronous && !string.IsNullOrWhiteSpace(id))
             {
-                if (!acks.TryGetValue(id, out evt))
+                ManualResetEvent evt;
+                lock (acks)
                 {
-                    // not waiting for an ack on this id
-                    return;
+                    if (!acks.TryGetValue(id, out evt))
+                    {
+                        // not waiting for an ack on this id or it was removed before we even got here
+                        return;
+                    }
                 }
-            }
-            if (!evt.WaitOne(5000))
-            {
-                throw new IOException("Failed to get ack in 5 seconds");
+                if (!evt.WaitOne(timeoutMilliseconds))
+                {
+                    throw new TimeoutException("Timeout waiting for ack id " + id);
+                }
             }
         }
 
@@ -511,7 +523,7 @@ namespace DigitalRuby.IPBanProSDK
                             try
                             {
                                 // if text message and we are handling text messages
-                                if (result.MessageType == WebSocketMessageType.Text && OnTextMessage != null)
+                                if (result.MessageType == WebSocketMessageType.Text)
                                 {
                                     messageQueue.Enqueue(Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length));
                                 }
@@ -524,10 +536,19 @@ namespace DigitalRuby.IPBanProSDK
                                     Array.Copy(stream.GetBuffer(), bytesCopy, stream.Length);
                                     if (OnMessage != null)
                                     {
-                                        WebSocketMessage message = bytesCopy.ParseWebSocketCompressedJsonMessage();
+                                        WebSocketMessage message;
+                                        try
+                                        {
+                                            message = bytesCopy.ParseWebSocketCompressedJsonMessage();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            IPBanLog.Error("Error decompressing web socket message", ex);
+                                            continue;
+                                        }
 
                                         // remove acks
-                                        if (message.Name == IPBanProBaseAPI.MessageAck && !string.IsNullOrWhiteSpace(message.Id))
+                                        if (AckSynchronous && !string.IsNullOrWhiteSpace(message.Id) && message.Name == IPBanProBaseAPI.MessageAck)
                                         {
                                             lock (acks)
                                             {

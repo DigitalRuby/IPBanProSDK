@@ -219,11 +219,6 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushAction = "push_action";
 
         /// <summary>
-        /// Pop an action, the client should respond with the response from a push action.
-        /// </summary>
-        public const string MessagePopAction = "pop_action";
-
-        /// <summary>
         /// Key for ip address
         /// </summary>
         public const string KeyIPAddress = "IPAddress";
