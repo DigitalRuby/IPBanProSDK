@@ -115,7 +115,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         /// <param name="obj">Object to get compressed bytes for. Can be byte[], string, JToken or a json serializable object</param>
         /// <returns>Compressed json bytes using deflate compression</returns>
-        public static byte[] CreateWebSocketCompressedJsonMessage(object obj)
+        public static byte[] GetCompressedJsonBytes(this object obj)
         {
             MemoryStream ms = new MemoryStream();
             using (JsonTextWriter jsonWriter = new JsonTextWriter(new StreamWriter(new DeflateStream(ms, CompressionLevel.Optimal, true), IPBanExtensionMethods.Utf8EncodingNoPrefix)))
@@ -139,6 +139,24 @@ namespace DigitalRuby.IPBanProSDK
                 }
             }
             return (ms.GetBuffer().AsSpan(0, (int)ms.Length).ToArray());
+        }
+
+        /// <summary>
+        /// Get decompressed json bytes from an object compressed with GetCompressedJsonBytes
+        /// </summary>
+        /// <param name="json">Compressed json bytes</param>
+        /// <returns>Decompressed json bytes</returns>
+        public static byte[] GetDecompressedJsonBytes(this Stream jsonStream)
+        {
+            DeflateStream deflate = new DeflateStream(jsonStream, CompressionMode.Decompress);
+            MemoryStream output = new MemoryStream();
+            byte[] buffer = new byte[4096];
+            int count;
+            while ((count = deflate.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                output.Write(buffer, 0, count);
+            }
+            return output.ToArray();
         }
 
         /// <summary>

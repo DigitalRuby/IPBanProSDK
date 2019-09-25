@@ -58,7 +58,7 @@ namespace DigitalRuby.IPBanProSDK
                 }
                 else
                 {
-                    Data = IPBanProSDKExtensionMethods.CreateWebSocketCompressedJsonMessage(obj);
+                    Data = IPBanProSDKExtensionMethods.GetCompressedJsonBytes(obj);
                 }
                 MessageType = messageType;
             }
