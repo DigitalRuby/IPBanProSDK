@@ -164,12 +164,12 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         /// <param name="json">JSON</param>
         /// <returns>Object</returns>
-        public static WebSocketMessage ParseWebSocketCompressedJsonMessage(this byte[] json)
+        public static Message ParseWebSocketCompressedJsonMessage(this byte[] json)
         {
             StreamReader reader = new StreamReader(new DeflateStream(new MemoryStream(json), CompressionMode.Decompress), Encoding.UTF8);
             JsonTextReader jsonReader = new JsonTextReader(reader);
             JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
-            return serializer.Deserialize<WebSocketMessage>(jsonReader);
+            return serializer.Deserialize<Message>(jsonReader);
         }
 
         /// <summary>

@@ -25,10 +25,10 @@ using Newtonsoft.Json.Linq;
 namespace DigitalRuby.IPBanProSDK
 {
     /// <summary>
-    /// Represents a message sent over a web socket. Data will most likely be a JToken as json is the format used internally.
+    /// A generic message useful for communciations in a variety of scenarios. Data will most likely be a JToken as json is the standard format used internally.
     /// </summary>
     [Serializable]
-    public class WebSocketMessage
+    public class Message
     {
         /// <summary>
         /// Unique id for the message, null if none
@@ -37,17 +37,17 @@ namespace DigitalRuby.IPBanProSDK
         public string Id { get; set; }
 
         /// <summary>
-        /// Command name
+        /// Message name
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Command parameters
+        /// Message parameters
         /// </summary>
         public List<KeyValuePair<string, object>> Parameters { get; set; }
 
         /// <summary>
-        /// Command data
+        /// Message data/payload
         /// </summary>
         public object Data { get; set; }
     }
