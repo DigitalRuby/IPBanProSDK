@@ -118,15 +118,19 @@ namespace DigitalRuby.IPBanProSDK
         public static byte[] GetCompressedJsonBytes(this object obj)
         {
             MemoryStream ms = new MemoryStream();
-            using (JsonTextWriter jsonWriter = new JsonTextWriter(new StreamWriter(new DeflateStream(ms, CompressionLevel.Optimal, true), IPBanExtensionMethods.Utf8EncodingNoPrefix)))
+            using (DeflateStream deflater = new DeflateStream(ms, CompressionLevel.Optimal, true))
+            using (StreamWriter textWriter = new StreamWriter(deflater, IPBanExtensionMethods.Utf8EncodingNoPrefix))
+            using (JsonTextWriter jsonWriter = new JsonTextWriter(textWriter))
             {
                 if (obj is byte[] bytes)
                 {
-                    jsonWriter.WriteRaw(Encoding.UTF8.GetString(bytes));
+                    jsonWriter.WritePropertyName("ValueBinary");
+                    jsonWriter.WriteValue(Convert.ToBase64String(bytes));
                 }
                 else if (obj is string text)
                 {
-                    jsonWriter.WriteRaw(text);
+                    jsonWriter.WritePropertyName("ValueString");
+                    jsonWriter.WriteValue(text);
                 }
                 else if (obj is JToken token)
                 {
@@ -145,6 +149,16 @@ namespace DigitalRuby.IPBanProSDK
         /// Get decompressed json bytes from an object compressed with GetCompressedJsonBytes
         /// </summary>
         /// <param name="json">Compressed json bytes</param>
+        /// <returns>Decompressed json bytes</returns>
+        public static byte[] GetDecompressedJsonBytes(this byte[] jsonBytes)
+        {
+            return GetDecompressedJsonBytes(new MemoryStream(jsonBytes));
+        }
+
+        /// <summary>
+        /// Get decompressed json bytes from an object compressed with GetCompressedJsonBytes
+        /// </summary>
+        /// <param name="json">Compressed json stream</param>
         /// <returns>Decompressed json bytes</returns>
         public static byte[] GetDecompressedJsonBytes(this Stream jsonStream)
         {
