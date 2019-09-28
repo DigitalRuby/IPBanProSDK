@@ -39,29 +39,14 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
-        /// Constructor for text or binary message
+        /// Constructor for binary message
         /// </summary>
         /// <param name="obj">Object</param>
-        /// <param name="messageType">Message type (forced to text if obj is a string)</param>
-        public WebSocketRawMessage(object obj, WebSocketMessageType messageType = WebSocketMessageType.Binary)
+        /// <param name="serializer">Serializer or null for default (only used if message type is binary)</param>
+        public WebSocketRawMessage(object obj, ISerializer serializer = null)
         {
-            if (obj is string text)
-            {
-                Data = (Encoding.UTF8.GetBytes(text));
-                MessageType = WebSocketMessageType.Text;
-            }
-            else
-            {
-                if (obj is byte[] bytes)
-                {
-                    Data = bytes;
-                }
-                else
-                {
-                    Data = IPBanProSDKExtensionMethods.GetCompressedJsonBytes(obj);
-                }
-                MessageType = messageType;
-            }
+            Data = (serializer ?? MessagePackSerializer.Instance).Serialize(obj);
+            MessageType = WebSocketMessageType.Binary;
         }
 
         /// <summary>
@@ -71,19 +56,8 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="messageType">Message type</param>
         public WebSocketRawMessage(string text)
         {
-            Data = (Encoding.UTF8.GetBytes(text));
+            Data = Encoding.UTF8.GetBytes(text);
             MessageType = WebSocketMessageType.Text;
-        }
-
-        /// <summary>
-        /// Constructor for text or binary message
-        /// </summary>
-        /// <param name="bytes">Bytes</param>
-        /// <param name="messageType">Message type</param>
-        public WebSocketRawMessage(byte[] bytes, WebSocketMessageType messageType = WebSocketMessageType.Binary)
-        {
-            Data = bytes;
-            MessageType = messageType;
         }
 
         /// <summary>

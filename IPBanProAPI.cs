@@ -117,7 +117,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>True if message queued, false if not</returns>
         public bool SubscribeWebSocket(ClientWebSocket socket, IPBanProAPIWebSocketSubscription subscription)
         {
-            return socket.QueueMessage(new
+            return socket.QueueMessage(new Message
             {
                 Name = MessageSubscribe,
                 Data = new
@@ -135,7 +135,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>True if message queued, false if not</returns>
         public bool UnsubscribeWebSocket(ClientWebSocket socket, IPBanProAPIWebSocketSubscription subscription)
         {
-            return socket.QueueMessage(new
+            return socket.QueueMessage(new Message
             {
                 Name = MessageUnsubscribe,
                 Data = new

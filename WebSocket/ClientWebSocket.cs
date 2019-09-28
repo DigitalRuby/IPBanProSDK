@@ -18,17 +18,16 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #region Imports
 
-using DigitalRuby.IPBan;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Net.WebSockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+
+using DigitalRuby.IPBan;
 
 #endregion Imports
 
@@ -157,6 +156,7 @@ namespace DigitalRuby.IPBanProSDK
 
         private readonly AsyncQueue<object> messageQueue = new AsyncQueue<object>();
         private readonly Dictionary<string, ManualResetEvent> acks = new Dictionary<string, ManualResetEvent>();
+        private readonly ISerializer serializer;
 
         private static Func<IEnumerable<KeyValuePair<string, object>>, IClientWebSocketImplementation> webSocketCreator;
 
@@ -260,8 +260,10 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Default constructor, does not begin listening immediately. You must set the properties and then call Start.
         /// </summary>
-        public ClientWebSocket()
+        /// <param name="serializer">Serializer, null for default serializer</param>
+        public ClientWebSocket(ISerializer serializer = null)
         {
+            this.serializer = (serializer ?? MessagePackSerializer.Instance);
         }
 
         /// <summary>
@@ -539,11 +541,11 @@ namespace DigitalRuby.IPBanProSDK
                                         Message message;
                                         try
                                         {
-                                            message = bytesCopy.ParseWebSocketCompressedJsonMessage();
+                                            message = serializer.Deserialize(bytesCopy, Message.Type) as Message;
                                         }
                                         catch (Exception ex)
                                         {
-                                            IPBanLog.Error("Error decompressing web socket message", ex);
+                                            IPBanLog.Error("Error decoding web socket message", ex);
                                             continue;
                                         }
 
@@ -689,18 +691,4 @@ namespace DigitalRuby.IPBanProSDK
     /// <param name="reconnect">False if first connection, true if a subsequent reconnection or reping</param>
     /// <returns>Task</returns>
     public delegate Task WebSocketConnectionDelegate(IQueueMessage socket, bool reconnect);
-
-    /// <summary>
-    /// Web socket interface
-    /// </summary>
-    public interface IQueueMessage : IDisposable
-    {
-        /// <summary>
-        /// Queue a message to send as soon as possible
-        /// </summary>
-        /// <param name="message">Message to send</param>
-        /// <param name="groupId">Group id, or 0 for none</param>
-        /// <returns>True if success, false if error</returns>
-        bool QueueMessage(object message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone);
-    }
 }

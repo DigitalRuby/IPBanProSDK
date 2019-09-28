@@ -50,5 +50,10 @@ namespace DigitalRuby.IPBanProSDK
         /// Message data/payload
         /// </summary>
         public object Data { get; set; }
+
+        /// <summary>
+        /// typeof(Message)
+        /// </summary>
+        public static Type Type { get; } = typeof(Message);
     }
 }

@@ -110,6 +110,7 @@ namespace DigitalRuby.IPBanProSDK
             return bytes;
         }
 
+        /*
         /// <summary>
         /// Get a deflate compressed json message from an object
         /// </summary>
@@ -174,17 +175,18 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
-        /// Parse a json message from a web socket
+        /// Parse a Message object from compressed json bytes
         /// </summary>
-        /// <param name="json">JSON</param>
+        /// <param name="json">Compressed json bytes</param>
         /// <returns>Object</returns>
-        public static Message ParseWebSocketCompressedJsonMessage(this byte[] json)
+        public static Message GetDecompressedJsonMessage(this byte[] json)
         {
             StreamReader reader = new StreamReader(new DeflateStream(new MemoryStream(json), CompressionMode.Decompress), Encoding.UTF8);
             JsonTextReader jsonReader = new JsonTextReader(reader);
             JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
             return serializer.Deserialize<Message>(jsonReader);
         }
+        */
 
         /// <summary>
         /// Truncate a string to max length, adding ellipsis if needed. Used for monospace font scenarios only. CJK is counted as 5.0f / 3.0f chars.
