@@ -37,19 +37,6 @@ namespace DigitalRuby.IPBanProSDK
     public class MessagePackSerializer : ISerializer
     {
         /// <summary>
-        /// Static constructor
-        /// </summary>
-        static MessagePackSerializer()
-        {
-            MessagePack.Resolvers.CompositeResolver.RegisterAndSetAsDefault
-            (
-                ContractlessStandardResolver.Instance,
-                TypelessObjectResolver.Instance,
-                StandardResolver.Instance
-            );
-        }
-
-        /// <summary>
         /// Deserialize lz4 compressed message pack bytes
         /// </summary>
         /// <param name="bytes">Bytes</param>
@@ -57,7 +44,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Object</returns>
         public object Deserialize(byte[] bytes, Type type)
         {
-            return LZ4MessagePackSerializer.NonGeneric.Deserialize(type, bytes);
+            return LZ4MessagePackSerializer.NonGeneric.Deserialize(type, bytes, ContractlessStandardResolver.Instance);
         }
 
         /// <summary>
@@ -67,7 +54,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Bytes</returns>
         public byte[] Serialize(object obj)
         {
-            return LZ4MessagePackSerializer.Serialize(obj);
+            return LZ4MessagePackSerializer.Serialize(obj, ContractlessStandardResolver.Instance);
         }
 
         /// <summary>
