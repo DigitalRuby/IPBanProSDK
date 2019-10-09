@@ -394,7 +394,7 @@ namespace DigitalRuby.IPBanProSDK
             }
             catch (Exception ex)
             {
-                IPBanLog.Error(ex);
+                IPBanLog.Error("Failed to get public key from private key", ex);
                 return null;
             }
         }
@@ -427,7 +427,7 @@ namespace DigitalRuby.IPBanProSDK
             }
             catch (Exception ex)
             {
-                IPBanLog.Error(ex);
+                IPBanLog.Error("Failed to compute signature", ex);
                 return null;
             }
         }
@@ -455,7 +455,7 @@ namespace DigitalRuby.IPBanProSDK
             }
             catch (Exception ex)
             {
-                IPBanLog.Error(ex);
+                IPBanLog.Error("Failed to verify signature", ex);
                 return false;
             }
         }
@@ -627,7 +627,14 @@ namespace DigitalRuby.IPBanProSDK
                     }
                     else
                     {
-                        responseText = new System.IO.StreamReader(wex.Response.GetResponseStream()).ReadToEnd();
+                        try
+                        {
+                            responseText = new System.IO.StreamReader(wex.Response.GetResponseStream()).ReadToEnd();
+                        }
+                        catch (Exception ex2)
+                        {
+                            responseText = "Unknown Error: " + ex2.Message;
+                        }
                     }
                 }
                 throw new HttpRequestException("Request failed: " + responseText, ex);
