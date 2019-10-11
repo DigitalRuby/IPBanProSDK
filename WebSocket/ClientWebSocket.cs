@@ -263,7 +263,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="serializer">Serializer, null for default serializer</param>
         public ClientWebSocket(ISerializer serializer = null)
         {
-            this.serializer = (serializer ?? MessagePackSerializer.Instance);
+            this.serializer = (serializer ?? DefaultSerializer.Instance);
         }
 
         /// <summary>

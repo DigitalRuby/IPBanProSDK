@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Text;
 
 using DigitalRuby.IPBan;
 
-using MessagePack;
-using MessagePack.Formatters;
-using MessagePack.Resolvers;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -29,37 +30,142 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="obj">Object to serialize</param>
         /// <returns>Serialized bytes</returns>
         byte[] Serialize(object obj);
+
+        /// <summary>
+        /// Get a description for the serializer
+        /// </summary>
+        string Description { get; }
     }
 
     /// <summary>
-    /// MessagePack serializer that uses LZ4MessagePackSerializer
+    /// Get a default serializer
     /// </summary>
-    public class MessagePackSerializer : ISerializer
+    public static class DefaultSerializer
     {
         /// <summary>
-        /// Deserialize lz4 compressed message pack bytes
+        /// Get the default serializer
         /// </summary>
-        /// <param name="bytes">Bytes</param>
-        /// <param name="type">Type</param>
+        public static ISerializer Instance { get; } = new CompressedJsonSerializer();
+    }
+
+    /// <summary>
+    /// Compressed json serializer
+    /// </summary>
+    public class CompressedJsonSerializer : ISerializer
+    {
+        /// <summary>
+        /// Deserialize an object from compressed json bytes
+        /// </summary>
+        /// <param name="bytes">Compressed json bytes</param>
+        /// <param name="type">Type of object</param>
         /// <returns>Object</returns>
         public object Deserialize(byte[] bytes, Type type)
         {
-            return LZ4MessagePackSerializer.NonGeneric.Deserialize(type, bytes, ContractlessStandardResolver.Instance);
+            StreamReader reader = new StreamReader(new DeflateStream(new MemoryStream(bytes), CompressionMode.Decompress), Encoding.UTF8);
+            JsonTextReader jsonReader = new JsonTextReader(reader);
+            JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
+            return serializer.Deserialize(jsonReader, type);
         }
 
         /// <summary>
-        /// Serialize an object to message pack lz4 compressed bytes
+        /// Serialize an object to compressed json bytes
         /// </summary>
         /// <param name="obj">Object</param>
-        /// <returns>Bytes</returns>
+        /// <returns>Compressed json bytes</returns>
         public byte[] Serialize(object obj)
         {
-            return LZ4MessagePackSerializer.Serialize(obj, ContractlessStandardResolver.Instance);
+            MemoryStream ms = new MemoryStream();
+            using (DeflateStream deflater = new DeflateStream(ms, CompressionLevel.Optimal, true))
+            using (StreamWriter textWriter = new StreamWriter(deflater, IPBanExtensionMethods.Utf8EncodingNoPrefix))
+            using (JsonTextWriter jsonWriter = new JsonTextWriter(textWriter))
+            {
+                if (obj is byte[] bytes)
+                {
+                    jsonWriter.WritePropertyName("ValueBinary");
+                    jsonWriter.WriteValue(Convert.ToBase64String(bytes));
+                }
+                else if (obj is string text)
+                {
+                    jsonWriter.WritePropertyName("ValueString");
+                    jsonWriter.WriteValue(text);
+                }
+                else if (obj is JToken token)
+                {
+                    jsonWriter.WriteRaw(token.ToString(Formatting.None));
+                }
+                else
+                {
+                    JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
+                    serializer.Serialize(jsonWriter, obj);
+                }
+            }
+            return (ms.GetBuffer().AsSpan(0, (int)ms.Length).ToArray());
         }
+
+        /// <summary>
+        /// Description
+        /// </summary>
+        public string Description { get; } = "json-deflate";
 
         /// <summary>
         /// Singleton instance (thread safe)
         /// </summary>
-        public static MessagePackSerializer Instance { get; } = new MessagePackSerializer();
+        public static CompressedJsonSerializer Instance { get; } = new CompressedJsonSerializer();
+    }
+
+    /// <summary>
+    /// Uncompressed json serializer
+    /// </summary>
+    public class UncompressedJsonSerializer : ISerializer
+    {
+        /// <summary>
+        /// Deserialize from uncompressed json bytes
+        /// </summary>
+        /// <param name="bytes">Uncompressed json bytes</param>
+        /// <param name="type">Type of object</param>
+        /// <returns>Deserialized object</returns>
+        public object Deserialize(byte[] bytes, Type type)
+        {
+            StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.UTF8);
+            JsonTextReader jsonReader = new JsonTextReader(reader);
+            JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
+            return serializer.Deserialize(jsonReader, type);
+        }
+
+        /// <summary>
+        /// Serialize an object to uncompressed json bytes
+        /// </summary>
+        /// <param name="obj">Object</param>
+        /// <returns>Json bytes</returns>
+        public byte[] Serialize(object obj)
+        {
+            MemoryStream ms = new MemoryStream();
+            using (StreamWriter textWriter = new StreamWriter(ms, IPBanExtensionMethods.Utf8EncodingNoPrefix))
+            using (JsonTextWriter jsonWriter = new JsonTextWriter(textWriter))
+            {
+                if (obj is byte[] bytes)
+                {
+                    jsonWriter.WritePropertyName("ValueBinary");
+                    jsonWriter.WriteValue(Convert.ToBase64String(bytes));
+                }
+                else if (obj is string text)
+                {
+                    jsonWriter.WritePropertyName("ValueString");
+                    jsonWriter.WriteValue(text);
+                }
+                else if (obj is JToken token)
+                {
+                    jsonWriter.WriteRaw(token.ToString(Formatting.None));
+                }
+                else
+                {
+                    JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
+                    serializer.Serialize(jsonWriter, obj);
+                }
+            }
+            return (ms.GetBuffer().AsSpan(0, (int)ms.Length).ToArray());
+        }
+
+        public string Description { get; } = "json";
     }
 }

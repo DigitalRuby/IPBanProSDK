@@ -45,7 +45,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="serializer">Serializer or null for default (only used if message type is binary)</param>
         public WebSocketRawMessage(object obj, ISerializer serializer = null)
         {
-            Data = (serializer ?? MessagePackSerializer.Instance).Serialize(obj);
+            Data = (serializer ?? DefaultSerializer.Instance).Serialize(obj);
             MessageType = WebSocketMessageType.Binary;
         }
 
