@@ -64,6 +64,15 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
+        /// ToString
+        /// </summary>
+        /// <returns>String</returns>
+        public override string ToString()
+        {
+            return $"IP: {IPAddress}, Ban Count: {BanCount}";
+        }
+
+        /// <summary>
         /// Check for equality
         /// </summary>
         /// <param name="obj">Other object</param>
