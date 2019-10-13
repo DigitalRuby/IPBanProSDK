@@ -337,7 +337,7 @@ namespace DigitalRuby.IPBanProSDK
             set { timestamp = (value == default ? null : (DateTime?)value); }
         }
 
-        private IHttpRequestMaker requestMaker = new DefaultHttpRequestMaker();
+        private IHttpRequestMaker requestMaker = DefaultHttpRequestMaker.Instance;
         private readonly List<KeyValuePair<string, object>> headers = new List<KeyValuePair<string, object>>();
 
         /// <summary>
