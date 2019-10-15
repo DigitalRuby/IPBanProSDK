@@ -125,6 +125,13 @@ namespace DigitalRuby.IPBanProSDK
         public string UserNameWhitelist { get; set; }
 
         /// <summary>
+        /// User name whitelist regex. If set, any mismatch user name causes immediate ban.
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.UserNameWhitelistRegex))]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        public string UserNameWhitelistRegex { get; set; }
+
+        /// <summary>
         /// Always ban a user name if it is not within this edit distance of a user name white list entry. Ignored if user name whitelist is empty.
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.UserNameWhiteListMinimumEditDistance))]
