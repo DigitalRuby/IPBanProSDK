@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netcoreapp3.0;netcoreapp2.2</TargetFrameworks>
+    <TargetFrameworks>netstandard2.1</TargetFrameworks>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>portable</DebugType>
     <LangVersion>latest</LangVersion>
@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IPBan\IPBan.csproj" />
+    <ProjectReference Include="..\..\IPBan\IPBanCore\IPBanCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
