@@ -4,7 +4,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Text;
 
-using DigitalRuby.IPBan;
+using DigitalRuby.IPBanCore;
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

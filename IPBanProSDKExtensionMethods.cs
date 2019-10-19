@@ -26,7 +26,7 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-using DigitalRuby.IPBan;
+using DigitalRuby.IPBanCore;
 
 namespace DigitalRuby.IPBanProSDK
 {

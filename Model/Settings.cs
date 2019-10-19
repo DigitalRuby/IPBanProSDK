@@ -16,11 +16,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using DigitalRuby.IPBan;
-using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using DigitalRuby.IPBanCore;
+using Newtonsoft.Json;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -84,7 +85,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.NotificationFlags))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public IPBan.IPAddressEventFlags NotificationFlags { get; set; }
+        public IPBanCore.IPAddressEventFlags NotificationFlags { get; set; }
 
         /// <summary>
         /// Smtp server host
