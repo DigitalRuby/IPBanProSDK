@@ -18,7 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System;
 using System.Collections.Generic;
-
+using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -55,5 +55,15 @@ namespace DigitalRuby.IPBanProSDK
         /// typeof(Message)
         /// </summary>
         public static Type Type { get; } = typeof(Message);
+
+        /// <summary>
+        /// ToString
+        /// </summary>
+        /// <returns>String</returns>
+        public override string ToString()
+        {
+            string paramString = (Parameters == null ? string.Empty : string.Join(';', Parameters.Select(p => p.Key + ": " + p.Value)));
+            return $"Id: {Id}, Name: {Name}, Parameters: {paramString}";
+        }
     }
 }
