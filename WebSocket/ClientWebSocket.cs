@@ -545,7 +545,7 @@ namespace DigitalRuby.IPBanProSDK
                                         }
                                         catch (Exception ex)
                                         {
-                                            IPBanLog.Error("Error decoding web socket message", ex);
+                                            IPBanCore.Logger.Error("Error decoding web socket message", ex);
                                             continue;
                                         }
 

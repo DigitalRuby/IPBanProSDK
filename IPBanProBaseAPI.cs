@@ -394,7 +394,7 @@ namespace DigitalRuby.IPBanProSDK
             }
             catch (Exception ex)
             {
-                IPBanLog.Error("Failed to get public key from private key", ex);
+                Logger.Error("Failed to get public key from private key", ex);
                 return null;
             }
         }
@@ -427,7 +427,7 @@ namespace DigitalRuby.IPBanProSDK
             }
             catch (Exception ex)
             {
-                IPBanLog.Error("Failed to compute signature", ex);
+                Logger.Error("Failed to compute signature", ex);
                 return null;
             }
         }
@@ -455,7 +455,7 @@ namespace DigitalRuby.IPBanProSDK
             }
             catch (Exception ex)
             {
-                IPBanLog.Error("Failed to verify signature", ex);
+                Logger.Error("Failed to verify signature", ex);
                 return false;
             }
         }

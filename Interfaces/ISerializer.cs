@@ -76,7 +76,7 @@ namespace DigitalRuby.IPBanProSDK
         {
             MemoryStream ms = new MemoryStream();
             using (DeflateStream deflater = new DeflateStream(ms, CompressionLevel.Optimal, true))
-            using (StreamWriter textWriter = new StreamWriter(deflater, IPBanExtensionMethods.Utf8EncodingNoPrefix))
+            using (StreamWriter textWriter = new StreamWriter(deflater, ExtensionMethods.Utf8EncodingNoPrefix))
             using (JsonTextWriter jsonWriter = new JsonTextWriter(textWriter))
             {
                 if (obj is byte[] bytes)
@@ -140,7 +140,7 @@ namespace DigitalRuby.IPBanProSDK
         public byte[] Serialize(object obj)
         {
             MemoryStream ms = new MemoryStream();
-            using (StreamWriter textWriter = new StreamWriter(ms, IPBanExtensionMethods.Utf8EncodingNoPrefix))
+            using (StreamWriter textWriter = new StreamWriter(ms, ExtensionMethods.Utf8EncodingNoPrefix))
             using (JsonTextWriter jsonWriter = new JsonTextWriter(textWriter))
             {
                 if (obj is byte[] bytes)
