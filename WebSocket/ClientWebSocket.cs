@@ -235,11 +235,6 @@ namespace DigitalRuby.IPBanProSDK
         public bool CloseCleanly { get; set; }
 
         /// <summary>
-        /// Optional logger
-        /// </summary>
-        public NLog.ILogger Logger { get; set; }
-
-        /// <summary>
         /// Whether ack is async or synchronous. By default they are synchronous, meaning the socket will block after sending a message with an id until an ack has been received.
         /// For asynchronous ack mode, the socket will not block and the event handler will need to check for ack messages with the correct id and perform appropriate processing.
         /// </summary>
@@ -309,7 +304,7 @@ namespace DigitalRuby.IPBanProSDK
                     }
                     catch (Exception ex)
                     {
-                        Logger?.Info(ex.ToString());
+                        IPBanCore.Logger.Info(ex.ToString());
                     }
                 });
             }
@@ -416,7 +411,7 @@ namespace DigitalRuby.IPBanProSDK
                         }
                         catch (Exception ex)
                         {
-                            Logger?.Info(ex.ToString());
+                            IPBanCore.Logger.Info(ex.ToString());
                         }
                     }
                 };
@@ -443,7 +438,7 @@ namespace DigitalRuby.IPBanProSDK
                             }
                             catch (Exception ex)
                             {
-                                Logger?.Info(ex.ToString());
+                                IPBanCore.Logger.Info(ex.ToString());
                             }
                         }
                     }
@@ -587,7 +582,7 @@ namespace DigitalRuby.IPBanProSDK
                 catch (Exception ex)
                 {
                     // eat exceptions, most likely a result of a disconnect, either way we will re-create the web socket
-                    Logger?.Info(ex.ToString());
+                    IPBanCore.Logger.Info(ex.ToString());
                 }
 
                 if (wasConnected)
@@ -600,7 +595,7 @@ namespace DigitalRuby.IPBanProSDK
                 }
                 catch (Exception ex)
                 {
-                    Logger?.Info(ex.ToString());
+                    IPBanCore.Logger.Info(ex.ToString());
                 }
                 firstConnect = true;
                 cancellationTokenSource.Cancel();
@@ -669,7 +664,7 @@ namespace DigitalRuby.IPBanProSDK
                     }
                     catch (Exception ex)
                     {
-                        Logger?.Info(ex.ToString());
+                        IPBanCore.Logger.Info(ex.ToString());
                     }
                     result = default;
                 }
