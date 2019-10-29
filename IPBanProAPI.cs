@@ -64,6 +64,11 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>IP address geography</returns>
         public async Task<IPAddressGeographyModel> GetIPAddressGeographyAsync(string ipAddress)
         {
+            if (!System.Net.IPAddress.TryParse(ipAddress, out System.Net.IPAddress ipAddressObj) ||
+                ipAddressObj.IsInternal())
+            {
+                return new IPAddressGeographyModel { IPAddress = ipAddress };
+            }
             return await MakeRequestAsync<IPAddressGeographyModel>("IP/" + ipAddress);
         }
 
@@ -74,6 +79,11 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>IP address country only geography</returns>
         public async Task<IPAddressGeographyModel> GetIPAddressCountryGeographyAsync(string ipAddress)
         {
+            if (!System.Net.IPAddress.TryParse(ipAddress, out System.Net.IPAddress ipAddressObj) ||
+                ipAddressObj.IsInternal())
+            {
+                return new IPAddressGeographyModel { IPAddress = ipAddress };
+            }
             return await MakeRequestAsync<IPAddressGeographyModel>("IPCountry/" + ipAddress);
         }
 
