@@ -31,7 +31,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Banned ip addresses
         /// </summary>
-        public IReadOnlyList<BannedIPAddress> BannedIPAddresses { get; set; }
+        public IReadOnlyCollection<BannedIPAddress> BannedIPAddresses { get; set; }
     }
 
     /// <summary>
@@ -43,7 +43,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Recent banned ip addresses
         /// </summary>
-        public IReadOnlyList<RecentBannedIPAddress> RecentBannedIPAddresses { get; set; }
+        public IReadOnlyCollection<RecentBannedIPAddress> RecentBannedIPAddresses { get; set; }
     }
 
     /// <summary>
