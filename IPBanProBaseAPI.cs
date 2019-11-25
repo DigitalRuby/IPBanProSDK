@@ -154,16 +154,6 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushAPIKey = "push_api_key";
 
         /// <summary>
-        /// Pull the local blacklist
-        /// </summary>
-        public const string MessagePullLocalBlacklist = "pull_local_blacklist";
-
-        /// <summary>
-        /// Push the whitelist
-        /// </summary>
-        public const string MessagePushWhitelist = "push_whitelist";
-
-        /// <summary>
         /// Pull the naughty blacklist
         /// </summary>
         public const string MessagePullNaughtyBlacklist = "pull_naughty_blacklist";
@@ -207,11 +197,6 @@ namespace DigitalRuby.IPBanProSDK
         /// Push a country blacklist changed notification
         /// </summary>
         public const string MessagePushCountryBlacklistChanged = "push_country_blacklist_changed";
-
-        /// <summary>
-        /// Push a country blacklist entry
-        /// </summary>
-        public const string MessagePushCountryBlacklistEntry = "push_country_blacklist_entry";
 
         /// <summary>
         /// Push an action, the client should perform the action with the data. Parameters contains 'action' key and the value is the action to perform.
