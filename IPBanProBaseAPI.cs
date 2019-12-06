@@ -353,11 +353,12 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Generate a private key
         /// </summary>
+        /// <param name="size">Size of key in bytes</param>
         /// <returns>Private key string in base64.</returns>
-        public static string GeneratePrivateKey()
+        public static string GeneratePrivateKey(int size = 64)
         {
-            RandomNumberGenerator rng = RandomNumberGenerator.Create();
-            byte[] data = new byte[64];
+            using RandomNumberGenerator rng = RandomNumberGenerator.Create();
+            byte[] data = new byte[size];
             rng.GetBytes(data);
             return Convert.ToBase64String(data);
         }
