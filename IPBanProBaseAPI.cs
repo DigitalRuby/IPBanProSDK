@@ -23,6 +23,7 @@ using Newtonsoft.Json;
 using Org.BouncyCastle.Asn1.Sec;
 using Org.BouncyCastle.Asn1.X9;
 using Org.BouncyCastle.Crypto;
+using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Security;
@@ -276,7 +277,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         public const string HeaderTimestamp = "X-IPBAN-TIMESTAMP";
 
-        private static readonly X9ECParameters curve = SecNamedCurves.GetByName("secp256k1");
+        private static readonly X9ECParameters curve = SecNamedCurves.GetByName("secp256r1");
         private static readonly ECDomainParameters domain = new ECDomainParameters(curve.Curve, curve.G, curve.N, curve.H);
         private const string signingAlgorithm = "SHA-512withECDSA";
 
@@ -351,16 +352,77 @@ namespace DigitalRuby.IPBanProSDK
         public void Dispose() { }
 
         /// <summary>
-        /// Generate a private key
+        /// Generate lots of api keys
         /// </summary>
-        /// <param name="size">Size of key in bytes</param>
-        /// <returns>Private key string in base64.</returns>
-        public static string GeneratePrivateKey(int size = 64)
+        /// <param name="outputCsvFile">Output csv file</param>
+        /// <param name="count">Count of keys to generate</param>
+        /// <param name="changeSlashToHyphen">Whether to replace slashes to hyphens, needed for azure or other storage systems where slash is an invalid char</param>
+        public static void GenerateApiKeys(string outputCsvFile, int count, bool changeSlashToHyphen = true)
         {
-            using RandomNumberGenerator rng = RandomNumberGenerator.Create();
-            byte[] data = new byte[size];
-            rng.GetBytes(data);
-            return Convert.ToBase64String(data);
+            using StreamWriter writer = File.CreateText(outputCsvFile);
+            writer.WriteLine("PartitionKey,RowKey,CustomerId,TrustLevel,Notes");
+            Parallel.ForEach(new int[count], (ignore) =>
+            {
+                IPBanProBaseAPI.GenerateKeyPair(out string privateKey, out string publicKey);
+                if (changeSlashToHyphen)
+                {
+                    privateKey = privateKey.Replace('/', '-');
+                    publicKey = publicKey.Replace('/', '-');
+                }
+                lock (writer)
+                {
+                    writer.WriteLine("{0},{1},,0,", publicKey, privateKey);
+                }
+            });
+        }
+
+        /// <summary>
+        /// Generate a private key using ECDSA and secp256r1
+        /// </summary>
+        /// <param name="privateKeyBase64">Private key in base64</param>
+        /// <param name="publicKeyBase64">Public key in base64</param>
+        /// <param name="strength">Strength of key in bits, 256 is the standard</param>
+        /// <returns>Private key string in base64.</returns>
+        /// <exception cref="InvalidDataException">The generated key is not valid</exception>
+        public static void GenerateKeyPair(out string privateKeyBase64, out string publicKeyBase64, int strength = 256)
+        {
+            ECKeyPairGenerator keyGenerator = new ECKeyPairGenerator("ECDSA");
+            keyGenerator.Init(new KeyGenerationParameters(new SecureRandom(), strength));
+            AsymmetricCipherKeyPair pair = keyGenerator.GenerateKeyPair();
+            ECPrivateKeyParameters privateKey = pair.Private as ECPrivateKeyParameters;
+            ECPublicKeyParameters publicKey = pair.Public as ECPublicKeyParameters;
+            byte[] privateKeyBytes = privateKey.D.ToByteArrayUnsigned();
+            byte[] publicKeyBytes = publicKey.Q.GetEncoded();
+            string privateKeyString = Convert.ToBase64String(privateKeyBytes);
+            string publicKeyString = Convert.ToBase64String(publicKeyBytes);
+            string computedPublicKeyString = GetPublicKeyFromPrivateKey(privateKeyBytes);
+            string computedPublicKeyString2 = GetPublicKeyFromPrivateKey(privateKeyString);
+            if (publicKeyString != computedPublicKeyString || computedPublicKeyString != computedPublicKeyString2)
+            {
+                throw new InvalidDataException("Key generation failure, public key is not valid");
+            }
+
+            // ensure we can sign a message
+            string signature1 = ComputeSignature("test", privateKeyString);
+            string signature2 = ComputeSignature("test", privateKeyBytes);
+
+            if (!VerifySignature("test", publicKeyString, signature1) ||
+                !VerifySignature("test", publicKeyBytes, signature1) ||
+                !VerifySignature("test", publicKeyString, signature2) ||
+                !VerifySignature("test", publicKeyBytes, signature2))
+            {
+                throw new InvalidDataException("Key generation failure, public key is not valid");
+            }
+
+            if (VerifySignature("test", publicKeyString, "asdf") ||
+                VerifySignature("atest", publicKeyString, signature1) ||
+                VerifySignature("atest", publicKeyString, signature2))
+            {
+                throw new InvalidDataException("Signature generation is broken");
+            }
+
+            publicKeyBase64 = computedPublicKeyString2;
+            privateKeyBase64 = privateKeyString;
         }
 
         /// <summary>
@@ -373,9 +435,9 @@ namespace DigitalRuby.IPBanProSDK
             try
             {
                 byte[] privateKeyBytes = IPBanProSDKExtensionMethods.BytesFromObject(privateKey, true);
-                var d = new BigInteger(privateKeyBytes);
-                var q = domain.G.Multiply(d);
-                var publicKey = new ECPublicKeyParameters(q, domain);
+                BigInteger d = new BigInteger(1, privateKeyBytes);
+                Org.BouncyCastle.Math.EC.ECPoint q = domain.G.Multiply(d);
+                ECPublicKeyParameters publicKey = new ECPublicKeyParameters("ECDSA", q, domain);
                 return Convert.ToBase64String(publicKey.Q.GetEncoded());
             }
             catch (Exception ex)
@@ -401,11 +463,11 @@ namespace DigitalRuby.IPBanProSDK
                 {
                     return null;
                 }
-                var keyParameters = new ECPrivateKeyParameters(new BigInteger(privateKeyBytes), domain);
+                ECPrivateKeyParameters keyParameters = new ECPrivateKeyParameters("ECDSA", new BigInteger(1, privateKeyBytes), domain);
                 ISigner signer = SignerUtilities.GetSigner(signingAlgorithm);
                 signer.Init(true, keyParameters);
                 signer.BlockUpdate(messageBytes, 0, messageBytes.Length);
-                var signature = signer.GenerateSignature();
+                byte[] signature = signer.GenerateSignature();
                 string signatureString = Convert.ToBase64String(signature);
                 //string publicKey = GetPublicKeyFromPrivateKey(privateKeyBytes);
                 //bool verify = VerifySignature(messageBytes, publicKey, signatureString);
@@ -431,12 +493,12 @@ namespace DigitalRuby.IPBanProSDK
             {
                 byte[] messageBytes = IPBanProSDKExtensionMethods.BytesFromObject(message, false);
                 byte[] publicKeyBytes = IPBanProSDKExtensionMethods.BytesFromObject(publicKey, true);
-                var q = curve.Curve.DecodePoint(publicKeyBytes);
-                var keyParameters = new ECPublicKeyParameters(q, domain);
+                Org.BouncyCastle.Math.EC.ECPoint q = curve.Curve.DecodePoint(publicKeyBytes);
+                ECPublicKeyParameters keyParameters = new ECPublicKeyParameters("ECDSA", q, domain);
                 ISigner signer = SignerUtilities.GetSigner(signingAlgorithm);
                 signer.Init(false, keyParameters);
                 signer.BlockUpdate(messageBytes, 0, messageBytes.Length);
-                var signatureBytes = Convert.FromBase64String(signature);
+                byte[] signatureBytes = Convert.FromBase64String(signature);
                 return signer.VerifySignature(signatureBytes);
             }
             catch (Exception ex)
