@@ -18,15 +18,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.IO.Compression;
 using System.Security;
 using System.Text;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 using DigitalRuby.IPBanCore;
+
+using Newtonsoft.Json;
 
 namespace DigitalRuby.IPBanProSDK
 {
