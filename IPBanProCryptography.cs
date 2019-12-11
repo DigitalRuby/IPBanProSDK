@@ -79,10 +79,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         /// <param name="privateKeyBase64">Private key in base64</param>
         /// <param name="publicKeyBase64">Public key in base64</param>
-        /// <param name="strength">Strength of key in bits, 256 is the standard</param>
+        /// <param name="strength">Strength of key in bits, 256 is the standard, 384 or 521 are also possible</param>
+        /// <param name="validate">Whether to validate the keys</param>
         /// <returns>Private key string in base64.</returns>
         /// <exception cref="InvalidDataException">The generated key is not valid</exception>
-        public static void GenerateKeyPair(out string privateKeyBase64, out string publicKeyBase64, int strength = 256)
+        public static void GenerateKeyPair(out string privateKeyBase64, out string publicKeyBase64, int strength = 256, bool validate = true)
         {
             ECKeyPairGenerator keyGenerator = new ECKeyPairGenerator("ECDSA");
             keyGenerator.Init(new KeyGenerationParameters(new SecureRandom(), strength));
@@ -91,36 +92,43 @@ namespace DigitalRuby.IPBanProSDK
             ECPublicKeyParameters publicKey = pair.Public as ECPublicKeyParameters;
             byte[] privateKeyBytes = privateKey.D.ToByteArrayUnsigned();
             byte[] publicKeyBytes = publicKey.Q.GetEncoded();
-            string privateKeyString = Convert.ToBase64String(privateKeyBytes);
-            string publicKeyString = Convert.ToBase64String(publicKeyBytes);
-            string computedPublicKeyString = GetPublicKeyFromPrivateKey(privateKeyBytes);
-            string computedPublicKeyString2 = GetPublicKeyFromPrivateKey(privateKeyString);
-            if (publicKeyString != computedPublicKeyString || computedPublicKeyString != computedPublicKeyString2)
+            if (validate)
             {
-                throw new InvalidDataException("Key generation failure, public key is not valid");
+                string privateKeyString = Convert.ToBase64String(privateKeyBytes);
+                string publicKeyString = Convert.ToBase64String(publicKeyBytes);
+                string computedPublicKeyString = GetPublicKeyFromPrivateKey(privateKeyBytes);
+                string computedPublicKeyString2 = GetPublicKeyFromPrivateKey(privateKeyString);
+                if (publicKeyString != computedPublicKeyString || computedPublicKeyString != computedPublicKeyString2)
+                {
+                    throw new InvalidDataException("Key generation failure, public key is not valid");
+                }
+
+                // ensure we can sign a message
+                string signature1 = ComputeSignature("test", privateKeyString);
+                string signature2 = ComputeSignature("test", privateKeyBytes);
+
+                if (!VerifySignature("test", publicKeyString, signature1) ||
+                    !VerifySignature("test", publicKeyBytes, signature1) ||
+                    !VerifySignature("test", publicKeyString, signature2) ||
+                    !VerifySignature("test", publicKeyBytes, signature2))
+                {
+                    throw new InvalidDataException("Key generation failure, public key is not valid");
+                }
+
+                if (VerifySignature("test", publicKeyString, "asdf") ||
+                    VerifySignature("atest", publicKeyString, signature1) ||
+                    VerifySignature("atest", publicKeyString, signature2))
+                {
+                    throw new InvalidDataException("Signature generation is broken");
+                }
+                publicKeyBase64 = computedPublicKeyString2;
+                privateKeyBase64 = privateKeyString;
             }
-
-            // ensure we can sign a message
-            string signature1 = ComputeSignature("test", privateKeyString);
-            string signature2 = ComputeSignature("test", privateKeyBytes);
-
-            if (!VerifySignature("test", publicKeyString, signature1) ||
-                !VerifySignature("test", publicKeyBytes, signature1) ||
-                !VerifySignature("test", publicKeyString, signature2) ||
-                !VerifySignature("test", publicKeyBytes, signature2))
+            else
             {
-                throw new InvalidDataException("Key generation failure, public key is not valid");
+                publicKeyBase64 = Convert.ToBase64String(publicKeyBytes);
+                privateKeyBase64 = Convert.ToBase64String(privateKeyBytes);
             }
-
-            if (VerifySignature("test", publicKeyString, "asdf") ||
-                VerifySignature("atest", publicKeyString, signature1) ||
-                VerifySignature("atest", publicKeyString, signature2))
-            {
-                throw new InvalidDataException("Signature generation is broken");
-            }
-
-            publicKeyBase64 = computedPublicKeyString2;
-            privateKeyBase64 = privateKeyString;
         }
 
         /// <summary>
@@ -218,6 +226,20 @@ namespace DigitalRuby.IPBanProSDK
         public static string HmacSha1Sign(string message, byte[] key)
         {
             using (HMACSHA1 sha = new HMACSHA1(key))
+            {
+                return Convert.ToBase64String(sha.ComputeHash(message.ToBytesUTF8()));
+            }
+        }
+
+        /// <summary>
+        /// Sign a message with SHA256 hash
+        /// </summary>
+        /// <param name="message">Message to sign</param>
+        /// <param name="key">Private key bytes</param>
+        /// <returns>Signature in base64</returns>
+        public static string HmacSha256Sign(string message, byte[] key)
+        {
+            using (HMACSHA256 sha = new HMACSHA256(key))
             {
                 return Convert.ToBase64String(sha.ComputeHash(message.ToBytesUTF8()));
             }
