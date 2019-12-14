@@ -90,8 +90,8 @@ namespace DigitalRuby.IPBanProSDK
             AsymmetricCipherKeyPair pair = keyGenerator.GenerateKeyPair();
             ECPrivateKeyParameters privateKey = pair.Private as ECPrivateKeyParameters;
             ECPublicKeyParameters publicKey = pair.Public as ECPublicKeyParameters;
-            byte[] privateKeyBytes = privateKey.D.ToByteArrayUnsigned();
-            byte[] publicKeyBytes = publicKey.Q.GetEncoded();
+            byte[] privateKeyBytes = privateKey.D.ToByteArray();
+            byte[] publicKeyBytes = publicKey.Q.GetEncoded(true);
             if (validate)
             {
                 string privateKeyString = Convert.ToBase64String(privateKeyBytes);
@@ -145,7 +145,7 @@ namespace DigitalRuby.IPBanProSDK
                 BigInteger d = new BigInteger(1, privateKeyBytes);
                 Org.BouncyCastle.Math.EC.ECPoint q = domain.G.Multiply(d);
                 ECPublicKeyParameters publicKey = new ECPublicKeyParameters("ECDSA", q, domain);
-                return Convert.ToBase64String(publicKey.Q.GetEncoded());
+                return Convert.ToBase64String(publicKey.Q.GetEncoded(true));
             }
             catch (Exception ex)
             {
