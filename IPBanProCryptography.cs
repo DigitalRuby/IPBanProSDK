@@ -82,7 +82,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="strength">Strength of key in bits, 256 is the standard, 384 or 521 are also possible</param>
         /// <param name="validate">Whether to validate the keys</param>
         /// <returns>Private key string in base64.</returns>
-        /// <exception cref="InvalidDataException">The generated key is not valid</exception>
+        /// <exception cref="System.IO.InvalidDataException">Validate is true and the generated key is not valid</exception>
         public static void GenerateKeyPair(out string privateKeyBase64, out string publicKeyBase64, int strength = 256, bool validate = true)
         {
             ECKeyPairGenerator keyGenerator = new ECKeyPairGenerator("ECDSA");
@@ -94,40 +94,46 @@ namespace DigitalRuby.IPBanProSDK
             byte[] publicKeyBytes = publicKey.Q.GetEncoded(true);
             if (validate)
             {
-                string privateKeyString = Convert.ToBase64String(privateKeyBytes);
-                string publicKeyString = Convert.ToBase64String(publicKeyBytes);
-                string computedPublicKeyString = GetPublicKeyFromPrivateKey(privateKeyBytes);
-                string computedPublicKeyString2 = GetPublicKeyFromPrivateKey(privateKeyString);
-                if (publicKeyString != computedPublicKeyString || computedPublicKeyString != computedPublicKeyString2)
-                {
-                    throw new InvalidDataException("Key generation failure, public key is not valid");
-                }
-
-                // ensure we can sign a message
-                string signature1 = ComputeSignature("test", privateKeyString);
-                string signature2 = ComputeSignature("test", privateKeyBytes);
-
-                if (!VerifySignature("test", publicKeyString, signature1) ||
-                    !VerifySignature("test", publicKeyBytes, signature1) ||
-                    !VerifySignature("test", publicKeyString, signature2) ||
-                    !VerifySignature("test", publicKeyBytes, signature2))
-                {
-                    throw new InvalidDataException("Key generation failure, public key is not valid");
-                }
-
-                if (VerifySignature("test", publicKeyString, "asdf") ||
-                    VerifySignature("atest", publicKeyString, signature1) ||
-                    VerifySignature("atest", publicKeyString, signature2))
-                {
-                    throw new InvalidDataException("Signature generation is broken");
-                }
-                publicKeyBase64 = computedPublicKeyString2;
-                privateKeyBase64 = privateKeyString;
+                ValidateKeyPair(privateKeyBytes, publicKeyBytes);
             }
-            else
+            publicKeyBase64 = Convert.ToBase64String(publicKeyBytes);
+            privateKeyBase64 = Convert.ToBase64String(privateKeyBytes);
+        }
+
+        /// <summary>
+        /// Validate a key pair
+        /// </summary>
+        /// <param name="privateKeyBytes">Private key bytes</param>
+        /// <param name="publicKeyBytes">Public key bytes</param>
+        /// <exception cref="System.IO.InvalidDataException">Key pair is invalid</exception>
+        public static void ValidateKeyPair(byte[] privateKeyBytes, byte[] publicKeyBytes)
+        {
+            string privateKeyString = Convert.ToBase64String(privateKeyBytes);
+            string publicKeyString = Convert.ToBase64String(publicKeyBytes);
+            string computedPublicKeyString = GetPublicKeyFromPrivateKey(privateKeyBytes);
+            string computedPublicKeyString2 = GetPublicKeyFromPrivateKey(privateKeyString);
+            if (publicKeyString != computedPublicKeyString || computedPublicKeyString != computedPublicKeyString2)
             {
-                publicKeyBase64 = Convert.ToBase64String(publicKeyBytes);
-                privateKeyBase64 = Convert.ToBase64String(privateKeyBytes);
+                throw new InvalidDataException("Key generation failure, public key is not valid");
+            }
+
+            // ensure we can sign a message
+            string signature1 = ComputeSignature("test", privateKeyString);
+            string signature2 = ComputeSignature("test", privateKeyBytes);
+
+            if (!VerifySignature("test", publicKeyString, signature1) ||
+                !VerifySignature("test", publicKeyBytes, signature1) ||
+                !VerifySignature("test", publicKeyString, signature2) ||
+                !VerifySignature("test", publicKeyBytes, signature2))
+            {
+                throw new InvalidDataException("Key generation failure, public key is not valid");
+            }
+
+            if (VerifySignature("test", publicKeyString, "asdf") ||
+                VerifySignature("atest", publicKeyString, signature1) ||
+                VerifySignature("atest", publicKeyString, signature2))
+            {
+                throw new InvalidDataException("Signature generation is broken");
             }
         }
 
