@@ -55,6 +55,7 @@ namespace DigitalRuby.IPBanProSDK
         /// Message data/payload
         /// </summary>
         [DataMember(Order = 4)]
+        [ProtoBuf.ProtoMember(4, DynamicType = true)]
         public object Data { get; set; }
 
         /// <summary>

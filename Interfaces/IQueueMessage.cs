@@ -33,6 +33,6 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="message">Message to send</param>
         /// <param name="groupId">Group id, or 0 for none</param>
         /// <returns>True if success, false if error</returns>
-        bool QueueMessage(object message, int groupId = 0);
+        bool QueueMessage(Message message, int groupId = 0);
     }
 }

@@ -34,32 +34,22 @@ namespace DigitalRuby.IPBanProSDK
     public class WebSocketRawMessage
     {
         /// <summary>
-        /// Constructor for no message
-        /// </summary>
-        public WebSocketRawMessage()
-        {
-        }
-
-        /// <summary>
         /// Constructor for binary message
         /// </summary>
-        /// <param name="obj">Object</param>
+        /// <param name="message">Message</param>
         /// <param name="serializer">Serializer or null for default (only used if message type is binary)</param>
-        public WebSocketRawMessage(object obj, ISerializer serializer = null)
+        public WebSocketRawMessage(Message message, ISerializer serializer = null)
         {
-            Data = (serializer ?? DefaultSerializer.Instance).Serialize(obj);
-            MessageType = WebSocketMessageType.Binary;
-        }
-
-        /// <summary>
-        /// Constructor for text message
-        /// </summary>
-        /// <param name="text">Text</param>
-        /// <param name="messageType">Message type</param>
-        public WebSocketRawMessage(string text)
-        {
-            Data = Encoding.UTF8.GetBytes(text);
-            MessageType = WebSocketMessageType.Text;
+            if (message.Data is string text)
+            {
+                Data = Encoding.UTF8.GetBytes(text);
+                MessageType = WebSocketMessageType.Text;
+            }
+            else
+            {
+                Data = (serializer ?? DefaultSerializer.Instance).Serialize(message);
+                MessageType = WebSocketMessageType.Binary;
+            }
         }
 
         /// <summary>

@@ -313,10 +313,10 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Queue a message to the WebSocket server, it will be sent as soon as possible.
         /// </summary>
-        /// <param name="message">Message to send, can be byte[], string, WebSocketRawMessage or serializable object</param>
+        /// <param name="message">Message to send</param>
         /// <param name="groupId">Group id, ignored for now</param>
         /// <returns>True if success, false if error</returns>
-        public bool QueueMessage(object message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone)
+        public bool QueueMessage(Message message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone)
         {
             if (webSocket is null || webSocket.State == WebSocketState.Closed || webSocket.State == WebSocketState.CloseReceived || message is null)
             {
@@ -324,9 +324,9 @@ namespace DigitalRuby.IPBanProSDK
             }
 
             string id = null;
-            if (AckSynchronous && message is Message webSocketMessage && !string.IsNullOrWhiteSpace(webSocketMessage.Id))
+            if (AckSynchronous && !string.IsNullOrWhiteSpace(message.Id))
             {
-                id = webSocketMessage.Id;
+                id = message.Id;
                 lock (acks)
                 {
                     acks.Add(id, new ManualResetEvent(false));
@@ -337,7 +337,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 try
                 {
-                    WebSocketRawMessage rawMessage = ((message as WebSocketRawMessage) ?? new WebSocketRawMessage(message));
+                    WebSocketRawMessage rawMessage = new WebSocketRawMessage(message, serializer);
                     ArraySegment<byte> messageArraySegment = new ArraySegment<byte>(rawMessage.Data);
                     await webSocket.SendAsync(messageArraySegment, rawMessage.MessageType, true, cancellationTokenSource.Token);
                 }
@@ -522,7 +522,8 @@ namespace DigitalRuby.IPBanProSDK
                                 // if text message and we are handling text messages
                                 if (result.MessageType == WebSocketMessageType.Text)
                                 {
-                                    messageQueue.Enqueue(Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length));
+                                    string text = Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length);
+                                    messageQueue.Enqueue(text);
                                 }
                                 // otherwise treat message as binary
                                 else
