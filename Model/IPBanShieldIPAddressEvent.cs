@@ -16,8 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-
 using System;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -25,36 +25,43 @@ namespace DigitalRuby.IPBanProSDK
     /// IPBan shield ip address event
     /// </summary>
     [Serializable]
+    [DataContract]
     public class IPBanShieldIPAddressEvent
     {
         /// <summary>
         /// Trust level (0 - 10, 0 is lowest)
         /// </summary>
+        [DataMember(Order = 1)]
         public int TrustLevel { get; set; }
 
         /// <summary>
         /// IP address that caused the event
         /// </summary>
+        [DataMember(Order = 2)]
         public string IPAddress { get; set; }
 
         /// <summary>
         /// Geography of the ip address
         /// </summary>
+        [DataMember(Order = 3)]
         public IPAddressGeography Geography { get; set; }
 
         /// <summary>
         /// Ban count for the ip address
         /// </summary>
+        [DataMember(Order = 4)]
         public int BanCount { get; set; }
 
         /// <summary>
         /// Source ip address unique identifier
         /// </summary>
+        [DataMember(Order = 5)]
         public string SourceIPAddress { get; set; }
 
         /// <summary>
         /// Software version that was used
         /// </summary>
+        [DataMember(Order = 6)]
         public string Version { get; set; }
     }
 }

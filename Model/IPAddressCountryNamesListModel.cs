@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -25,26 +26,31 @@ namespace DigitalRuby.IPBanProSDK
     /// IP address country name
     /// </summary>
     [Serializable]
+    [DataContract]
     public struct IPAddressCountryName
     {
         /// <summary>
         /// Id
         /// </summary>
+        [DataMember(Order = 1)]
         public int Id { get; set; }
 
         /// <summary>
         /// Name
         /// </summary>
+        [DataMember(Order = 2)]
         public string Name { get; set; }
 
         /// <summary>
         /// Country code
         /// </summary>
+        [DataMember(Order = 3)]
         public string CountryCode { get; set; }
 
         /// <summary>
         /// Language code
         /// </summary>
+        [DataMember(Order = 4)]
         public string LanguageCode { get; set; }
 
         /// <summary>
@@ -84,21 +90,25 @@ namespace DigitalRuby.IPBanProSDK
     /// Country names list model
     /// </summary>
     [Serializable]
+    [DataContract]
     public class IPAddressCountryNamesListModel : BaseModel
     {
         /// <summary>
         /// Country names matching the query and language
         /// </summary>
+        [DataMember(Order = 1)]
         public IReadOnlyList<IPAddressCountryName> Names { get; set; }
 
         /// <summary>
         /// The query
         /// </summary>
+        [DataMember(Order = 2)]
         public string Query { get; set; }
 
         /// <summary>
         /// The language code
         /// </summary>
+        [DataMember(Order = 3)]
         public string LanguageCode { get; set; }
     }
 
@@ -106,16 +116,19 @@ namespace DigitalRuby.IPBanProSDK
     /// Country codes to country names model
     /// </summary>
     [Serializable]
+    [DataContract]
     public class CountryCodesToCountryNamesModel : BaseModel
     {
         /// <summary>
         /// Country names matching each country code
         /// </summary>
+        [DataMember(Order = 1)]
         public List<string> CountryNames { get; set; }
 
         /// <summary>
         /// The language code
         /// </summary>
+        [DataMember(Order = 2)]
         public string LanguageCode { get; set; }
     }
 }

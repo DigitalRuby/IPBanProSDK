@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -25,31 +26,37 @@ namespace DigitalRuby.IPBanProSDK
     /// Recent activity model
     /// </summary>
     [Serializable]
+    [DataContract]
     public class RecentActivityModel : BaseModel
     {
         /// <summary>
         /// Summary
         /// </summary>
+        [DataMember(Order = 1)]
         public RecentActivitySummaryModel Summary { get; set; }
 
         /// <summary>
         /// Recent blacklisted ip addresses
         /// </summary>
+        [DataMember(Order = 2)]
         public List<BlacklistedIPAddress> BlacklistedIPAddresses { get; set; }
 
         /// <summary>
         /// Recent success login attempts
         /// </summary>
+        [DataMember(Order = 3)]
         public List<SuccessLoginAttempt> SuccessLoginAttempts { get; set; }
 
         /// <summary>
         /// Recent failed login attempts
         /// </summary>
+        [DataMember(Order = 4)]
         public List<FailedLoginAttempt> FailedLoginAttempts { get; set; }
 
         /// <summary>
         /// Machine if activity is for a single machine, null for all machines
         /// </summary>
+        [DataMember(Order = 5)]
         public Machine Machine { get; set; }
     }
 }

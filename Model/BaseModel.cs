@@ -16,8 +16,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using Newtonsoft.Json;
 using System;
+using System.Runtime.Serialization;
+
+using Newtonsoft.Json;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -25,18 +27,21 @@ namespace DigitalRuby.IPBanProSDK
     /// Base model
     /// </summary>
     [Serializable]
+    [DataContract]
     public class BaseModel
     {
         /// <summary>
         /// Message if any
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 1)]
         public string Message { get; set; }
 
         /// <summary>
         /// True if there is an error (check Message), false otherwise
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 2)]
         public bool Error { get; set; }
     }
 }

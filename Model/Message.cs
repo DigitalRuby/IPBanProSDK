@@ -19,6 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -28,27 +29,32 @@ namespace DigitalRuby.IPBanProSDK
     /// A generic message useful for communciations in a variety of scenarios. Data will most likely be a JToken as json is the standard format used internally.
     /// </summary>
     [Serializable]
+    [DataContract]
     public class Message
     {
         /// <summary>
         /// Unique id for the message, null if none
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 1)]
         public string Id { get; set; }
 
         /// <summary>
         /// Message name
         /// </summary>
+        [DataMember(Order = 2)]
         public string Name { get; set; }
 
         /// <summary>
         /// Message parameters
         /// </summary>
+        [DataMember(Order = 3)]
         public List<KeyValuePair<string, object>> Parameters { get; set; }
 
         /// <summary>
         /// Message data/payload
         /// </summary>
+        [DataMember(Order = 4)]
         public object Data { get; set; }
 
         /// <summary>

@@ -23,9 +23,10 @@ using System.IO.Compression;
 using System.Text;
 
 using DigitalRuby.IPBanCore;
-
+using K4os.Compression.LZ4.Streams;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ProtoBuf;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -186,4 +187,48 @@ namespace DigitalRuby.IPBanProSDK
 
         public string Description { get; } = "json";
     }
+
+#nullable enable
+
+    /// <summary>
+    /// Serialize and deserialize bytes using protobuf, then apply LZ4 compression. This class is thread safe.
+    /// </summary>
+    public class ProtobufLZ4Serializer : ISerializer
+    {
+        /// <summary>
+        /// Shared instance
+        /// </summary>
+        public static ProtobufLZ4Serializer Instance { get; } = new ProtobufLZ4Serializer();
+
+        /// <summary>
+        /// Description
+        /// </summary>
+        public string Description => GetType().Name;
+
+        /// <inheritdoc />
+        public object? Deserialize(byte[] bytes, Type type)
+        {
+            if (bytes is null)
+            {
+                return null;
+            }
+            MemoryStream input = new MemoryStream(bytes);
+            Stream lz4DecoderStream = LZ4Stream.Decode(input, leaveOpen: true);
+            return Serializer.Deserialize(type, lz4DecoderStream);
+        }
+
+        /// <inheritdoc />
+        public byte[] Serialize(object obj)
+        {
+            MemoryStream ms = new MemoryStream();
+            {
+                using Stream lz4EncoderStream = LZ4Stream.Encode(ms, leaveOpen: true);
+                Serializer.Serialize(lz4EncoderStream, obj);
+            }
+            return ms.ToArray();
+        }
+    }
+
+#nullable restore
+
 }

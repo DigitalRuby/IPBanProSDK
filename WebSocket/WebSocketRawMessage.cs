@@ -20,6 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System;
 using System.Net.WebSockets;
+using System.Runtime.Serialization;
 using System.Text;
 
 #endregion Imports
@@ -29,6 +30,7 @@ namespace DigitalRuby.IPBanProSDK
     /// <summary>
     /// A web socket raw message
     /// </summary>
+    [DataContract]
     public class WebSocketRawMessage
     {
         /// <summary>
@@ -63,11 +65,13 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Message data, if null or length is 0 there is no message
         /// </summary>
+        [DataMember(Order = 1)]
         public byte[] Data { get; set; }
 
         /// <summary>
         /// Message type
         /// </summary>
+        [DataMember(Order = 2)]
         public WebSocketMessageType MessageType { get; private set; }
     }
 }

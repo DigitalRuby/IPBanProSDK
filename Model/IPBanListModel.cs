@@ -16,9 +16,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -26,11 +27,13 @@ namespace DigitalRuby.IPBanProSDK
     /// Ban list paged model
     /// </summary>
     [Serializable]
+    [DataContract]
     public class BannedIPAddressesModel : BaseModel
     {
         /// <summary>
         /// Banned ip addresses
         /// </summary>
+        [DataMember(Order = 1)]
         public IReadOnlyCollection<BannedIPAddress> BannedIPAddresses { get; set; }
     }
 
@@ -43,6 +46,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Recent banned ip addresses
         /// </summary>
+        [DataMember(Order = 1)]
         public IReadOnlyCollection<RecentBannedIPAddress> RecentBannedIPAddresses { get; set; }
     }
 
@@ -99,12 +103,14 @@ namespace DigitalRuby.IPBanProSDK
         /// IP address
         /// </summary>
         [JsonProperty(IPBanProBaseAPI.KeyIPAddress)]
+        [DataMember(Order = 1)]
         public string IPAddress { get; set; }
 
         /// <summary>
         /// Ban count
         /// </summary>
         [JsonProperty(IPBanProBaseAPI.KeyCount)]
+        [DataMember(Order = 2)]
         public long BanCount { get; set; }
     }
 
@@ -112,6 +118,7 @@ namespace DigitalRuby.IPBanProSDK
     /// Banned ip address
     /// </summary>
     [Serializable]
+    [DataContract]
     public class RecentBannedIPAddress : BannedIPAddress
     {
         /// <summary>
@@ -129,6 +136,7 @@ namespace DigitalRuby.IPBanProSDK
         /// Timestamp
         /// </summary>
         [JsonProperty("Timestamp")]
+        [DataMember(Order = 1)]
         public DateTime Timestamp { get; set; }
     }
 }

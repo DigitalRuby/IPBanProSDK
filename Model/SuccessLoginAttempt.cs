@@ -16,11 +16,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-
-using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -28,6 +28,7 @@ namespace DigitalRuby.IPBanProSDK
     /// Success login attempt
     /// </summary>
     [Serializable]
+    [DataContract]
     public class SuccessLoginAttempt : IPAddressEntry
     {
         /// <summary>
@@ -36,6 +37,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 1)]
         public long MachineId { get; set; }
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 2)]
         [ForeignKey("MachineId")] public Machine Machine { get; set; }
 
         /// <summary>
@@ -52,6 +55,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 3)]
         public string UserName { get; set; }
 
         /// <summary>
@@ -60,6 +64,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 4)]
         public string Source { get; set; }
     }
 }

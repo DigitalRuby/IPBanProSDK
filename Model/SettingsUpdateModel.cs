@@ -16,10 +16,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using DigitalRuby.IPBanCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Runtime.Serialization;
+using DigitalRuby.IPBanCore;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -27,6 +28,7 @@ namespace DigitalRuby.IPBanProSDK
     /// Wraps settings from the SettingsModel and XML IPBan config to make it easier to use a UI to update
     /// </summary>
     [Serializable]
+    [DataContract]
     public class SettingsUpdateModel : SettingsModel
     {
         /// <summary>
@@ -34,24 +36,28 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.FailedLoginAttemptsBeforeBan))]
         [Range(0, 60)]
+        [DataMember(Order = 1)]
         public int? FailedLoginAttemptsBeforeBan { get; set; }
 
         /// <summary>
         /// Ban time
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.BanTime))]
+        [DataMember(Order = 2)]
         public string BanTime { get; set; }
 
         /// <summary>
         /// Whether to reset failed login count to 0 for unbanned ip addresses
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ResetFailedLoginCountForUnbannedIPAddresses))]
+        [DataMember(Order = 3)]
         public bool? ResetFailedLoginCountForUnbannedIPAddresses { get; set; }
 
         /// <summary>
         /// Clear bans on restart
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ClearBannedIPAddressesOnRestart))]
+        [DataMember(Order = 4)]
         public bool? ClearBannedIPAddressesOnRestart { get; set; }
 
         /// <summary>
@@ -59,6 +65,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ExpireTime))]
         [DisplayFormat(DataFormatString = "{0:dd\\:hh\\:mm\\:ss}", ApplyFormatInEditMode = true)]
+        [DataMember(Order = 5)]
         public TimeSpan? ExpireTime { get; set; }
 
         /// <summary>
@@ -66,6 +73,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.CycleTime))]
         [DisplayFormat(DataFormatString = "{0:dd\\:hh\\:mm\\:ss}", ApplyFormatInEditMode = true)]
+        [DataMember(Order = 6)]
         public TimeSpan? CycleTime { get; set; }
 
         /// <summary>
@@ -73,6 +81,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.MinimumTimeBetweenFailedLoginAttempts))]
         [DisplayFormat(DataFormatString = "{0:dd\\:hh\\:mm\\:ss}", ApplyFormatInEditMode = true)]
+        [DataMember(Order = 7)]
         public TimeSpan? MinimumTimeBetweenFailedLoginAttempts { get; set; }
 
         /// <summary>
@@ -80,6 +89,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.FirewallType))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 8)]
         public string FirewallType { get; set; }
 
         /// <summary>
@@ -87,6 +97,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.FirewallRulePrefix))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 9)]
         public string FirewallRulePrefix { get; set; }
 
         /// <summary>
@@ -94,6 +105,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.IPWhitelist))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 10)]
         public string Whitelist { get; set; }
 
         /// <summary>
@@ -101,6 +113,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.IPWhitelistRegex))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 11)]
         public string WhitelistRegex { get; set; }
 
         /// <summary>
@@ -108,6 +121,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.IPBlacklist))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 12)]
         public string Blacklist { get; set; }
 
         /// <summary>
@@ -115,6 +129,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.IPBlacklistRegex))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 13)]
         public string BlacklistRegex { get; set; }
 
         /// <summary>
@@ -122,6 +137,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.UserNameWhitelist))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 14)]
         public string UserNameWhitelist { get; set; }
 
         /// <summary>
@@ -129,6 +145,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.UserNameWhitelistRegex))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 15)]
         public string UserNameWhitelistRegex { get; set; }
 
         /// <summary>
@@ -136,6 +153,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.UserNameWhiteListMinimumEditDistance))]
         [Range(0, 5)]
+        [DataMember(Order = 16)]
         public int? UserNameWhiteListMinimumEditDistance { get; set; }
 
         /// <summary>
@@ -143,6 +161,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.FailedLoginsBeforeBanUserNameWhitelist))]
         [Range(0, 60)]
+        [DataMember(Order = 17)]
         public int? FailedLoginAttemptsBeforeBanUserNameWhitelist { get; set; }
 
         /// <summary>
@@ -150,10 +169,12 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ProcessToRunOnBan))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 18)]
         public string ProcessToRunOnBan { get; set; }
 
         [LocalizedDisplayName(nameof(IPBanResources.FirewallRules))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 19)]
         public string FirewallRules { get; set; }
 
         /// <summary>
@@ -164,26 +185,31 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Event viewer expressions to notify (successful logins)
         /// </summary>
+        [DataMember(Order = 20)]
         public EventViewerExpressionsToNotify EventViewerExpressionsNotify { get; set; } = new EventViewerExpressionsToNotify();
 
         /// <summary>
         /// Log files to parse
         /// </summary>
+        [DataMember(Order = 21)]
         public List<IPBanLogFileToParse> LogFilesToParse { get; set; } = new List<IPBanLogFileToParse>();
 
         /// <summary>
         /// Number of ip address ranges currently in the country block list
         /// </summary>
+        [DataMember(Order = 22)]
         public int CountryBlockRangeEntryCount { get; set; }
 
         /// <summary>
         /// Number of ip addresses currently in the recent block list
         /// </summary>
+        [DataMember(Order = 23)]
         public int RecentListEntryCount { get; set; }
 
         /// <summary>
         /// Number of ip addresses currently in the naughty block list
         /// </summary>
+        [DataMember(Order = 24)]
         public int NaughtyListEntryCount { get; set; }
     }
 }

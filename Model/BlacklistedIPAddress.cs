@@ -16,8 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-
 using System;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -25,5 +25,6 @@ namespace DigitalRuby.IPBanProSDK
     /// Blacklisted ip address
     /// </summary>
     [Serializable]
+    [DataContract]
     public class BlacklistedIPAddress : IPAddressEntry { }
 }

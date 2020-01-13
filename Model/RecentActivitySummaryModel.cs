@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -25,32 +26,38 @@ namespace DigitalRuby.IPBanProSDK
     /// Recent activity model
     /// </summary>
     [Serializable]
+    [DataContract]
     public class RecentActivitySummaryModel
     {
         /// <summary>
-        /// Country summary
-        /// </summary>
-        public class CountrySummaryModel
-        {
-            /// <summary>
-            /// Country name
-            /// </summary>
-            public string Country { get; set; }
-
-            /// <summary>
-            /// Banned ip address count
-            /// </summary>
-            public int BannedIPAddressCount { get; set; }
-
-            /// <summary>
-            /// Failed login count
-            /// </summary>
-            public int FailedLoginCount { get; set; }
-        }
-
-        /// <summary>
         /// Country summary list
         /// </summary>
+        [DataMember(Order = 1)]
         public List<CountrySummaryModel> CountrySummaries { get; set; }
+    }
+
+    /// <summary>
+    /// Country summary
+    /// </summary>
+    [DataContract]
+    public class CountrySummaryModel
+    {
+        /// <summary>
+        /// Country name
+        /// </summary>
+        [DataMember(Order = 1)]
+        public string Country { get; set; }
+
+        /// <summary>
+        /// Banned ip address count
+        /// </summary>
+        [DataMember(Order = 2)]
+        public int BannedIPAddressCount { get; set; }
+
+        /// <summary>
+        /// Failed login count
+        /// </summary>
+        [DataMember(Order = 3)]
+        public int FailedLoginCount { get; set; }
     }
 }

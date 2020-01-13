@@ -16,9 +16,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using DigitalRuby.IPBanCore;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
+using DigitalRuby.IPBanCore;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -26,21 +27,25 @@ namespace DigitalRuby.IPBanProSDK
     /// Represents a notification to send
     /// </summary>
     [Serializable]
+    [DataContract]
     public class Notification
     {
         /// <summary>
         /// Subject
         /// </summary>
+        [DataMember(Order = 1)]
         public string Subject { get; set; }
 
         /// <summary>
         /// Body
         /// </summary>
+        [DataMember(Order = 2)]
         public string Body { get; set; }
 
         /// <summary>
         /// Addresses to send the notification to (could be email addresses, user id, device id, etc., depending on notification settings)
         /// </summary>
+        [DataMember(Order = 3)]
         public IReadOnlyCollection<string> ToAddresses { get; set; }
 
         /// <summary>

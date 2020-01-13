@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 using System;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -24,11 +25,13 @@ namespace DigitalRuby.IPBanProSDK
     /// Failed login attempt model
     /// </summary>
     [Serializable]
+    [DataContract]
     public class SuccessLoginAttemptModel : BaseModel
     {
         /// <summary>
         /// Success login attempt
         /// </summary>
+        [DataMember(Order = 1)]
         public SuccessLoginAttempt SuccessLoginAttempt { get; set; }
     }
 }

@@ -16,11 +16,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-
-using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -28,6 +28,7 @@ namespace DigitalRuby.IPBanProSDK
     /// IP address
     /// </summary>
     [Serializable]
+    [DataContract]
     public class IPAddress
     {
         /// <summary>
@@ -38,6 +39,7 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
+        [DataMember(Order = 1)]
         public long Id { get; set; }
 
         /// <summary>
@@ -46,6 +48,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 2)]
         public string IPString { get; set; }
 
         /// <summary>
@@ -54,6 +57,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 3)]
         public string HostName { get; set; }
 
         /// <summary>
@@ -62,6 +66,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 4)]
         public string Country { get; set; }
 
         /// <summary>
@@ -70,6 +75,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 5)]
         public string Region { get; set; }
 
         /// <summary>
@@ -78,6 +84,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 6)]
         public string City { get; set; }
 
         /// <summary>
@@ -86,6 +93,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 7)]
         public DateTime UpdatedAt { get; set; }
     }
 }

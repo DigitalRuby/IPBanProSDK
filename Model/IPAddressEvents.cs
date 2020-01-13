@@ -17,32 +17,38 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
     /// <summary>
     /// Events for an ip address
     /// </summary>
+    [DataContract]
     public class IPAddressEvents
     {
         /// <summary>
         /// IP address
         /// </summary>
+        [DataMember(Order = 1)]
         public IPAddress IPAddress { get; set; }
 
         /// <summary>
         /// Failed login attempts
         /// </summary>
+        [DataMember(Order = 2)]
         public IReadOnlyList<FailedLoginAttempt> FailedLoginAttempts { get; set; } = new FailedLoginAttempt[0];
 
         /// <summary>
         /// Successful login attempts
         /// </summary>
+        [DataMember(Order = 3)]
         public IReadOnlyList<SuccessLoginAttempt> SuccessLoginAttempts { get; set; } = new SuccessLoginAttempt[0];
 
         /// <summary>
         /// Blacklisted ip addresses
         /// </summary>
+        [DataMember(Order = 4)]
         public IReadOnlyList<BlacklistedIPAddress> BlacklistedIPAddresses { get; set; } = new BlacklistedIPAddress[0];
     }
 }

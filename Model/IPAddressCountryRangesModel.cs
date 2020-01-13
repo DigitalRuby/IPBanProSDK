@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -25,11 +26,13 @@ namespace DigitalRuby.IPBanProSDK
     /// Country ranges model
     /// </summary>
     [Serializable]
+    [DataContract]
     public class IPAddressCountryRangesModel : BaseModel
     {
         /// <summary>
         /// Country ranges
         /// </summary>
+        [DataMember(Order = 1)]
         public IPAddressCountryRanges CountryRanges { get; set; }
     }
 
@@ -37,26 +40,31 @@ namespace DigitalRuby.IPBanProSDK
     /// A country and it's names an ip address ranges
     /// </summary>
     [Serializable]
+    [DataContract]
     public class IPAddressCountryRanges
     {
         /// <summary>
         /// Geo name id
         /// </summary>
+        [DataMember(Order = 1)]
         public int Id { get; set; }
 
         /// <summary>
         /// Two letter iso code
         /// </summary>
+        [DataMember(Order = 2)]
         public string Code { get; set; }
 
         /// <summary>
         /// Item 0 : Code, Item 1 = English Name, Item 2+ Other names in other languages
         /// </summary>
+        [DataMember(Order = 3)]
         public List<string> Names { get; private set; } = new List<string>();
 
         /// <summary>
         /// All ip addresses
         /// </summary>
+        [DataMember(Order = 4)]
         public List<string> Ranges { get; } = new List<string>();
     }
 }

@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -25,11 +26,13 @@ namespace DigitalRuby.IPBanProSDK
     /// Blacklisted ip addresses model
     /// </summary>
     [Serializable]
+    [DataContract]
     public class BlacklistedIPAddressesModel : BaseModel
     {
         /// <summary>
         /// Blacklisted ip addresses
         /// </summary>
+        [DataMember(Order = 1)]
         public List<string> BlacklistedIPAddresses { get; set; }
     }
 }
