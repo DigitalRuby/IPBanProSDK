@@ -64,13 +64,13 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Get the default serializer
         /// </summary>
-        public static ISerializer Instance { get; } = new CompressedJsonSerializer();
+        public static ISerializer Instance { get; } = new JsonDeflateSerializer();
     }
 
     /// <summary>
     /// Compressed json serializer
     /// </summary>
-    public class CompressedJsonSerializer : ISerializer
+    public class JsonDeflateSerializer : ISerializer
     {
         /// <summary>
         /// Deserialize an object from compressed json bytes
@@ -129,7 +129,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Singleton instance (thread safe)
         /// </summary>
-        public static CompressedJsonSerializer Instance { get; } = new CompressedJsonSerializer();
+        public static JsonDeflateSerializer Instance { get; } = new JsonDeflateSerializer();
     }
 
     /// <summary>
@@ -162,25 +162,8 @@ namespace DigitalRuby.IPBanProSDK
             using (StreamWriter textWriter = new StreamWriter(ms, ExtensionMethods.Utf8EncodingNoPrefix))
             using (JsonTextWriter jsonWriter = new JsonTextWriter(textWriter))
             {
-                if (obj is byte[] bytes)
-                {
-                    jsonWriter.WritePropertyName("ValueBinary");
-                    jsonWriter.WriteValue(Convert.ToBase64String(bytes));
-                }
-                else if (obj is string text)
-                {
-                    jsonWriter.WritePropertyName("ValueString");
-                    jsonWriter.WriteValue(text);
-                }
-                else if (obj is JToken token)
-                {
-                    jsonWriter.WriteRaw(token.ToString(Formatting.None));
-                }
-                else
-                {
-                    JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
-                    serializer.Serialize(jsonWriter, obj);
-                }
+                JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
+                serializer.Serialize(jsonWriter, obj);
             }
             return (ms.GetBuffer().AsSpan(0, (int)ms.Length).ToArray());
         }
