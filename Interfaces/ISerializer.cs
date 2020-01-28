@@ -16,6 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -41,14 +43,14 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="bytes">Bytes to deserialize</param>
         /// <param name="type">Type of object to deserialize to</param>
         /// <returns>Deserialized object</returns>
-        object Deserialize(byte[] bytes, Type type);
+        object? Deserialize(byte[]? bytes, Type type);
 
         /// <summary>
         /// Serialize an object
         /// </summary>
         /// <param name="obj">Object to serialize</param>
         /// <returns>Serialized bytes</returns>
-        byte[] Serialize(object obj);
+        byte[]? Serialize(object? obj);
 
         /// <summary>
         /// Get a description for the serializer
@@ -78,8 +80,12 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="bytes">Compressed json bytes</param>
         /// <param name="type">Type of object</param>
         /// <returns>Object</returns>
-        public object Deserialize(byte[] bytes, Type type)
+        public object? Deserialize(byte[]? bytes, Type type)
         {
+            if (bytes is null || bytes.Length == 0)
+            {
+                return null;
+            }
             StreamReader reader = new StreamReader(new DeflateStream(new MemoryStream(bytes), CompressionMode.Decompress), Encoding.UTF8);
             JsonTextReader jsonReader = new JsonTextReader(reader);
             JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
@@ -91,8 +97,12 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         /// <param name="obj">Object</param>
         /// <returns>Compressed json bytes</returns>
-        public byte[] Serialize(object obj)
+        public byte[]? Serialize(object? obj)
         {
+            if (obj is null)
+            {
+                return null;
+            }
             MemoryStream ms = new MemoryStream();
             using (DeflateStream deflater = new DeflateStream(ms, CompressionLevel.Optimal, true))
             using (StreamWriter textWriter = new StreamWriter(deflater, ExtensionMethods.Utf8EncodingNoPrefix))
@@ -143,8 +153,12 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="bytes">Uncompressed json bytes</param>
         /// <param name="type">Type of object</param>
         /// <returns>Deserialized object</returns>
-        public object Deserialize(byte[] bytes, Type type)
+        public object? Deserialize(byte[]? bytes, Type type)
         {
+            if (bytes is null || bytes.Length == 0)
+            {
+                return null;
+            }
             StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.UTF8);
             JsonTextReader jsonReader = new JsonTextReader(reader);
             JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
@@ -156,8 +170,12 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         /// <param name="obj">Object</param>
         /// <returns>Json bytes</returns>
-        public byte[] Serialize(object obj)
+        public byte[]? Serialize(object? obj)
         {
+            if (obj is null)
+            {
+                return null;
+            }
             MemoryStream ms = new MemoryStream();
             using (StreamWriter textWriter = new StreamWriter(ms, ExtensionMethods.Utf8EncodingNoPrefix))
             using (JsonTextWriter jsonWriter = new JsonTextWriter(textWriter))
@@ -170,8 +188,6 @@ namespace DigitalRuby.IPBanProSDK
 
         public string Description { get; } = "json";
     }
-
-#nullable enable
 
     /// <summary>
     /// Serialize and deserialize bytes using protobuf, then apply LZ4 compression. This class is thread safe.
@@ -189,9 +205,9 @@ namespace DigitalRuby.IPBanProSDK
         public string Description => GetType().Name;
 
         /// <inheritdoc />
-        public object? Deserialize(byte[] bytes, Type type)
+        public object? Deserialize(byte[]? bytes, Type type)
         {
-            if (bytes is null)
+            if (bytes is null || bytes.Length == 0)
             {
                 return null;
             }
@@ -201,8 +217,12 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <inheritdoc />
-        public byte[] Serialize(object obj)
+        public byte[]? Serialize(object? obj)
         {
+            if (obj is null)
+            {
+                return null;
+            }
             MemoryStream ms = new MemoryStream();
             {
                 using Stream lz4EncoderStream = LZ4Stream.Encode(ms, leaveOpen: true);
