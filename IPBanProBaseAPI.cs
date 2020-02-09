@@ -33,6 +33,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 using DigitalRuby.IPBanCore;
+using System.Text.RegularExpressions;
 
 #endregion Imports
 
@@ -306,6 +307,10 @@ namespace DigitalRuby.IPBanProSDK
             }
 
             string pathAndQuery = uri.PathAndQuery;
+
+            // strip of token for redirect handling of signature
+            pathAndQuery = Regex.Replace(pathAndQuery, @"[\?\&]?token=[A-Za-z0-9]+", string.Empty);
+
             string data = pathAndQuery + "|" + timestamp + "|" + publicApiKey.ToUnsecureString();
             return data;
         }
