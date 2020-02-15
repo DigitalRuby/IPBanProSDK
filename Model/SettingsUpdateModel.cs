@@ -211,5 +211,13 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DataMember(Order = 24)]
         public int NaughtyListEntryCount { get; set; }
+
+        /// <summary>
+        /// Uris to pull lists of ip addresses from. Format is RulePrefix,Interval(DD:HH:MM:SS),Uri[NEWLINE].
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.FirewallUriRules))]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 25)]
+        public string FirewallUriRules { get; set; }
     }
 }
