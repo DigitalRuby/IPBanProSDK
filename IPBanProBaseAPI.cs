@@ -310,7 +310,7 @@ namespace DigitalRuby.IPBanProSDK
 
             // strip of token for redirect handling of signature
             pathAndQuery = Regex.Replace(pathAndQuery, @"[\?\&]token=[A-Za-z0-9,_\-]+", string.Empty,
-                RegexOptions.Compiled | RegexOptions.CultureInvariant);
+                RegexOptions.IgnoreCase | RegexOptions.CultureInvariant);
 
             string data = pathAndQuery + "|" + timestamp + "|" + publicApiKey.ToUnsecureString();
             return data;
