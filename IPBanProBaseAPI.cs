@@ -375,6 +375,31 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
+        /// Re-encode basic auth header with SHA256 pasword
+        /// </summary>
+        /// <param name="header">Header</param>
+        /// <returns>Re-encoded auth header</returns>
+        public static string ReEncodeBasicAuthorization(string header)
+        {
+            if (string.IsNullOrWhiteSpace(header) || header.Length < "Basic ".Length)
+            {
+                return header;
+            }
+
+            header = header.Substring("Basic ".Length);
+            byte[] base64Bytes = Convert.FromBase64String(header);
+            string base64String = Encoding.UTF8.GetString(base64Bytes);
+            string[] pieces = base64String.Split(':');
+            if (pieces.Length != 2)
+            {
+                return header;
+            }
+            string userName = pieces[0];
+            string password = pieces[1].ToSHA256String();
+            return CreateBasicAuthorization(userName, password);
+        }
+
+        /// <summary>
         /// Get http headers needed to make an API request
         /// </summary>
         /// <param name="uri">Uri</param>
