@@ -34,6 +34,24 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DataMember(Order = 1)]
         public List<CountrySummaryModel> CountrySummaries { get; set; }
+
+        /// <summary>
+        /// Sum of all recet failed logins
+        /// </summary>
+        [DataMember(Order = 2)]
+        public int SumRecentFailedLogins { get; set; }
+
+        /// <summary>
+        /// Sum of all recent banned ip addresses
+        /// </summary>
+        [DataMember(Order = 3)]
+        public int SumRecentBannedIPAddresses { get; set; }
+
+        /// <summary>
+        /// Sum of all recent successful logins
+        /// </summary>
+        [DataMember(Order = 4)]
+        public int SumRecentSuccessfulLogins { get; set; }
     }
 
     /// <summary>
