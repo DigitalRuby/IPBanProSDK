@@ -210,7 +210,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Api origin header: X-IPBAN-ORIGIN
         /// </summary>
-        public const string HeaderOrigin = "X-IPBAN-ORIGN";
+        public const string HeaderOrigin = "X-IPBAN-ORIGIN";
 
         /// <summary>
         /// Api timestamp header: X-IPBAN-TIMESTAMP
