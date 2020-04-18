@@ -140,6 +140,11 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushCountryBlacklistChanged = "push_country_blacklist_changed";
 
         /// <summary>
+        /// Push a software update
+        /// </summary>
+        public const string MessagePushSoftwareUpdate = "push_software_update";
+
+        /// <summary>
         /// Push an action, the client should perform the action with the data. Parameters contains 'action' key and the value is the action to perform.
         /// </summary>
         public const string MessagePushAction = "push_action";
