@@ -383,11 +383,15 @@ namespace DigitalRuby.IPBanProSDK
         /// Re-encode basic auth header with SHA256 pasword
         /// </summary>
         /// <param name="header">Header</param>
+        /// <param name="userName">Receives the user name</param>
+        /// <param name="password">Receives the password</param>
         /// <returns>Re-encoded auth header</returns>
-        public static string ReEncodeBasicAuthorization(string header)
+        public static string ReEncodeBasicAuthorization(string header, out string userName, out string password)
         {
             if (string.IsNullOrWhiteSpace(header) || header.Length < "Basic ".Length)
             {
+                userName = null;
+                password = null;
                 return header;
             }
 
@@ -397,11 +401,13 @@ namespace DigitalRuby.IPBanProSDK
             string[] pieces = base64String.Split(':');
             if (pieces.Length != 2)
             {
+                userName = "Unknown";
+                password = null;
                 return header;
             }
-            string userName = pieces[0];
-            string password = pieces[1].ToSHA256String();
-            return CreateBasicAuthorization(userName, password);
+            userName = pieces[0];
+            password = pieces[1];
+            return CreateBasicAuthorization(userName, password.ToSHA256String());
         }
 
         /// <summary>
