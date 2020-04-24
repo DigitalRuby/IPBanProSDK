@@ -13,6 +13,7 @@
     <CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
     <AssemblyVersion>0.1.0.0</AssemblyVersion>
     <FileVersion>0.1.0.0</FileVersion>
+	<GenerateSerializationAssemblies>false</GenerateSerializationAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
