@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\IPBan\IPBanCore\IPBanCore.csproj" />
+    <ProjectReference Include="..\IPBan\IPBanCore\IPBanCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
