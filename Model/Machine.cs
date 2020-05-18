@@ -22,6 +22,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
 using DigitalRuby.IPBanCore;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -179,6 +180,19 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 16)]
-        public string Props { get; set; }
+        public string Props { get => props; set => Props = value; }
+        private string props;
+
+        /// <summary>
+        /// Allow an alias for this machine instead of displaying fqdn
+        /// </summary>
+        [JsonIgnore]
+        [IgnoreDataMember]
+        [NotMapped]
+        public string Alias
+        {
+            get => PropHelper.GetProp(props, "Alias");
+            set => props = PropHelper.SetProp(props, "Alias", value);
+        }
     }
 }

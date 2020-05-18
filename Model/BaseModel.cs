@@ -20,6 +20,7 @@ using System;
 using System.Runtime.Serialization;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -43,5 +44,64 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 2)]
         public bool Error { get; set; }
+    }
+
+    /// <summary>
+    /// Prop extensions for get/set properties on json strings
+    /// </summary>
+    public static class PropHelper
+    {
+        /// <summary>
+        /// Get a property from a json string
+        /// </summary>
+        /// <param name="props">Json string</param>
+        /// <param name="name">Property name</param>
+        /// <returns>Found property value or null if not found/empty</returns>
+        public static string GetProp(string props, string name)
+        {
+            if (string.IsNullOrWhiteSpace(props))
+            {
+                return null;
+            }
+            JToken token = JToken.Parse(props);
+            return token[name]?.ToString();
+        }
+
+        /// <summary>
+        /// Set a property on a json string
+        /// </summary>
+        /// <param name="props">Json string</param>
+        /// <param name="name">Name of the property</param>
+        /// <param name="value">Value of the property, pass null to remove</param>
+        /// <returns>The updated props value</returns>
+        public static string SetProp(string props, string name, string value)
+        {
+            if (string.IsNullOrWhiteSpace(props))
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    return props;
+                }
+                props = "{}";
+            }
+            JObject obj = JObject.Parse(props);
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                obj.Remove(name);
+            }
+            else
+            {
+                obj[name] = value;
+            }
+            if (obj.Count == 0)
+            {
+                props = null;
+            }
+            else
+            {
+                props = obj.ToString();
+            }
+            return props;
+        }
     }
 }
