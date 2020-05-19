@@ -180,7 +180,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 16)]
-        public string Props { get => props; set => Props = value; }
+        public string Props { get => props; set => props = value; }
         private string props;
 
         /// <summary>
