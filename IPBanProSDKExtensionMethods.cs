@@ -18,6 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security;
 using System.Text;
 
@@ -167,6 +168,17 @@ namespace DigitalRuby.IPBanProSDK
         public static bool IsCJK(this char c)
         {
             return (c >= 0x4E00 && c <= 0x2FA1F);
+        }
+
+        /// <summary>
+        /// Split a string with no empty entries included
+        /// </summary>
+        /// <param name="text">Text to split</param>
+        /// <param name="delimiters">Delimiters</param>
+        /// <returns>Split strings</returns>
+        public static IReadOnlyCollection<string> SplitWithNoEmptyEntries(this string text, params char[] delimiters)
+        {
+            return text?.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

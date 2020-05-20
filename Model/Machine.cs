@@ -17,6 +17,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -152,6 +153,14 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 13)]
         public string EmailAddresses { get; set; }
+
+        /// <summary>
+        /// Split the EmailAdresses property into a list of addresses
+        /// </summary>
+        [JsonIgnore]
+        [IgnoreDataMember]
+        [NotMapped]
+        public IReadOnlyCollection<string> EmailAddressesCollection => EmailAddresses.SplitWithNoEmptyEntries(',', ';');
 
         /// <summary>
         /// Config xml override for just this machine

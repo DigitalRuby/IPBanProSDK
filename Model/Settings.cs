@@ -17,6 +17,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
@@ -163,6 +165,14 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 13)]
         public string SmtpTo { get; set; }
+
+        /// <summary>
+        /// Splits the SmtpTo property into distinct addresses
+        /// </summary>
+        [JsonIgnore]
+        [IgnoreDataMember]
+        [NotMapped]
+        public IReadOnlyCollection<string> SmtpToAddresses => SmtpTo.SplitWithNoEmptyEntries(',', ';');
 
         /// <summary>
         /// Smtp subject template
