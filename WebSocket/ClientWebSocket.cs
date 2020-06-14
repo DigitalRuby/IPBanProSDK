@@ -576,14 +576,14 @@ namespace DigitalRuby.IPBanProSDK
                         result = null;
                     }
                 }
-                catch (OperationCanceledException)
-                {
-                    // dont care
-                }
                 catch (Exception ex)
                 {
-                    // eat exceptions, most likely a result of a disconnect, either way we will re-create the web socket
-                    IPBanCore.Logger.Info(ex.ToString());
+                    // we don't care about these exception types
+                    if (!(ex is OperationCanceledException || ex is WebSocketException))
+                    {
+                        // eat exceptions, most likely a result of a disconnect, either way we will re-create the web socket
+                        IPBanCore.Logger.Info(ex.ToString());
+                    }
                 }
 
                 if (wasConnected)
