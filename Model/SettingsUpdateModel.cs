@@ -151,10 +151,10 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Always ban a user name if it is not within this edit distance of a user name white list entry. Ignored if user name whitelist is empty.
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.UserNameWhiteListMinimumEditDistance))]
+        [LocalizedDisplayName(nameof(IPBanResources.UserNameWhitelistMinimumEditDistance))]
         [Range(0, 5)]
         [DataMember(Order = 16)]
-        public int? UserNameWhiteListMinimumEditDistance { get; set; }
+        public int? UserNameWhitelistMinimumEditDistance { get; set; }
 
         /// <summary>
         /// Failed login attempts for a whitelisted user name before banning
