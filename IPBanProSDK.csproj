@@ -20,7 +20,7 @@
     <PackageReference Include="K4os.Compression.LZ4" Version="1.1.11" />
     <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.1.11" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.6.7" />
-    <PackageReference Include="protobuf-net" Version="2.4.6" />
+    <PackageReference Include="protobuf-net" Version="3.0.2" />
   </ItemGroup>
 
   <ItemGroup>
