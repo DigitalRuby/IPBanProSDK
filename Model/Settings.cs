@@ -264,5 +264,11 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 22)]
         public string BaseUrl { get; set; }
+
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.EnableLists))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool EnableLists { get; set; } = true;
     }
 }
