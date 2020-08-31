@@ -495,7 +495,7 @@ namespace DigitalRuby.IPBanProSDK
                     await webSocket.ConnectAsync(Uri, cancellationTokenSource.Token);
                     while (!disposed && webSocket.State == WebSocketState.Connecting)
                     {
-                        await Task.Delay(20);
+                        await Task.Delay(20, cancellationTokenSource.Token);
                     }
                     if (disposed || webSocket.State != WebSocketState.Open)
                     {
@@ -616,7 +616,7 @@ namespace DigitalRuby.IPBanProSDK
                 {
                     // wait 5 seconds before attempting reconnect
                     CreateWebSocket();
-                    await Task.Delay(ReconnectInterval);
+                    await Task.Delay(ReconnectInterval, cancellationTokenSource.Token);
                 }
             }
         }
@@ -631,7 +631,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 if (webSocket.State != WebSocketState.Open)
                 {
-                    await Task.Delay(20);
+                    await Task.Delay(20, cancellationTokenSource.Token);
                     continue;
                 }
                 if ((result = await messageQueue.TryDequeueAsync(cancellationTokenSource.Token)).Key)
