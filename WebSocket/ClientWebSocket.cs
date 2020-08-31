@@ -318,7 +318,10 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>True if success, false if error</returns>
         public bool QueueMessage(Message message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone)
         {
-            if (webSocket is null || webSocket.State == WebSocketState.Closed || webSocket.State == WebSocketState.CloseReceived || message is null)
+            if (webSocket is null ||
+                message is null ||
+                webSocket.State == WebSocketState.Closed ||
+                webSocket.State == WebSocketState.CloseReceived)
             {
                 return false;
             }
@@ -326,10 +329,18 @@ namespace DigitalRuby.IPBanProSDK
             string id = null;
             if (AckSynchronous && !string.IsNullOrWhiteSpace(message.Id))
             {
-                id = message.Id;
-                lock (acks)
+                if (webSocket.State == WebSocketState.Open)
                 {
-                    acks.Add(id, new ManualResetEvent(false));
+                    id = message.Id;
+                    lock (acks)
+                    {
+                        acks.Add(id, new ManualResetEvent(false));
+                    }
+                }
+                else
+                {
+                    // socket not yet open, can't wait for this
+                    message.Id = null;
                 }
             }
 
