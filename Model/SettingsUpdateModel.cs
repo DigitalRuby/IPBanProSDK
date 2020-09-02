@@ -85,7 +85,7 @@ namespace DigitalRuby.IPBanProSDK
         public TimeSpan? MinimumTimeBetweenFailedLoginAttempts { get; set; }
 
         /// <summary>
-        /// Firewall type
+        /// Firewall type (unused currently)
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.FirewallType))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
