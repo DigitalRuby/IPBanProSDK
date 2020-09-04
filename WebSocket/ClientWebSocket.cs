@@ -652,6 +652,7 @@ namespace DigitalRuby.IPBanProSDK
                         }
                         else if (message is Message parsedMessage)
                         {
+                            // multi-thread safe null check
                             Func<IQueueMessage, Message, Task> actionCopy = OnMessage;
                             if (actionCopy != null)
                             {
