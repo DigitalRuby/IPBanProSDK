@@ -281,7 +281,7 @@ namespace DigitalRuby.IPBanProSDK
             if (!disposed)
             {
                 disposed = true;
-                cancellationTokenSource.Cancel();
+                cancellationTokenSource.CancelAfter(1);
                 Task.Run(async () =>
                 {
                     try
