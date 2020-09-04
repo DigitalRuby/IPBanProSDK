@@ -321,7 +321,8 @@ namespace DigitalRuby.IPBanProSDK
             if (webSocket is null ||
                 message is null ||
                 webSocket.State == WebSocketState.Closed ||
-                webSocket.State == WebSocketState.CloseReceived)
+                webSocket.State == WebSocketState.CloseReceived ||
+                webSocket.State == WebSocketState.None)
             {
                 return false;
             }
@@ -604,19 +605,17 @@ namespace DigitalRuby.IPBanProSDK
                 try
                 {
                     webSocket.Dispose();
+                    firstConnect = true;
+                    if (!disposed)
+                    {
+                        // wait 5 seconds before attempting reconnect
+                        CreateWebSocket();
+                        await Task.Delay(ReconnectInterval, cancellationTokenSource.Token);
+                    }
                 }
                 catch (Exception ex)
                 {
                     IPBanCore.Logger.Info(ex.ToString());
-                }
-                firstConnect = true;
-                cancellationTokenSource.Cancel();
-                cancellationTokenSource = new CancellationTokenSource();
-                if (!disposed)
-                {
-                    // wait 5 seconds before attempting reconnect
-                    CreateWebSocket();
-                    await Task.Delay(ReconnectInterval, cancellationTokenSource.Token);
                 }
             }
         }
@@ -629,9 +628,17 @@ namespace DigitalRuby.IPBanProSDK
 
             while (!disposed)
             {
-                if (webSocket.State != WebSocketState.Open)
+                try
                 {
-                    await Task.Delay(20, cancellationTokenSource.Token);
+                    if (webSocket.State != WebSocketState.Open)
+                    {
+                        await Task.Delay(20, cancellationTokenSource.Token);
+                        continue;
+                    }
+                }
+                catch
+                {
+                    // eat exception, sometimes can happen as ReadTask disposes and re-creates the socket
                     continue;
                 }
                 if ((result = await messageQueue.TryDequeueAsync(cancellationTokenSource.Token)).Key)
