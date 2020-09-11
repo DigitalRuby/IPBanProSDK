@@ -321,8 +321,7 @@ namespace DigitalRuby.IPBanProSDK
             if (webSocket is null ||
                 message is null ||
                 webSocket.State == WebSocketState.Closed ||
-                webSocket.State == WebSocketState.CloseReceived ||
-                webSocket.State == WebSocketState.None)
+                webSocket.State == WebSocketState.CloseReceived)
             {
                 return false;
             }
