@@ -269,6 +269,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.EnableLists))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 23)]
         public bool EnableLists { get; set; } = true;
     }
 }
