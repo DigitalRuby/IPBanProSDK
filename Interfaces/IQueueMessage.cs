@@ -30,9 +30,9 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Queue a message to send as soon as possible
         /// </summary>
-        /// <param name="message">Message to send</param>
+        /// <param name="message">Message to send, should be a Message or byte[]</param>
         /// <param name="groupId">Group id, or 0 for none</param>
         /// <returns>True if success, false if error</returns>
-        bool QueueMessage(Message message, int groupId = 0);
+        bool QueueMessage(object message, int groupId = 0);
     }
 }

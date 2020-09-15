@@ -154,15 +154,15 @@ namespace DigitalRuby.IPBanProSDK
 
         private const int receiveChunkSize = 8192;
 
+        private static Func<IEnumerable<KeyValuePair<string, object>>, IClientWebSocketImplementation> webSocketCreator;
+
         private readonly AsyncQueue<object> messageQueue = new AsyncQueue<object>();
         private readonly Dictionary<string, ManualResetEvent> acks = new Dictionary<string, ManualResetEvent>();
         private readonly ISerializer serializer;
-
-        private static Func<IEnumerable<KeyValuePair<string, object>>, IClientWebSocketImplementation> webSocketCreator;
+        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
         // created from factory, allows swapping out underlying implementation
         private IClientWebSocketImplementation webSocket;
-        private CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
         private bool firstConnect = true;
         private bool disposed;
 
@@ -182,6 +182,11 @@ namespace DigitalRuby.IPBanProSDK
         /// The uri to connect to
         /// </summary>
         public Uri Uri { get; set; }
+
+        /// <summary>
+        /// Max message to process, anything bigger is ignored. Default is 16777216.
+        /// </summary>
+        public int MaxMessageSize { get; set; } = 16777216;
 
         /// <summary>
         /// Amount to wait between dropped connections for a reconnect attempt, default is 5 seconds
@@ -316,7 +321,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="message">Message to send</param>
         /// <param name="groupId">Group id, ignored for now</param>
         /// <returns>True if success, false if error</returns>
-        public bool QueueMessage(Message message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone)
+        public bool QueueMessage(object message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone)
         {
             if (webSocket is null ||
                 message is null ||
@@ -326,12 +331,14 @@ namespace DigitalRuby.IPBanProSDK
                 return false;
             }
 
+            Message actualMessage = message as Message;
             string id = null;
-            if (AckSynchronous && !string.IsNullOrWhiteSpace(message.Id))
+            if (AckSynchronous && !string.IsNullOrWhiteSpace(actualMessage?.Id))
             {
-                if (webSocket.State == WebSocketState.Open)
+                if (webSocket.State == WebSocketState.Open ||
+                    webSocket.State == WebSocketState.Connecting)
                 {
-                    id = message.Id;
+                    id = actualMessage.Id;
                     lock (acks)
                     {
                         acks.Add(id, new ManualResetEvent(false));
@@ -340,7 +347,7 @@ namespace DigitalRuby.IPBanProSDK
                 else
                 {
                     // socket not yet open, can't wait for this
-                    message.Id = null;
+                    actualMessage.Id = null;
                 }
             }
 
@@ -348,9 +355,25 @@ namespace DigitalRuby.IPBanProSDK
             {
                 try
                 {
-                    WebSocketRawMessage rawMessage = new WebSocketRawMessage(message, serializer);
-                    ArraySegment<byte> messageArraySegment = new ArraySegment<byte>(rawMessage.Data);
-                    await webSocket.SendAsync(messageArraySegment, rawMessage.MessageType, true, cancellationTokenSource.Token);
+                    byte[] bytes;
+                    WebSocketMessageType messageType;
+                    if (message is byte[] messageBytes)
+                    {
+                        bytes = messageBytes;
+                        messageType = WebSocketMessageType.Binary;
+                    }
+                    else if (message is Message actualMessage)
+                    {
+                        WebSocketRawMessage rawMessage = new WebSocketRawMessage(actualMessage, serializer);
+                        bytes = rawMessage.Data;
+                        messageType = rawMessage.MessageType;
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Invalid message type " + message.GetType().FullName);
+                    }
+                    ArraySegment<byte> messageArraySegment = new ArraySegment<byte>(bytes);
+                    await webSocket.SendAsync(messageArraySegment, messageType, true, cancellationTokenSource.Token);
                 }
                 catch
                 {
@@ -526,7 +549,7 @@ namespace DigitalRuby.IPBanProSDK
                             }
                         }
                         while (result != null && !result.EndOfMessage);
-                        if (stream.Length != 0)
+                        if (stream.Length != 0 && stream.Length <= MaxMessageSize)
                         {
                             try
                             {
