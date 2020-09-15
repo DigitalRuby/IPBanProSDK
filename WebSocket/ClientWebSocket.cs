@@ -549,66 +549,68 @@ namespace DigitalRuby.IPBanProSDK
                             }
                         }
                         while (result != null && !result.EndOfMessage);
-                        if (stream.Length != 0 && stream.Length <= MaxMessageSize)
+                        if (stream.Length == 0 || stream.Length > MaxMessageSize)
                         {
-                            try
+                            // ignore message, too small or too big
+                            continue;
+                        }
+                        try
+                        {
+                            // if text message and we are handling text messages
+                            if (result.MessageType == WebSocketMessageType.Text)
                             {
-                                // if text message and we are handling text messages
-                                if (result.MessageType == WebSocketMessageType.Text)
+                                string text = Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length);
+                                messageQueue.Enqueue(text);
+                            }
+                            // otherwise treat message as binary
+                            else
+                            {
+                                // make a copy of the bytes, the memory stream will be re-used and could potentially corrupt in multi-threaded environments
+                                // not using ToArray just in case it is making a slice/span from the internal bytes, we want an actual physical copy
+                                byte[] bytesCopy = new byte[stream.Length];
+                                Array.Copy(stream.GetBuffer(), bytesCopy, stream.Length);
+                                if (OnMessage != null)
                                 {
-                                    string text = Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length);
-                                    messageQueue.Enqueue(text);
-                                }
-                                // otherwise treat message as binary
-                                else
-                                {
-                                    // make a copy of the bytes, the memory stream will be re-used and could potentially corrupt in multi-threaded environments
-                                    // not using ToArray just in case it is making a slice/span from the internal bytes, we want an actual physical copy
-                                    byte[] bytesCopy = new byte[stream.Length];
-                                    Array.Copy(stream.GetBuffer(), bytesCopy, stream.Length);
-                                    if (OnMessage != null)
+                                    Message message;
+                                    try
                                     {
-                                        Message message;
-                                        try
-                                        {
-                                            message = serializer.Deserialize(bytesCopy, Message.Type) as Message;
-                                        }
-                                        catch (Exception ex)
-                                        {
-                                            IPBanCore.Logger.Error("Error decoding web socket message", ex);
-                                            continue;
-                                        }
+                                        message = serializer.Deserialize(bytesCopy, Message.Type) as Message;
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        IPBanCore.Logger.Error("Error decoding web socket message", ex);
+                                        continue;
+                                    }
 
-                                        // remove acks
-                                        if (AckSynchronous && !string.IsNullOrWhiteSpace(message.Id) && message.Name == IPBanProBaseAPI.MessageAck)
+                                    // remove acks
+                                    if (AckSynchronous && !string.IsNullOrWhiteSpace(message.Id) && message.Name == IPBanProBaseAPI.MessageAck)
+                                    {
+                                        lock (acks)
                                         {
-                                            lock (acks)
+                                            if (acks.TryGetValue(message.Id, out ManualResetEvent evt))
                                             {
-                                                if (acks.TryGetValue(message.Id, out ManualResetEvent evt))
-                                                {
-                                                    acks.Remove(message.Id);
-                                                    evt.Set();
-                                                }
+                                                acks.Remove(message.Id);
+                                                evt.Set();
                                             }
-                                        }
-                                        else
-                                        {
-                                            messageQueue.Enqueue(message);
                                         }
                                     }
                                     else
                                     {
-                                        messageQueue.Enqueue(bytesCopy);
+                                        messageQueue.Enqueue(message);
                                     }
                                 }
-                            }
-                            finally
-                            {
-                                stream.SetLength(0);
+                                else
+                                {
+                                    messageQueue.Enqueue(bytesCopy);
+                                }
                             }
                         }
-                        result = null;
+                        finally
+                        {
+                            stream.SetLength(0);
+                        }
                     }
+                    result = null;
                 }
                 catch (Exception ex)
                 {
