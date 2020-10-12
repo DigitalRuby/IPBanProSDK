@@ -639,7 +639,10 @@ namespace DigitalRuby.IPBanProSDK
                 }
                 catch (Exception ex)
                 {
-                    IPBanCore.Logger.Info(ex.ToString());
+                    if (!(ex is OperationCanceledException))
+                    {
+                        IPBanCore.Logger.Info(ex.ToString());
+                    }
                 }
             }
         }
