@@ -174,36 +174,37 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Event viewer expressions to block (failed logins)
         /// </summary>
+        [DataMember(Order = 20)]
         public EventViewerExpressionsToBlock EventViewerExpressionsBlock { get; set; } = new EventViewerExpressionsToBlock();
 
         /// <summary>
         /// Event viewer expressions to notify (successful logins)
         /// </summary>
-        [DataMember(Order = 20)]
+        [DataMember(Order = 21)]
         public EventViewerExpressionsToNotify EventViewerExpressionsNotify { get; set; } = new EventViewerExpressionsToNotify();
 
         /// <summary>
         /// Log files to parse
         /// </summary>
-        [DataMember(Order = 21)]
+        [DataMember(Order = 22)]
         public List<IPBanLogFileToParse> LogFilesToParse { get; set; } = new List<IPBanLogFileToParse>();
 
         /// <summary>
         /// Number of ip address ranges currently in the country block list
         /// </summary>
-        [DataMember(Order = 22)]
+        [DataMember(Order = 23)]
         public int CountryBlockRangeEntryCount { get; set; }
 
         /// <summary>
         /// Number of ip addresses currently in the recent block list
         /// </summary>
-        [DataMember(Order = 23)]
+        [DataMember(Order = 24)]
         public int RecentListEntryCount { get; set; }
 
         /// <summary>
         /// Number of ip addresses currently in the naughty block list
         /// </summary>
-        [DataMember(Order = 24)]
+        [DataMember(Order = 25)]
         public int NaughtyListEntryCount { get; set; }
 
         /// <summary>
@@ -211,7 +212,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.FirewallUriRules))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 25)]
+        [DataMember(Order = 26)]
         public string FirewallUriRules { get; set; }
     }
 }
