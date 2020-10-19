@@ -1,19 +1,28 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFrameworks>net5.0</TargetFrameworks>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>portable</DebugType>
-    <LangVersion>latest</LangVersion>
-    <RootNamespace>DigitalRuby.IPBanProSDK</RootNamespace>
-    <AssemblyName>DigitalRuby.IPBanProSDK</AssemblyName>
-    <TrimUnusedDependencies>true</TrimUnusedDependencies>
-    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+	<PropertyGroup>
+		<TargetFrameworks>net5.0</TargetFrameworks>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<DebugType>portable</DebugType>
+		<LangVersion>latest</LangVersion>
+		<RootNamespace>DigitalRuby.IPBanProSDK</RootNamespace>
+		<AssemblyName>DigitalRuby.IPBanProSDK</AssemblyName>
+		<TrimUnusedDependencies>true</TrimUnusedDependencies>
+		<TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
 		<MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
 		<CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
-		<Version>0.2.0</Version>
-	<GenerateSerializationAssemblies>false</GenerateSerializationAssemblies>
-  </PropertyGroup>
+		<Version>0.2.1</Version>
+		<GenerateSerializationAssemblies>false</GenerateSerializationAssemblies>
+		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<FileVersion>0.2.1</FileVersion>
+		<AssemblyVersion>0.2.1</AssemblyVersion>
+		<Authors>jjxtra</Authors>
+		<Company>Digital Ruby, LLC</Company>
+		<Product>IPBan Pro SDK</Product>
+		<Description>The IPBan Pro SDK allows interacting with the IPBan Pro API. Please visit https://ipban.com for more details.</Description>
+		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+	</PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="K4os.Compression.LZ4" Version="1.2.5" />
@@ -26,6 +35,10 @@
     <ProjectReference Include="..\IPBan\IPBanCore\IPBanCore.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<None Include="LICENSE.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+	
   <ItemGroup>
     <Compile Update="Properties\IPBanProResources.Designer.cs">
       <DependentUpon>IPBanProResources.resx</DependentUpon>
@@ -40,6 +53,12 @@
       <LastGenOutput>IPBanProResources.Designer.cs</LastGenOutput>
       <Generator>PublicResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="LICENSE.md">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
