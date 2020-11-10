@@ -25,10 +25,10 @@
 	</PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="K4os.Compression.LZ4" Version="1.2.5" />
-    <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.2.5" />
+    <PackageReference Include="K4os.Compression.LZ4" Version="1.2.6" />
+    <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.2.6" />
     <PackageReference Include="Portable.BouncyCastle" Version="1.8.8" />
-    <PackageReference Include="protobuf-net" Version="3.0.29" />
+    <PackageReference Include="protobuf-net" Version="3.0.52" />
   </ItemGroup>
 
   <ItemGroup>
