@@ -22,6 +22,7 @@
 		<Product>IPBan Pro SDK</Product>
 		<Description>The IPBan Pro SDK allows interacting with the IPBan Pro API. Please visit https://ipban.com for more details.</Description>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <IsTrimmable>false</IsTrimmable>
 	</PropertyGroup>
 
   <ItemGroup>
