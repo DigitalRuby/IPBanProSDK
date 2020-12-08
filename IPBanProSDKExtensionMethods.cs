@@ -55,7 +55,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="key">Key</param>
         /// <param name="compare">Compare function</param>
         /// <returns>Index of found item, if less than 0 use ~ operator to get index where the next item is the smallest key greater than key</returns>
-        public static int BinarySearch<TKey, TValue>(this IList<TValue> list, in TKey key, System.Func<TKey, TValue, int> compare)
+        public static int BinarySearch<TKey, TValue>(this IReadOnlyList<TValue> list, in TKey key, System.Func<TKey, TValue, int> compare)
         {
             int lo = 0;// index;
             int hi = list.Count - 1;// index + length - 1;
