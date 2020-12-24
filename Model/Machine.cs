@@ -82,12 +82,21 @@ namespace DigitalRuby.IPBanProSDK
         public string RemoteIPAddress { get; set; }
 
         /// <summary>
-        /// Version
+        /// Other ip addresses
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 6)]
+        public string OtherIPAddresses { get; set; }
+
+        /// <summary>
+        /// Version
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 7)]
         public string Version { get; set; }
 
         /// <summary>
@@ -95,7 +104,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [DataMember(Order = 7)]
+        [DataMember(Order = 8)]
         public string OSName { get; set; }
 
         /// <summary>
@@ -104,7 +113,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 8)]
+        [DataMember(Order = 9)]
         public string OSVersion { get; set; }
 
         /// <summary>
@@ -113,7 +122,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 9)]
+        [DataMember(Order = 10)]
         public DateTime CreatedAt { get; set; }
 
         /// <summary>
@@ -122,7 +131,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 10)]
+        [DataMember(Order = 11)]
         public DateTime UpdatedAt { get; set; }
 
         /// <summary>
@@ -131,7 +140,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 11)]
+        [DataMember(Order = 12)]
         public string Status { get; set; }
 
         /// <summary>
@@ -141,7 +150,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.MachineWhitelist))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 12)]
+        [DataMember(Order = 13)]
         public string MachineWhitelist { get; set; }
 
         /// <summary>
@@ -151,7 +160,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.SmtpTo))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 13)]
+        [DataMember(Order = 14)]
         public string EmailAddresses { get; set; }
 
         /// <summary>
@@ -169,7 +178,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.ClientConfiguration))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 14)]
+        [DataMember(Order = 15)]
         public string ConfigXml { get; set; }
 
         /// <summary>
@@ -179,7 +188,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.Notes))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 15)]
+        [DataMember(Order = 16)]
         public string Notes { get; set; }
 
         /// <summary>
@@ -188,7 +197,7 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 16)]
+        [DataMember(Order = 17)]
         public string Props { get => props; set => props = value; }
         private string props;
 

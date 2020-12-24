@@ -150,6 +150,11 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushSoftwareUpdate = "push_software_update";
 
         /// <summary>
+        /// Push new credentials for clients
+        /// </summary>
+        public const string MessagePushCredentials = "push_credentials";
+
+        /// <summary>
         /// Push an action, the client should perform the action with the data. Parameters contains 'action' key and the value is the action to perform.
         /// </summary>
         public const string MessagePushAction = "push_action";
