@@ -51,12 +51,44 @@ namespace DigitalRuby.IPBanProSDK
         /// Recent failed login attempts
         /// </summary>
         [DataMember(Order = 4)]
-        public List<FailedLoginAttempt> FailedLoginAttempts { get; set; }
+        public List<RecentActivityFailedLogin> FailedLoginAttempts { get; set; }
 
         /// <summary>
         /// Machine if activity is for a single machine, null for all machines
         /// </summary>
         [DataMember(Order = 5)]
         public Machine Machine { get; set; }
+    }
+
+    /// <summary>
+    /// Recent activity failed login
+    /// </summary>
+    [Serializable]
+    [DataContract]
+    public class RecentActivityFailedLogin
+    {
+        /// <summary>
+        /// Failed login attempt
+        /// </summary>
+        [DataMember(Order = 1)]
+        public FailedLoginAttempt FailedLoginAttempt { get; set; }
+
+        /// <summary>
+        /// IP address
+        /// </summary>
+        [DataMember(Order = 2)]
+        public IPAddress IPAddress { get; set; }
+
+        /// <summary>
+        /// Machine
+        /// </summary>
+        [DataMember(Order = 3)]
+        public Machine Machine { get; set; }
+
+        /// <summary>
+        /// Is blacklisted
+        /// </summary>
+        [DataMember(Order = 4)]
+        public bool IsBlacklisted { get; set; }
     }
 }
