@@ -49,24 +49,23 @@ namespace DigitalRuby.IPBanProSDK
         public IReadOnlyCollection<string> ToAddresses { get; set; }
 
         /// <summary>
-        /// Format a template
+        /// Format a string
         /// </summary>
-        /// <param name="template">Template</param>
-        /// <param name="machineName">Machine name</param>
-        /// <param name="userName">User name</param>
-        /// <param name="machineIp">Machine ip</param>
-        /// <param name="bannedIp">Banned ip address</param>
-        /// <param name="bannedIpHost">Remote host</param>
-        /// <param name="bannedIpCity">City</param>
-        /// <param name="bannedIpRegion">Region</param>
-        /// <param name="bannedIpCountry">Country</param>
-        /// <param name="type">Event type</param>
-        /// <returns></returns>
-        public static string FormatTemplate(string template, string machineName, string userName, string machineIp, string bannedIp, string bannedIpHost,
-            string bannedIpCity, string bannedIpRegion, string bannedIpCountry, IPAddressEventType type)
+        /// <param name="context">Context</param>
+        /// <param name="text">String</param>
+        /// <param name="args">Args</param>
+        /// <returns>String</returns>
+        public static string FormatString(string context, string text, params object[] args)
         {
-            // Subject template for sent mail. {0} = machine name, {1} = userName, {2} = machine ip address, {3} = banned ip address, {4} = remote host name, {5} = city, {6} = region, {7} = country, {8} = type
-            return string.Format(template, machineName, userName, machineIp, bannedIp, bannedIpHost, bannedIpCity, bannedIpRegion, bannedIpCountry, type);
+            try
+            {
+                return string.Format(text, args);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Unable to format string '{0}' ({1}): {2}", text, context, ex);
+                return null;
+            }
         }
     }
 }
