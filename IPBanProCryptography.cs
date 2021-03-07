@@ -44,7 +44,7 @@ namespace DigitalRuby.IPBanProSDK
     public static class IPBanProCryptography
     {
         private static readonly X9ECParameters curve = SecNamedCurves.GetByName("secp256r1");
-        private static readonly ECDomainParameters domain = new ECDomainParameters(curve.Curve, curve.G, curve.N, curve.H);
+        private static readonly ECDomainParameters domain = new(curve.Curve, curve.G, curve.N, curve.H);
         private const string signingAlgorithm = "SHA-512withECDSA";
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <exception cref="System.IO.InvalidDataException">Validate is true and the generated key is not valid</exception>
         public static void GenerateKeyPair(out string privateKeyBase64, out string publicKeyBase64, int strength = 256, bool validate = true)
         {
-            ECKeyPairGenerator keyGenerator = new ECKeyPairGenerator("ECDSA");
+            ECKeyPairGenerator keyGenerator = new("ECDSA");
             keyGenerator.Init(new KeyGenerationParameters(new SecureRandom(), strength));
             AsymmetricCipherKeyPair pair = keyGenerator.GenerateKeyPair();
             ECPrivateKeyParameters privateKey = pair.Private as ECPrivateKeyParameters;
@@ -148,9 +148,9 @@ namespace DigitalRuby.IPBanProSDK
             try
             {
                 byte[] privateKeyBytes = IPBanProSDKExtensionMethods.BytesFromObject(privateKey, true);
-                BigInteger d = new BigInteger(1, privateKeyBytes);
+                BigInteger d = new(1, privateKeyBytes);
                 Org.BouncyCastle.Math.EC.ECPoint q = domain.G.Multiply(d);
-                ECPublicKeyParameters publicKey = new ECPublicKeyParameters("ECDSA", q, domain);
+                ECPublicKeyParameters publicKey = new("ECDSA", q, domain);
                 return Convert.ToBase64String(publicKey.Q.GetEncoded(true));
             }
             catch (Exception ex)
@@ -177,7 +177,7 @@ namespace DigitalRuby.IPBanProSDK
                 {
                     return null;
                 }
-                ECPrivateKeyParameters keyParameters = new ECPrivateKeyParameters("ECDSA", new BigInteger(1, privateKeyBytes), domain);
+                ECPrivateKeyParameters keyParameters = new("ECDSA", new BigInteger(1, privateKeyBytes), domain);
                 ISigner signer = SignerUtilities.GetSigner(signingAlgorithm);
                 signer.Init(true, keyParameters);
                 signer.BlockUpdate(messageBytes, 0, messageBytes.Length);
@@ -209,7 +209,7 @@ namespace DigitalRuby.IPBanProSDK
                 byte[] messageBytes = IPBanProSDKExtensionMethods.BytesFromObject(message, false);
                 byte[] publicKeyBytes = IPBanProSDKExtensionMethods.BytesFromObject(publicKey, true);
                 Org.BouncyCastle.Math.EC.ECPoint q = curve.Curve.DecodePoint(publicKeyBytes);
-                ECPublicKeyParameters keyParameters = new ECPublicKeyParameters("ECDSA", q, domain);
+                ECPublicKeyParameters keyParameters = new("ECDSA", q, domain);
                 ISigner signer = SignerUtilities.GetSigner(signingAlgorithm);
                 signer.Init(false, keyParameters);
                 signer.BlockUpdate(messageBytes, 0, messageBytes.Length);
@@ -231,7 +231,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Signature in base64</returns>
         public static string HmacSha1Sign(string message, byte[] key)
         {
-            using (HMACSHA1 sha = new HMACSHA1(key))
+            using (HMACSHA1 sha = new(key))
             {
                 return Convert.ToBase64String(sha.ComputeHash(message.ToBytesUTF8()));
             }
@@ -245,7 +245,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Signature in base64</returns>
         public static string HmacSha256Sign(string message, byte[] key)
         {
-            using (HMACSHA256 sha = new HMACSHA256(key))
+            using (HMACSHA256 sha = new(key))
             {
                 return Convert.ToBase64String(sha.ComputeHash(message.ToBytesUTF8()));
             }

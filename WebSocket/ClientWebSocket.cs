@@ -100,7 +100,7 @@ namespace DigitalRuby.IPBanProSDK
 
         private class ClientWebSocketImplementation : IClientWebSocketImplementation
         {
-            private readonly System.Net.WebSockets.ClientWebSocket webSocket = new System.Net.WebSockets.ClientWebSocket();
+            private readonly System.Net.WebSockets.ClientWebSocket webSocket = new();
 
             public WebSocketState State
             {
@@ -156,10 +156,10 @@ namespace DigitalRuby.IPBanProSDK
 
         private static Func<IEnumerable<KeyValuePair<string, object>>, IClientWebSocketImplementation> webSocketCreator;
 
-        private readonly AsyncQueue<object> messageQueue = new AsyncQueue<object>();
-        private readonly Dictionary<string, ManualResetEvent> acks = new Dictionary<string, ManualResetEvent>();
+        private readonly AsyncQueue<object> messageQueue = new();
+        private readonly Dictionary<string, ManualResetEvent> acks = new();
         private readonly ISerializer serializer;
-        private readonly CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
+        private readonly CancellationTokenSource cancellationTokenSource = new();
 
         // created from factory, allows swapping out underlying implementation
         private IClientWebSocketImplementation webSocket;
@@ -364,7 +364,7 @@ namespace DigitalRuby.IPBanProSDK
                     }
                     else if (message is Message actualMessage)
                     {
-                        WebSocketRawMessage rawMessage = new WebSocketRawMessage(actualMessage, serializer);
+                        WebSocketRawMessage rawMessage = new(actualMessage, serializer);
                         bytes = rawMessage.Data;
                         messageType = rawMessage.MessageType;
                     }
@@ -372,7 +372,7 @@ namespace DigitalRuby.IPBanProSDK
                     {
                         throw new InvalidOperationException("Invalid message type " + message.GetType().FullName);
                     }
-                    ArraySegment<byte> messageArraySegment = new ArraySegment<byte>(bytes);
+                    ArraySegment<byte> messageArraySegment = new(bytes);
                     await webSocket.SendAsync(messageArraySegment, messageType, true, cancellationTokenSource.Token);
                 }
                 catch
@@ -502,9 +502,9 @@ namespace DigitalRuby.IPBanProSDK
 
         private async Task ReadTask()
         {
-            ArraySegment<byte> receiveBuffer = new ArraySegment<byte>(new byte[receiveChunkSize]);
+            ArraySegment<byte> receiveBuffer = new(new byte[receiveChunkSize]);
             TimeSpan keepAlive = webSocket.KeepAliveInterval;
-            MemoryStream stream = new MemoryStream();
+            MemoryStream stream = new();
             WebSocketReceiveResult result;
             bool wasConnected = false;
 

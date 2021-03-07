@@ -275,7 +275,7 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         private IHttpRequestMaker requestMaker = DefaultHttpRequestMaker.Instance;
-        private readonly List<KeyValuePair<string, object>> headers = new List<KeyValuePair<string, object>>();
+        private readonly List<KeyValuePair<string, object>> headers = new();
 
         /// <summary>
         /// The request maker. Defaults to a standard http request maker.
@@ -428,7 +428,7 @@ namespace DigitalRuby.IPBanProSDK
         public ICollection<KeyValuePair<string, object>> GetApiRequestHeaders(Uri uri)
         {
             string timestamp = Timestamp.ToUnixMillisecondsLong().ToString(CultureInfo.InvariantCulture);
-            List<KeyValuePair<string, object>> headers = new List<KeyValuePair<string, object>>();
+            List<KeyValuePair<string, object>> headers = new();
             if (PublicApiKey != null && PrivateApiKey != null)
             {
                 string signature = IPBanProAPI.ComputeSignature(uri, timestamp, PublicApiKey, PrivateApiKey, AllowedIPAddresses);
@@ -473,7 +473,7 @@ namespace DigitalRuby.IPBanProSDK
             try
             {
                 await new SynchronizationContextRemover();
-                Uri uri = new Uri(BaseUri, pathAndQuery);
+                Uri uri = new(BaseUri, pathAndQuery);
                 ICollection<KeyValuePair<string, object>> headers = GetApiRequestHeaders(uri);
                 string postJsonString = postJson as string;
                 if (postJsonString is null && postJson != null)
@@ -485,7 +485,7 @@ namespace DigitalRuby.IPBanProSDK
                 {
                     return null;
                 }
-                JsonTextReader reader = new JsonTextReader(new StreamReader(new MemoryStream(response), Encoding.UTF8, false));
+                JsonTextReader reader = new(new StreamReader(new MemoryStream(response), Encoding.UTF8, false));
                 JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
                 T model = serializer.Deserialize<T>(reader);
                 if (model.Error)

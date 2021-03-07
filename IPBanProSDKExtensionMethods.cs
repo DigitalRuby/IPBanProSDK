@@ -33,7 +33,7 @@ namespace DigitalRuby.IPBanProSDK
     /// </summary>
     public static class IPBanProSDKExtensionMethods
     {
-        private static readonly JsonSerializerSettings jsonSerializerSettings = new JsonSerializerSettings
+        private static readonly JsonSerializerSettings jsonSerializerSettings = new()
         {
             Formatting = Formatting.None,
             NullValueHandling = NullValueHandling.Ignore
