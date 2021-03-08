@@ -215,13 +215,23 @@ namespace DigitalRuby.IPBanProSDK
         public string SmtpWhoIsBodyTemplate { get; set; }
 
         /// <summary>
+        /// Web hook for notifications
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.NotificationWebHook))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 18)]
+        public string NotificationWebHook { get; set; }
+
+        /// <summary>
         /// Config xml
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.ClientConfiguration))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 18)]
+        [DataMember(Order = 19)]
         public string ConfigXml { get; set; }
 
         /// <summary>
@@ -231,7 +241,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.PublicAPIKey))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 19)]
+        [DataMember(Order = 20)]
         public string PublicAPIKey { get; set; }
 
         /// <summary>
@@ -241,7 +251,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.PrivateAPIKey))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 20)]
+        [DataMember(Order = 21)]
         public string PrivateAPIKey { get; set; }
 
         /// <summary>
@@ -252,7 +262,7 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.MinimumTrustLevel))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [Range(0, 11)]
-        [DataMember(Order = 21)]
+        [DataMember(Order = 22)]
         public int MinimumTrustLevel { get; set; }
 
         /// <summary>
@@ -262,14 +272,14 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.BaseUrl))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 22)]
+        [DataMember(Order = 23)]
         public string BaseUrl { get; set; }
 
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.EnableLists))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 23)]
+        [DataMember(Order = 24)]
         public bool EnableLists { get; set; } = true;
     }
 }
