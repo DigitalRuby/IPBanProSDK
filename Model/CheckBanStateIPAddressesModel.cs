@@ -2,7 +2,7 @@
 
 IPBanPro SDK - https://ipban.com | https://github.com/DigitalRuby/IPBanProSDK
 IPBan and IPBan Pro Copyright(c) 2012 Digital Ruby, LLC
-support@digitalruby.com
+support@ipban.com
 
 The MIT License(MIT)
 
