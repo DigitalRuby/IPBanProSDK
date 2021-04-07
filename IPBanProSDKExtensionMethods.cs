@@ -180,5 +180,41 @@ namespace DigitalRuby.IPBanProSDK
         {
             return text?.Split(delimiters, StringSplitOptions.RemoveEmptyEntries);
         }
+
+        /// <summary>
+        /// Private: subscribe to web socket data
+        /// </summary>
+        /// <param name="socket">Web socket</param>
+        /// <param name="subscription">Subscription type</param>
+        /// <returns>True if message queued, false if not</returns>
+        public static bool SubscribeWebSocket(this ClientWebSocket socket, IPBanProAPIWebSocketSubscription subscription)
+        {
+            return socket.QueueMessage(new Message
+            {
+                Name = IPBanProAPI.MessageSubscribe,
+                Data = new
+                {
+                    Id = (int)subscription
+                }
+            });
+        }
+
+        /// <summary>
+        /// Private: unsubscribe from web socket data
+        /// </summary>
+        /// <param name="socket">Web socket</param>
+        /// <param name="subscription">Subscription type</param>
+        /// <returns>True if message queued, false if not</returns>
+        public static bool UnsubscribeWebSocket(this ClientWebSocket socket, IPBanProAPIWebSocketSubscription subscription)
+        {
+            return socket.QueueMessage(new Message
+            {
+                Name = IPBanProAPI.MessageUnsubscribe,
+                Data = new
+                {
+                    Id = (int)subscription
+                }
+            });
+        }
     }
 }

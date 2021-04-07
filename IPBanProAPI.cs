@@ -118,42 +118,6 @@ namespace DigitalRuby.IPBanProSDK
             }
             return await MakeRequestAsync<IPAddressCountryRangesModel>("IPCountryRanges/" + isoTwoLetterCountryCode);
         }
-
-        /// <summary>
-        /// Private: subscribe to web socket data
-        /// </summary>
-        /// <param name="socket">Web socket</param>
-        /// <param name="subscription">Subscription type</param>
-        /// <returns>True if message queued, false if not</returns>
-        public bool SubscribeWebSocket(ClientWebSocket socket, IPBanProAPIWebSocketSubscription subscription)
-        {
-            return socket.QueueMessage(new Message
-            {
-                Name = MessageSubscribe,
-                Data = new
-                {
-                    Id = (int)subscription
-                }
-            });
-        }
-
-        /// <summary>
-        /// Private: unsubscribe from web socket data
-        /// </summary>
-        /// <param name="socket">Web socket</param>
-        /// <param name="subscription">Subscription type</param>
-        /// <returns>True if message queued, false if not</returns>
-        public bool UnsubscribeWebSocket(ClientWebSocket socket, IPBanProAPIWebSocketSubscription subscription)
-        {
-            return socket.QueueMessage(new Message
-            {
-                Name = MessageUnsubscribe,
-                Data = new
-                {
-                    Id = (int)subscription
-                }
-            });
-        }
     }
 
     /// <summary>
