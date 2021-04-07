@@ -37,18 +37,18 @@ namespace DigitalRuby.IPBanProSDK
         /// Failed login attempts
         /// </summary>
         [DataMember(Order = 2)]
-        public IReadOnlyList<FailedLoginAttempt> FailedLoginAttempts { get; set; } = new FailedLoginAttempt[0];
+        public IReadOnlyList<FailedLoginAttempt> FailedLoginAttempts { get; set; } = System.Array.Empty<FailedLoginAttempt>();
 
         /// <summary>
         /// Successful login attempts
         /// </summary>
         [DataMember(Order = 3)]
-        public IReadOnlyList<SuccessLoginAttempt> SuccessLoginAttempts { get; set; } = new SuccessLoginAttempt[0];
+        public IReadOnlyList<SuccessLoginAttempt> SuccessLoginAttempts { get; set; } = System.Array.Empty<SuccessLoginAttempt>();
 
         /// <summary>
         /// Blacklisted ip addresses
         /// </summary>
         [DataMember(Order = 4)]
-        public IReadOnlyList<BlacklistedIPAddress> BlacklistedIPAddresses { get; set; } = new BlacklistedIPAddress[0];
+        public IReadOnlyList<BlacklistedIPAddress> BlacklistedIPAddresses { get; set; } = System.Array.Empty<BlacklistedIPAddress>();
     }
 }

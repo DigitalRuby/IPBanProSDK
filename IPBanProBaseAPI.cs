@@ -196,7 +196,7 @@ namespace DigitalRuby.IPBanProSDK
 
         private class SetKeysScopedDisposable : IDisposable
         {
-            private IPBanProBaseAPI api;
+            private readonly IPBanProBaseAPI api;
 
             public SetKeysScopedDisposable(IPBanProBaseAPI api, SecureString publicApiKey, SecureString privateApiKey)
             {
@@ -270,8 +270,8 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         public DateTime Timestamp
         {
-            get { return timestamp ?? IPBanService.UtcNow; }
-            set { timestamp = (value == default ? null : (DateTime?)value); }
+            get => timestamp ?? IPBanService.UtcNow;
+            set => timestamp = (value == default ? null : (DateTime?)value);
         }
 
         private IHttpRequestMaker requestMaker = DefaultHttpRequestMaker.Instance;
@@ -282,8 +282,8 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         public IHttpRequestMaker RequestMaker
         {
-            get { return requestMaker; }
-            set { requestMaker = value ?? throw new ArgumentNullException("Request maker must not be null"); }
+            get => requestMaker;
+            set => requestMaker = value ?? throw new ArgumentNullException(nameof(value), "Request maker must not be null");
         }
 
         /// <summary>
@@ -300,7 +300,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Dispose of the api
         /// </summary>
-        public void Dispose() { }
+        public void Dispose() => GC.SuppressFinalize(this);
 
         /// <summary>
         /// Create a signature data string that can then be used to compute a signature
@@ -405,7 +405,7 @@ namespace DigitalRuby.IPBanProSDK
                 return header;
             }
 
-            header = header.Substring("Basic ".Length);
+            header = header["Basic ".Length..];
             byte[] base64Bytes = Convert.FromBase64String(header);
             string base64String = Encoding.UTF8.GetString(base64Bytes);
             string[] pieces = base64String.Split(':');
@@ -535,7 +535,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 publicApiKey = s1.ToSecureString();
             }
-            if (!(publicApiKey is SecureString ss1))
+            if (publicApiKey is not SecureString ss1)
             {
                 throw new ArgumentException("Public api key must be string or SecureString");
             }
@@ -543,7 +543,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 privateApiKey = s2.ToSecureString();
             }
-            if (!(privateApiKey is SecureString ss2))
+            if (privateApiKey is not SecureString ss2)
             {
                 throw new ArgumentException("Private api key must be string or SecureString");
             }

@@ -55,23 +55,21 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="changeSlashToHyphen">Whether to replace slashes to hyphens, needed for azure or other storage systems where slash is an invalid char</param>
         public static void GenerateApiKeys(string outputCsvFile, int count, bool changeSlashToHyphen = true)
         {
-            using (StreamWriter writer = File.CreateText(outputCsvFile))
+            using StreamWriter writer = File.CreateText(outputCsvFile);
+            writer.WriteLine("PartitionKey,RowKey,CustomerId,TrustLevel,Notes");
+            Parallel.ForEach(new int[count], (ignore) =>
             {
-                writer.WriteLine("PartitionKey,RowKey,CustomerId,TrustLevel,Notes");
-                Parallel.ForEach(new int[count], (ignore) =>
+                GenerateKeyPair(out string privateKey, out string publicKey);
+                if (changeSlashToHyphen)
                 {
-                    GenerateKeyPair(out string privateKey, out string publicKey);
-                    if (changeSlashToHyphen)
-                    {
-                        privateKey = privateKey.Replace('/', '-');
-                        publicKey = publicKey.Replace('/', '-');
-                    }
-                    lock (writer)
-                    {
-                        writer.WriteLine("{0},{1},,0,", publicKey, privateKey);
-                    }
-                });
-            }
+                    privateKey = privateKey.Replace('/', '-');
+                    publicKey = publicKey.Replace('/', '-');
+                }
+                lock (writer)
+                {
+                    writer.WriteLine("{0},{1},,0,", publicKey, privateKey);
+                }
+            });
         }
 
         /// <summary>
@@ -231,10 +229,8 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Signature in base64</returns>
         public static string HmacSha1Sign(string message, byte[] key)
         {
-            using (HMACSHA1 sha = new(key))
-            {
-                return Convert.ToBase64String(sha.ComputeHash(message.ToBytesUTF8()));
-            }
+            using HMACSHA1 sha = new(key);
+            return Convert.ToBase64String(sha.ComputeHash(message.ToBytesUTF8()));
         }
 
         /// <summary>
@@ -245,10 +241,8 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Signature in base64</returns>
         public static string HmacSha256Sign(string message, byte[] key)
         {
-            using (HMACSHA256 sha = new(key))
-            {
-                return Convert.ToBase64String(sha.ComputeHash(message.ToBytesUTF8()));
-            }
+            using HMACSHA256 sha = new(key);
+            return Convert.ToBase64String(sha.ComputeHash(message.ToBytesUTF8()));
         }
     }
 }

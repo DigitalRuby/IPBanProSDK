@@ -109,8 +109,8 @@ namespace DigitalRuby.IPBanProSDK
 
             public TimeSpan KeepAliveInterval
             {
-                get { return webSocket.Options.KeepAliveInterval; }
-                set { webSocket.Options.KeepAliveInterval = value; }
+                get => webSocket.Options.KeepAliveInterval;
+                set => webSocket.Options.KeepAliveInterval = value;
             }
 
             public ClientWebSocketImplementation(IEnumerable<KeyValuePair<string, object>> requestHeaders)
@@ -218,7 +218,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         public TimeSpan KeepAlive { get; set; } = TimeSpan.FromSeconds(30.0);
 
-        private static readonly IEnumerable<KeyValuePair<string, object>> emptyRequestHeaders = new KeyValuePair<string, object>[0];
+        private static readonly IEnumerable<KeyValuePair<string, object>> emptyRequestHeaders = Array.Empty<KeyValuePair<string, object>>();
         /// <summary>
         /// Optional request headers to send with the connect request
         /// </summary>
