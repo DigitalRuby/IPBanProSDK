@@ -18,17 +18,19 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #nullable enable
 
+using DigitalRuby.IPBanCore;
+
+using K4os.Compression.LZ4.Streams;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+using ProtoBuf;
+
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Text;
-
-using DigitalRuby.IPBanCore;
-using K4os.Compression.LZ4.Streams;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using ProtoBuf;
 
 namespace DigitalRuby.IPBanProSDK
 {

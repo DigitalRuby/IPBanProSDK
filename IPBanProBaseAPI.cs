@@ -18,22 +18,20 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #region Imports
 
+using DigitalRuby.IPBanCore;
+
+using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
 using System.Security;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Newtonsoft.Json;
-
-using DigitalRuby.IPBanCore;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 #endregion Imports
 

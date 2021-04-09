@@ -16,11 +16,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using System;
-using System.Runtime.Serialization;
-
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+
+using System;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {

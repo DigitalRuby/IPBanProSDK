@@ -1,7 +1,7 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using DigitalRuby.IPBanCore;
 
-using DigitalRuby.IPBanCore;
+using System;
+using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {

@@ -16,14 +16,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
 using DigitalRuby.IPBanCore;
 
 using Microsoft.Extensions.Logging;
@@ -35,6 +27,11 @@ using Org.BouncyCastle.Crypto.Generators;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Math;
 using Org.BouncyCastle.Security;
+
+using System;
+using System.IO;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
 
 namespace DigitalRuby.IPBanProSDK
 {

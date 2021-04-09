@@ -16,11 +16,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
+using DigitalRuby.IPBanCore;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using DigitalRuby.IPBanCore;
 
 namespace DigitalRuby.IPBanProSDK
 {

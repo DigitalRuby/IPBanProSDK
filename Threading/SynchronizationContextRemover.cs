@@ -19,9 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #pragma warning disable CA1822 // Mark members as static
 
 using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 
 namespace DigitalRuby.IPBanProSDK

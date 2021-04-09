@@ -18,7 +18,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #region Imports
 
-using System;
 using System.Net.WebSockets;
 using System.Runtime.Serialization;
 using System.Text;
