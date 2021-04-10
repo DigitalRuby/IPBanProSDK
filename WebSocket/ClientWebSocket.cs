@@ -410,7 +410,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="id">Id</param>
         /// <param name="timeoutMilliseconds">Timeout in milliseconds</param>
         /// <exception cref="System.TimeoutException">Timeout before ack</exception>
-        public void WaitForAck(string id, int timeoutMilliseconds = 5000)
+        public void WaitForAck(string id, int timeoutMilliseconds = 60000)
         {
             if (AckSynchronous && !string.IsNullOrWhiteSpace(id))
             {
