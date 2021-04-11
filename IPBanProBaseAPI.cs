@@ -118,19 +118,9 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushNaughtyBlacklist = "push_naughty_blacklist";
 
         /// <summary>
-        /// Push the global naughty list (delta)
-        /// </summary>
-        public const string MessagePushNaughtyBlacklistDelta = "push_naughty_blacklist_delta";
-
-        /// <summary>
         /// Push the global recent blacklist
         /// </summary>
         public const string MessagePushRecentBlacklist = "push_recent_blacklist";
-
-        /// <summary>
-        /// Push the global recent blacklist (delta)
-        /// </summary>
-        public const string MessagePushRecentBlacklistDelta = "push_recent_blacklist_delta";
 
         /// <summary>
         /// Push a country blacklist changed notification
