@@ -94,7 +94,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Naughty list, this is a curated list of the most banned or other problem ip addresses</returns>
         public async Task<BannedIPAddressesModel> GetNaughtyListAsync()
         {
-            return await MakeRequestAsync<BannedIPAddressesModel>("IPNaughtyList");
+            return await MakeRequestAsync<BannedIPAddressesModel>("IPNaughtyList?ranges=1");
         }
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Recent ban list, contains the most recently banned ip addresses</returns>
         public async Task<RecentBannedIPAddressesModel> GetRecentBanListAsync()
         {
-            return await MakeRequestAsync<RecentBannedIPAddressesModel>("IPRecentList");
+            return await MakeRequestAsync<RecentBannedIPAddressesModel>("IPRecentList?ranges=1");
         }
 
         /// <summary>
