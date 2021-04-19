@@ -93,16 +93,6 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushAPIKey = "push_api_key";
 
         /// <summary>
-        /// Pull the naughty blacklist
-        /// </summary>
-        public const string MessagePullNaughtyBlacklist = "pull_naughty_blacklist";
-
-        /// <summary>
-        /// Pull the recent blacklist
-        /// </summary>
-        public const string MessagePullRecentBlacklist = "pull_recent_blacklist";
-
-        /// <summary>
         /// Push an ip address event out
         /// </summary>
         public const string MessagePushIPAddressEvent = "push_ipaddress_event";
@@ -160,7 +150,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Key for allow ports
         /// </summary>
-        public const string KeyAllowPorts = "AllowPorts";
+        public const string KeyAllowedPorts = "AllowedPorts";
 
         /// <summary>
         /// Key for countries
