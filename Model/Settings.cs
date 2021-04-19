@@ -295,5 +295,16 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 25)]
         public string CountryBlacklistAllowedPorts { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Whether to block country ip on first failed login (true) or to
+        /// attempt to add the entire country to the firewall (false)
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklistFirstFailedLogin))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 26)]
+        public bool CountryBlacklistFirstFailedLogin { get; set; } = true;
     }
 }
