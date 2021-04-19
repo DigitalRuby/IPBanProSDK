@@ -267,7 +267,7 @@ namespace DigitalRuby.IPBanProSDK
         public int MinimumTrustLevel { get; set; }
 
         /// <summary>
-        /// Base url
+        /// Base url of the web admin server
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
@@ -276,11 +276,24 @@ namespace DigitalRuby.IPBanProSDK
         [DataMember(Order = 23)]
         public string BaseUrl { get; set; }
 
+        /// <summary>
+        /// Whether to enable lists like recent/naughty list
+        /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.EnableLists))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 24)]
         public bool EnableLists { get; set; } = true;
+
+        /// <summary>
+        /// Allowed ports for country black list
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.AllowedPorts))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 25)]
+        public string CountryBlacklistAllowedPorts { get; set; } = string.Empty;
     }
 }
