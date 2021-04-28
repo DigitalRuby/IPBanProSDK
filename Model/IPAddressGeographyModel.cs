@@ -42,6 +42,12 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DataMember(Order = 2)]
         public IPAddressGeography Geography { get; set; } = new IPAddressGeography();
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return "IP: " + IPAddress + ", geo: " + Geography?.ToString();
+        }
     }
 
     /// <summary>
