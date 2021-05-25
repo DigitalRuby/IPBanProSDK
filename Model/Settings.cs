@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -144,8 +145,21 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.EnableSSL))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [IgnoreDataMember]
+        [NotMapped]
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool SmtpEnableSslBool
+        {
+            get => SmtpEnableSsl == 1;
+            set => SmtpEnableSsl = value ? 1 : 0;
+        }
+
+        /// <summary>
+        /// Entity framework storage for SmtpEnableSslBool
+        /// </summary>
         [DataMember(Order = 11)]
-        public bool SmtpEnableSsl { get; set; }
+        public int SmtpEnableSsl { get; set; }
 
         /// <summary>
         /// Smtp from
@@ -170,9 +184,10 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Splits the SmtpTo property into distinct addresses
         /// </summary>
-        [JsonIgnore]
         [IgnoreDataMember]
         [NotMapped]
+        [JsonIgnore]
+        [XmlIgnore]
         public IReadOnlyCollection<string> SmtpToAddresses => SmtpTo.SplitWithNoEmptyEntries(',', ';');
 
         /// <summary>
@@ -283,8 +298,21 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.EnableLists))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [IgnoreDataMember]
+        [NotMapped]
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool EnableListsBool
+        {
+            get => EnableLists == 1;
+            set => EnableLists = (value ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Enable lists int for entity framework
+        /// </summary>
         [DataMember(Order = 24)]
-        public bool EnableLists { get; set; } = true;
+        public int EnableLists { get; set; } = 1;
 
         /// <summary>
         /// Allowed ports for country black list
@@ -294,6 +322,7 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.AllowedPorts))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 25)]
+
         public string CountryBlacklistAllowedPorts { get; set; } = string.Empty;
 
         /// <summary>
@@ -304,7 +333,21 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklistFirstFailedLogin))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [IgnoreDataMember]
+        [NotMapped]
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool CountryBlacklistFirstFailedLoginBool
+        {
+            get => CountryBlacklistFirstFailedLogin == 1;
+            set => CountryBlacklistFirstFailedLogin = (value ? 1 : 0);
+        }
+
+
+        /// <summary>
+        /// Entity framework storage for CountryBlacklistFirstFailedLoginBool
+        /// </summary>
         [DataMember(Order = 26)]
-        public bool CountryBlacklistFirstFailedLogin { get; set; } = true;
+        public int CountryBlacklistFirstFailedLogin { get; set; } = 1;
     }
 }
