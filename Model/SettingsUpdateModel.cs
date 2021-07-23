@@ -223,5 +223,12 @@ namespace DigitalRuby.IPBanProSDK
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 27)]
         public string FirewallUriRules { get; set; }
+
+        /// <summary>
+        /// Whether to process internal ip addresses
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.ProcessInternalIPAddresses))]
+        [DataMember(Order = 28)]
+        public bool? ProcessInternalIPAddresses { get; set; }
     }
 }
