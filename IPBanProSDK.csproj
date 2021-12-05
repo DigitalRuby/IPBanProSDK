@@ -3,6 +3,9 @@
 	<PropertyGroup>
 		<TargetFrameworks>net5.0</TargetFrameworks>
 		<PlatformTarget>AnyCPU</PlatformTarget>
+		<Version>1.6.1</Version>
+		<AssemblyVersion>1.6.1</AssemblyVersion>
+		<FileVersion>1.6.1</FileVersion>
 		<DebugType>portable</DebugType>
 		<LangVersion>latest</LangVersion>
 		<RootNamespace>DigitalRuby.IPBanProSDK</RootNamespace>
