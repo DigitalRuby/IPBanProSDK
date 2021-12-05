@@ -14,12 +14,9 @@
 		<TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
 		<MvcRazorExcludeRefAssembliesFromPublish>false</MvcRazorExcludeRefAssembliesFromPublish>
 		<CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
-		<Version>0.2.1</Version>
 		<GenerateSerializationAssemblies>false</GenerateSerializationAssemblies>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
 		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<FileVersion>0.2.1</FileVersion>
-		<AssemblyVersion>0.2.1</AssemblyVersion>
 		<Authors>jjxtra</Authors>
 		<Company>Digital Ruby, LLC</Company>
 		<Product>IPBan Pro SDK</Product>
