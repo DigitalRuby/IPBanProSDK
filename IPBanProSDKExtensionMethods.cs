@@ -147,7 +147,7 @@ namespace DigitalRuby.IPBanProSDK
                     if (charCount > maxLength)
                     {
                         charCount = maxLength;
-                        s = s.Substring(0, i - 1) + "…";
+                        s = s[..(i - 1)] + "…";
                         break;
                     }
                 }
