@@ -37,6 +37,7 @@ namespace DigitalRuby.IPBanProSDK
             Formatting = Formatting.None,
             NullValueHandling = NullValueHandling.Ignore
         };
+        private static JsonSerializer defaultSerializer;
 
         /// <summary>
         /// Get a default json serializer which does not format or indent
@@ -44,7 +45,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>JsonSerializer</returns>
         public static JsonSerializer GetJsonSerializer()
         {
-            return JsonSerializer.CreateDefault(jsonSerializerSettings);
+            return defaultSerializer ??= JsonSerializer.CreateDefault(jsonSerializerSettings);
         }
 
         /// <summary>
