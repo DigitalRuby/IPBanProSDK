@@ -77,6 +77,28 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
+        /// Equals
+        /// </summary>
+        /// <param name="r1">Name1</param>
+        /// <param name="r2">Name2</param>
+        /// <returns>True if equal</returns>
+        public static bool operator ==(IPAddressCountryName r1, IPAddressCountryName r2)
+        {
+            return r1.Equals(r2);
+        }
+
+        /// <summary>
+        /// Not equals
+        /// </summary>
+        /// <param name="r1">Name1</param>
+        /// <param name="r2">Name2</param>
+        /// <returns>True if not equal</returns>
+        public static bool operator !=(IPAddressCountryName r1, IPAddressCountryName r2)
+        {
+            return !r1.Equals(r2);
+        }
+
+        /// <summary>
         /// Get hash code
         /// </summary>
         /// <returns>Hash code</returns>
