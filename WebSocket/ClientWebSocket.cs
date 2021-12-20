@@ -312,6 +312,7 @@ namespace DigitalRuby.IPBanProSDK
                         IPBanCore.Logger.Info(ex.ToString());
                     }
                 });
+                cancellationTokenSource.Dispose();
             }
         }
 
