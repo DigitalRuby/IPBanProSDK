@@ -3,9 +3,9 @@
 	<PropertyGroup>
 		<TargetFrameworks>net6.0</TargetFrameworks>
 		<PlatformTarget>AnyCPU</PlatformTarget>
-		<Version>1.6.1</Version>
-		<AssemblyVersion>1.6.1</AssemblyVersion>
-		<FileVersion>1.6.1</FileVersion>
+		<Version>1.7.0</Version>
+		<AssemblyVersion>1.7.0</AssemblyVersion>
+		<FileVersion>1.7.0</FileVersion>
 		<DebugType>portable</DebugType>
 		<LangVersion>latest</LangVersion>
 		<RootNamespace>DigitalRuby.IPBanProSDK</RootNamespace>
@@ -22,44 +22,44 @@
 		<Product>IPBan Pro SDK</Product>
 		<Description>The IPBan Pro SDK allows interacting with the IPBan Pro API. Please visit https://ipban.com for more details.</Description>
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-    <IsTrimmable>false</IsTrimmable>
+		<IsTrimmable>false</IsTrimmable>
 	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="K4os.Compression.LZ4" Version="1.2.16" />
-    <PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.2.16" />
-    <PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
-    <PackageReference Include="protobuf-net" Version="3.0.101" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="K4os.Compression.LZ4" Version="1.2.16" />
+		<PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.2.16" />
+		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
+		<PackageReference Include="protobuf-net" Version="3.0.101" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\IPBan\IPBanCore\IPBanCore.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\IPBan\IPBanCore\IPBanCore.csproj" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="LICENSE.md" Pack="true" PackagePath="" />
 	</ItemGroup>
-	
-  <ItemGroup>
-    <Compile Update="Properties\IPBanProResources.Designer.cs">
-      <DependentUpon>IPBanProResources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
-  </ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Update="Properties\IPBanProResources.resx">
-      <CustomToolNamespace>DigitalRuby.IPBanProSDK</CustomToolNamespace>
-      <LastGenOutput>IPBanProResources.Designer.cs</LastGenOutput>
-      <Generator>PublicResXFileCodeGenerator</Generator>
-    </EmbeddedResource>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Properties\IPBanProResources.Designer.cs">
+			<DependentUpon>IPBanProResources.resx</DependentUpon>
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+		</Compile>
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="LICENSE.md">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\IPBanProResources.resx">
+			<CustomToolNamespace>DigitalRuby.IPBanProSDK</CustomToolNamespace>
+			<LastGenOutput>IPBanProResources.Designer.cs</LastGenOutput>
+			<Generator>PublicResXFileCodeGenerator</Generator>
+		</EmbeddedResource>
+	</ItemGroup>
+
+	<ItemGroup>
+		<None Update="LICENSE.md">
+			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 
 </Project>
