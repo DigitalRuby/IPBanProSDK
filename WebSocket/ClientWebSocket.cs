@@ -616,7 +616,7 @@ namespace DigitalRuby.IPBanProSDK
                 catch (Exception ex)
                 {
                     // we don't care about these exception types
-                    if (!(ex is OperationCanceledException || ex is WebSocketException))
+                    if (!(ex is OperationCanceledException || ex is WebSocketException || ex is ObjectDisposedException))
                     {
                         // eat exceptions, most likely a result of a disconnect, either way we will re-create the web socket
                         IPBanCore.Logger.Info(ex.ToString());
@@ -640,7 +640,7 @@ namespace DigitalRuby.IPBanProSDK
                 }
                 catch (Exception ex)
                 {
-                    if (ex is not OperationCanceledException)
+                    if (!(ex is OperationCanceledException || ex is WebSocketException || ex is ObjectDisposedException))
                     {
                         IPBanCore.Logger.Info(ex.ToString());
                     }
