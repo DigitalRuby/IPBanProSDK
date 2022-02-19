@@ -16,12 +16,17 @@
 		<CopyRefAssembliesToPublishDirectory>true</CopyRefAssembliesToPublishDirectory>
 		<GenerateSerializationAssemblies>false</GenerateSerializationAssemblies>
 		<PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
-		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 		<Authors>jjxtra</Authors>
 		<Company>Digital Ruby, LLC</Company>
 		<Product>IPBan Pro SDK</Product>
 		<Description>The IPBan Pro SDK allows interacting with the IPBan Pro API. Please visit https://ipban.com for more details.</Description>
-		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+		<Copyright>(c) Digital Ruby, LLC</Copyright>
+		<PackageProjectUrl>https://github.com/DigitalRuby/IPBanProSDK</PackageProjectUrl>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<RepositoryUrl>https://github.com/DigitalRuby/IPBanProSDK</RepositoryUrl>
+		<PackageTags>security;botnet;hacker;firewall;linux;windows</PackageTags>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -37,6 +42,7 @@
 
 	<ItemGroup>
 		<None Include="LICENSE.md" Pack="true" PackagePath="" />
+		<None Include="README.md" Pack="true" PackagePath="" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -58,6 +64,10 @@
 	<ItemGroup>
 		<None Update="LICENSE.md">
 			<CopyToOutputDirectory>Never</CopyToOutputDirectory>
+		</None>
+		<None Update="README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
 		</None>
 	</ItemGroup>
 
