@@ -351,27 +351,13 @@ namespace DigitalRuby.IPBanProSDK
         public int CountryBlacklistFirstFailedLogin { get; set; } = 1;
 
         /// <summary>
-        /// Whether to aggregate and ban ips for identical user names
+        /// Entity framework storage for AggregateBanUserNamesBool
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.AggregateBanUserNames))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [IgnoreDataMember]
-        [NotMapped]
-        [JsonIgnore]
-        [XmlIgnore]
-        public bool AggregateBanUserNamesBool
-        {
-            get => AggregateBanUserNames == 1;
-            set => AggregateBanUserNames = (value ? 1 : 0);
-        }
-
-
-        /// <summary>
-        /// Entity framework storage for AggregateBanUserNamesBool
-        /// </summary>
         [DataMember(Order = 27)]
-        public int AggregateBanUserNames { get; set; } = 1;
+        public string AggregateBanUserNames { get; set; } = "5,24";
     }
 }
