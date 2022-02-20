@@ -33,4 +33,19 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>True if success, false if error</returns>
         bool QueueMessage(object message, int groupId = 0);
     }
+
+    /// <summary>
+    /// Generic message queueing interface for servers
+    /// </summary>
+    public interface IQueueMessageServer : IQueueMessage
+    {
+        /// <summary>
+        /// Queues a message on to a message group to be sent to all or some clients at the next interval for that group
+        /// </summary>
+        /// <param name="groupId">Group id</param>
+        /// <param name="message">Message to queue, should be Message or byte[]</param>
+        /// <param name="clients">Clients to send to (null for all)</param>
+        /// <returns>True if queued, false if no group with the specified id or disposed</returns>
+        bool QueueMessageForClients(int groupId, object message, System.Collections.Generic.IEnumerable<IQueueMessage> clients = null);
+    }
 }
