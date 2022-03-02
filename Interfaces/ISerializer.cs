@@ -88,10 +88,8 @@ namespace DigitalRuby.IPBanProSDK
             {
                 return null;
             }
-            StreamReader reader = new(new DeflateStream(new MemoryStream(bytes), CompressionMode.Decompress), Encoding.UTF8);
-            JsonTextReader jsonReader = new(reader);
-            JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
-            return serializer.Deserialize(jsonReader, type);
+            var stream = new DeflateStream(new MemoryStream(bytes), CompressionMode.Decompress);
+            return System.Text.Json.JsonSerializer.Deserialize(stream, type);
         }
 
         /// <summary>
@@ -107,28 +105,8 @@ namespace DigitalRuby.IPBanProSDK
             }
             MemoryStream ms = new();
             using (DeflateStream deflater = new(ms, CompressionLevel.Optimal, true))
-            using (StreamWriter textWriter = new(deflater, ExtensionMethods.Utf8EncodingNoPrefix))
-            using (JsonTextWriter jsonWriter = new(textWriter))
             {
-                if (obj is byte[] bytes)
-                {
-                    jsonWriter.WritePropertyName("ValueBinary");
-                    jsonWriter.WriteValue(Convert.ToBase64String(bytes));
-                }
-                else if (obj is string text)
-                {
-                    jsonWriter.WritePropertyName("ValueString");
-                    jsonWriter.WriteValue(text);
-                }
-                else if (obj is JToken token)
-                {
-                    jsonWriter.WriteRaw(token.ToString(Formatting.None));
-                }
-                else
-                {
-                    JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
-                    serializer.Serialize(jsonWriter, obj);
-                }
+                System.Text.Json.JsonSerializer.Serialize(deflater, obj);
             }
             return (ms.GetBuffer().AsSpan(0, (int)ms.Length).ToArray());
         }
@@ -161,10 +139,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 return null;
             }
-            StreamReader reader = new(new MemoryStream(bytes), Encoding.UTF8);
-            JsonTextReader jsonReader = new(reader);
-            JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
-            return serializer.Deserialize(jsonReader, type);
+            return System.Text.Json.JsonSerializer.Deserialize(bytes, type);
         }
 
         /// <summary>
@@ -178,14 +153,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 return null;
             }
-            MemoryStream ms = new();
-            using (StreamWriter textWriter = new(ms, ExtensionMethods.Utf8EncodingNoPrefix))
-            using (JsonTextWriter jsonWriter = new(textWriter))
-            {
-                JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
-                serializer.Serialize(jsonWriter, obj);
-            }
-            return (ms.GetBuffer().AsSpan(0, (int)ms.Length).ToArray());
+            return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(obj);
         }
 
         public string Description { get; } = "json";
