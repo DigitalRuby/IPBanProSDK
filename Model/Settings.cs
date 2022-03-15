@@ -359,5 +359,30 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 27)]
         public string AggregateBanUserNames { get; set; } = "5,24";
+
+        /// <summary>
+        /// Whether to invert the country block list as allow only in list and block everything else (true) or to
+        /// use the default behavior which is block if in list (false)
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklistInvert))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [IgnoreDataMember]
+        [NotMapped]
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool CountryBlacklistInvertBool
+        {
+            get => CountryBlacklistInvert == 1;
+            set => CountryBlacklistInvert = (value ? 1 : 0);
+        }
+
+
+        /// <summary>
+        /// Entity framework storage for CountryBlacklistInvertBool
+        /// </summary>
+        [DataMember(Order = 28)]
+        public int CountryBlacklistInvert { get; set; }
     }
 }
