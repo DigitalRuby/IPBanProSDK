@@ -644,7 +644,7 @@ namespace DigitalRuby.IPBanProSDK
                 }
                 catch (Exception ex)
                 {
-                    if (!(ex is OperationCanceledException || ex is WebSocketException || ex is ObjectDisposedException))
+                    if (!(ex is OperationCanceledException || ex is ObjectDisposedException))
                     {
                         IPBanCore.Logger.Info(ex.ToString());
                     }
