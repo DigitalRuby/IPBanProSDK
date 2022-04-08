@@ -36,6 +36,6 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DataMember(Order = 1)]
         [JsonProperty(PropertyName = "ipAddressesBanState")]
-        public IReadOnlyDictionary<string, bool> IPAddressesBanState { get; set; }
+        public IReadOnlyDictionary<string, string> IPAddressesBanState { get; set; }
     }
 }
