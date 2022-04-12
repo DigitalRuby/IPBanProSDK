@@ -36,6 +36,13 @@ namespace DigitalRuby.IPBanProSDK
     [DataContract]
     public class Settings
     {
+        private IPBanConfig config;
+
+        /// <summary>
+        /// Config from ConfigXml
+        /// </summary>
+        public IPBanConfig Config { get { return config ??= IPBanConfig.LoadFromXml(ConfigXml); } }
+
         /// <summary>
         /// Id
         /// </summary>
