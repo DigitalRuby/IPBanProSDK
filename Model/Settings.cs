@@ -41,6 +41,9 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Config from ConfigXml
         /// </summary>
+        [IgnoreDataMember]
+        [NotMapped]
+        [JsonIgnore]
         public IPBanConfig Config { get { return config ??= IPBanConfig.LoadFromXml(ConfigXml); } }
 
         /// <summary>
