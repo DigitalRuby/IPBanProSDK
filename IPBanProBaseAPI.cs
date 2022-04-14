@@ -138,6 +138,11 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushAction = "push_action";
 
         /// <summary>
+        /// Push a packet event to the server
+        /// </summary>
+        public const string MessagePushPacketEvent = "push_packet_event";
+
+        /// <summary>
         /// Key for ip address
         /// </summary>
         public const string KeyIPAddress = "IPAddress";
