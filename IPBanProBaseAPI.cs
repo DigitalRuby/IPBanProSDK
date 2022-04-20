@@ -143,6 +143,16 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushPacketEvent = "push_packet_event";
 
         /// <summary>
+        /// Push a monitor change to a client
+        /// </summary>
+        public const string MessagePushMonitorEnabled = "push_monitor_enabled";
+
+        /// <summary>
+        /// Client pushing monitor data to server
+        /// </summary>
+        public const string MessagePushMonitorData = "push_monitor_data";
+
+        /// <summary>
         /// Key for ip address
         /// </summary>
         public const string KeyIPAddress = "IPAddress";

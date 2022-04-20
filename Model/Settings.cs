@@ -391,5 +391,29 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DataMember(Order = 28)]
         public int CountryBlacklistInvert { get; set; }
+
+        /// <summary>
+        /// Whether to enable monitoring features. This can reduce performance so should be used carefully.
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.EnableMonitoring))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [IgnoreDataMember]
+        [NotMapped]
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool EnableMonitoringBool
+        {
+            get => EnableMonitoring == 1;
+            set => EnableMonitoring = (value ? 1 : 0);
+        }
+
+
+        /// <summary>
+        /// Entity framework storage for EnableMonitoringBool
+        /// </summary>
+        [DataMember(Order = 29)]
+        public int EnableMonitoring { get; set; }
     }
 }
