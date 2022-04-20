@@ -56,6 +56,11 @@ namespace DigitalRuby.IPBanProSDK
         public string FQDN { get; init; }
 
         /// <summary>
+        /// IP address
+        /// </summary>
+        public string IPAddress { get; init; }
+
+        /// <summary>
         /// Memory total
         /// </summary>
         public long MemoryTotal { get; init; }
