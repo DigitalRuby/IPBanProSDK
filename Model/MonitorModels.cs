@@ -85,4 +85,26 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         public float CpuUsage { get; init; }
     }
+
+    /// <summary>
+    /// Monitor data model, contains country, firewall and leak data
+    /// </summary>
+    public class MonitorDataModel : BaseMonitorModel
+    {
+        /// <summary>
+        /// Whether monitoring is enabled
+        /// </summary>
+        public bool MonitoringEnabled { get; init; }
+    }
+
+    /// <summary>
+    /// Update monitoring
+    /// </summary>
+    public class UpdateMonitoringModel : BaseModel
+    {
+        /// <summary>
+        /// Whether to enable monitoring
+        /// </summary>
+        public bool Enabled { get; init; }
+    }
 }
