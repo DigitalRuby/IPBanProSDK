@@ -84,6 +84,11 @@ namespace DigitalRuby.IPBanProSDK
         /// Cpu usage (0-1)
         /// </summary>
         public float CpuUsage { get; init; }
+
+        /// <summary>
+        /// Network usage (0-1)
+        /// </summary>
+        public float NetworkUsage { get; init; }
     }
 
     /// <summary>
