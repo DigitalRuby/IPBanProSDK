@@ -89,6 +89,11 @@ namespace DigitalRuby.IPBanProSDK
         /// Network usage (0-1)
         /// </summary>
         public float NetworkUsage { get; init; }
+
+        /// <summary>
+        /// Storage IO usage (0-1) - this is the percent of total possible IOPS that current storage can handle given current load
+        /// </summary>
+        public float StorageIopsUsage { get; init; }
     }
 
     /// <summary>
