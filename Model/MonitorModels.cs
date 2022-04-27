@@ -97,6 +97,32 @@ namespace DigitalRuby.IPBanProSDK
     }
 
     /// <summary>
+    /// Country monitor data
+    /// </summary>
+    public class MonitorCountryModel
+    {
+        /// <summary>
+        /// Timestamp
+        /// </summary>
+        public DateTime TimeStamp { get; init; }
+
+        /// <summary>
+        /// Country code
+        /// </summary>
+        public string CountryCode { get; init; }
+
+        /// <summary>
+        /// Dropped packet count
+        /// </summary>
+        public long DropCount { get; set; }
+
+        /// <summary>
+        /// Allow packet count
+        /// </summary>
+        public long AllowCount { get; set; }
+    }
+
+    /// <summary>
     /// Monitor data model, contains country, firewall and leak data
     /// </summary>
     public class MonitorDataModel : BaseMonitorModel

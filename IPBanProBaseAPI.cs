@@ -241,7 +241,7 @@ namespace DigitalRuby.IPBanProSDK
         public SecureString PublicApiKey { get; set; }
 
         /// <summary>
-        /// Private API key (required for private API use)
+        /// Private API key (optional, can be provided for signing requests)
         /// </summary>
         public SecureString PrivateApiKey { get; set; }
 
@@ -255,6 +255,11 @@ namespace DigitalRuby.IPBanProSDK
         /// Allowed ip addresses (comma separated) or * for all. Ranges allowed.
         /// </summary>
         public string AllowedIPAddresses { get; set; } = "*";
+
+        /// <summary>
+        /// User agent. Default is IPBanProSDK.
+        /// </summary>
+        public string UserAgent { get; set; } = "IPBanProSDK";
 
         private DateTime? timestamp;
 
@@ -365,7 +370,7 @@ namespace DigitalRuby.IPBanProSDK
         public static bool VerifySignature(Uri uri, string timestamp, SecureString publicApiKey, string signature, string ipAddress = "*")
         {
             // rest of param are checked in CreateSignatureDataString
-            signature.ThrowIfNull(nameof(signature));
+            signature.ThrowIfNullOrWhiteSpace(nameof(signature));
 
             string data = CreateSignatureDataString(uri, timestamp, publicApiKey, ipAddress);
             return IPBanProCryptography.VerifySignature(data, publicApiKey, signature);
@@ -420,24 +425,27 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Http headers</returns>
         public ICollection<KeyValuePair<string, object>> GetApiRequestHeaders(Uri uri)
         {
-            string timestamp = Timestamp.ToUnixMillisecondsLong().ToString(CultureInfo.InvariantCulture);
             List<KeyValuePair<string, object>> headers = new();
-            if (PublicApiKey != null && PrivateApiKey != null)
+            if (PublicApiKey != null)
             {
-                string signature = IPBanProAPI.ComputeSignature(uri, timestamp, PublicApiKey, PrivateApiKey, AllowedIPAddresses);
-                if (signature != null)
+                headers.Add(new KeyValuePair<string, object>(HeaderApiKey, PublicApiKey));
+                if (PrivateApiKey != null)
                 {
-                    headers.Add(new KeyValuePair<string, object>(HeaderApiKey, PublicApiKey));
-                    headers.Add(new KeyValuePair<string, object>(HeaderSignature, signature));
+                    string timestamp = Timestamp.ToUnixMillisecondsLong().ToString(CultureInfo.InvariantCulture);
+                    string signature = IPBanProAPI.ComputeSignature(uri, timestamp, PublicApiKey, PrivateApiKey, AllowedIPAddresses);
+                    if (signature != null)
+                    {
+                        headers.Add(new KeyValuePair<string, object>(HeaderSignature, signature));
+                    }
+                    headers.Add(new KeyValuePair<string, object>(HeaderOrigin, AllowedIPAddresses));
+                    headers.Add(new KeyValuePair<string, object>(HeaderTimestamp, timestamp));
                 }
-                headers.Add(new KeyValuePair<string, object>(HeaderOrigin, AllowedIPAddresses));
-                headers.Add(new KeyValuePair<string, object>(HeaderTimestamp, timestamp));
             }
             if (Authorization != null)
             {
                 headers.Add(new KeyValuePair<string, object>("Authorization", Authorization));
             }
-            headers.Add(new KeyValuePair<string, object>("User-Agent", "IPBanProSDK"));
+            headers.Add(new KeyValuePair<string, object>("User-Agent", UserAgent));
             return headers;
         }
 
