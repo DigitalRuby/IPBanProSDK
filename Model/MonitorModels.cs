@@ -117,7 +117,7 @@ namespace DigitalRuby.IPBanProSDK
         public long DropCount { get; set; }
 
         /// <summary>
-        /// Allow packet count
+        /// Allowed packet count
         /// </summary>
         public long AllowCount { get; set; }
     }
