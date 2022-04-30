@@ -97,15 +97,10 @@ namespace DigitalRuby.IPBanProSDK
     }
 
     /// <summary>
-    /// Country monitor data
+    /// Base monitor country model
     /// </summary>
-    public class MonitorCountryModel
+    public class MonitorCountryModelBase
     {
-        /// <summary>
-        /// Timestamp
-        /// </summary>
-        public DateTime TimeStamp { get; init; }
-
         /// <summary>
         /// Country code
         /// </summary>
@@ -120,6 +115,17 @@ namespace DigitalRuby.IPBanProSDK
         /// Allowed packet count
         /// </summary>
         public long AllowCount { get; set; }
+    }
+
+    /// <summary>
+    /// Country monitor data
+    /// </summary>
+    public class MonitorCountryModel : MonitorCountryModelBase
+    {
+        /// <summary>
+        /// Timestamp
+        /// </summary>
+        public DateTime TimeStamp { get; init; }
     }
 
     /// <summary>
