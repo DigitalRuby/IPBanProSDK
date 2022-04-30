@@ -134,9 +134,9 @@ namespace DigitalRuby.IPBanProSDK
     public class MonitorDataModel : BaseMonitorModel
     {
         /// <summary>
-        /// Whether monitoring is enabled
+        /// Whether monitoring is enabled. 0 = off, 1 = on, or a machine or ip for targetted monitoring.
         /// </summary>
-        public bool MonitoringEnabled { get; init; }
+        public string MonitoringEnabled { get; init; }
     }
 
     /// <summary>
@@ -145,8 +145,8 @@ namespace DigitalRuby.IPBanProSDK
     public class UpdateMonitoringModel : BaseModel
     {
         /// <summary>
-        /// Whether to enable monitoring
+        /// Whether to enable monitoring (0 = off, 1 = on, or use a machine name / ip for targetted monitoring)
         /// </summary>
-        public bool Enabled { get; init; }
+        public string MonitoringEnabled { get; init; }
     }
 }

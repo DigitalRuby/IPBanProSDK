@@ -394,27 +394,14 @@ namespace DigitalRuby.IPBanProSDK
 
         /// <summary>
         /// Whether to enable monitoring features. This can reduce performance so should be used carefully.
+        /// Can be set to 0 for no monitoring, 1 for all monitoring, or a machine name / ip for filtered monitoring.
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.EnableMonitoring))]
+        [LocalizedDisplayName(nameof(IPBanResources.SetMonitoring))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [IgnoreDataMember]
-        [NotMapped]
-        [JsonIgnore]
-        [XmlIgnore]
-        public bool EnableMonitoringBool
-        {
-            get => EnableMonitoring == 1;
-            set => EnableMonitoring = (value ? 1 : 0);
-        }
-
-
-        /// <summary>
-        /// Entity framework storage for EnableMonitoringBool
-        /// </summary>
         [DataMember(Order = 29)]
-        public int EnableMonitoring { get; set; }
+        public string EnableMonitoring { get; set; } = "0";
 
         /// <summary>
         /// Auto whitelisting days for successful login ip addresses
