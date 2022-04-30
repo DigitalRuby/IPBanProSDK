@@ -415,5 +415,16 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DataMember(Order = 29)]
         public int EnableMonitoring { get; set; }
+
+        /// <summary>
+        /// Auto whitelisting days for successful login ip addresses
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.AutoWhitelistSuccessLogins))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [Range(0, 365)]
+        [DataMember(Order = 30)]
+        public int SuccessfulLoginAutoWhitelistDays { get; set; }
     }
 }

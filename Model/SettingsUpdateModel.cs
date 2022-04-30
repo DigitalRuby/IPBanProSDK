@@ -230,5 +230,19 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.ProcessInternalIPAddresses))]
         [DataMember(Order = 28)]
         public bool? ProcessInternalIPAddresses { get; set; }
+
+        /// <summary>
+        /// Entity framework storage for EnableMonitoringBool
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.EnableMonitoring))]
+        [DataMember(Order = 29)]
+        public int EnableMonitoring { get; set; }
+
+        /// <summary>
+        /// Auto whitelist successful logins
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.AutoWhitelistSuccessLogins))]
+        [DataMember(Order = 30)]
+        public int SuccessfulLoginAutoWhitelistDays { get; set; }
     }
 }
