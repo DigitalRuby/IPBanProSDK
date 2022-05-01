@@ -398,7 +398,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SetMonitoring))]
+        [LocalizedDisplayName(nameof(IPBanResources.SetFirewallMonitoring))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 29)]
         public string EnableMonitoring { get; set; } = "0";

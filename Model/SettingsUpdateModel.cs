@@ -234,7 +234,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Entity framework storage for EnableMonitoringBool
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.SetMonitoring))]
+        [LocalizedDisplayName(nameof(IPBanResources.SetFirewallMonitoring))]
         [DataMember(Order = 29)]
         public string EnableMonitoring { get; set; }
 

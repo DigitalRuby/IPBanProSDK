@@ -129,14 +129,19 @@ namespace DigitalRuby.IPBanProSDK
     }
 
     /// <summary>
-    /// Monitor data model, contains country, firewall and leak data
+    /// Machine names model
     /// </summary>
-    public class MonitorDataModel : BaseMonitorModel
+    public class MachineNamesModel : BaseMonitorModel
     {
         /// <summary>
-        /// Whether monitoring is enabled. 0 = off, 1 = on, or a machine or ip for targetted monitoring.
+        /// Machine names
         /// </summary>
-        public string MonitoringEnabled { get; init; }
+        public System.Collections.Generic.SortedSet<string> MachineNames { get; init; }
+
+        /// <summary>
+        /// Aggregate value, 0 for nothing, 1 for everything otherwise ,fqdn1,fqdn2, format
+        /// </summary>
+        public string AggregateValue { get; init; } = "0";
     }
 
     /// <summary>
@@ -145,7 +150,7 @@ namespace DigitalRuby.IPBanProSDK
     public class UpdateMonitoringModel : BaseModel
     {
         /// <summary>
-        /// Whether to enable monitoring (0 = off, 1 = on, or use a machine name / ip for targetted monitoring)
+        /// Whether to enable monitoring (0 = off, 1 = on, or use a machine names / ips for targetted monitoring)
         /// </summary>
         public string MonitoringEnabled { get; init; }
     }
