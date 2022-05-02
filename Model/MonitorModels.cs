@@ -142,6 +142,17 @@ namespace DigitalRuby.IPBanProSDK
         /// Aggregate value, 0 for nothing, 1 for everything otherwise ,fqdn1,fqdn2, format
         /// </summary>
         public string AggregateValue { get; init; } = "0";
+
+        /// <summary>
+        /// Create a machine name from an fqdn and ip address
+        /// </summary>
+        /// <param name="fqdn">FQDN</param>
+        /// <param name="ipAddress">IP address</param>
+        /// <returns></returns>
+        public static string CreateMachineName(string fqdn, string ipAddress)
+        {
+            return fqdn + "-" + ipAddress;
+        }
     }
 
     /// <summary>
