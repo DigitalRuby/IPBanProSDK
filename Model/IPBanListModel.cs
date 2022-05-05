@@ -16,6 +16,8 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
+using DigitalRuby.IPBanCore;
+
 using Newtonsoft.Json;
 
 using System;
@@ -55,7 +57,7 @@ namespace DigitalRuby.IPBanProSDK
     /// Banned ip address
     /// </summary>
     [Serializable]
-    public class BannedIPAddress
+    public class BannedIPAddress : IComparable<BannedIPAddress>
     {
         /// <summary>
         /// Constructor
@@ -100,6 +102,20 @@ namespace DigitalRuby.IPBanProSDK
             return IPAddress.GetHashCode();
         }
 
+        /// <inheritdoc />
+        public int CompareTo(BannedIPAddress other)
+        {
+            if (!IPAddressRange.TryParse(IPAddress, out var thisIPAddressObj))
+            {
+                throw new ArgumentException("Cannot parse ip/range '" + IPAddress + "'");
+            }
+            if (!IPAddressRange.TryParse(IPAddress, out var otherIPAddressObj))
+            {
+                throw new ArgumentException("Cannot parse ip/range '" + other.IPAddress + "'");
+            }
+            return thisIPAddressObj.CompareTo(otherIPAddressObj);
+        }
+
         /// <summary>
         /// IP address
         /// </summary>
@@ -120,7 +136,7 @@ namespace DigitalRuby.IPBanProSDK
     /// </summary>
     [Serializable]
     [DataContract]
-    public class RecentBannedIPAddress : BannedIPAddress
+    public class RecentBannedIPAddress : BannedIPAddress, IComparable<RecentBannedIPAddress>
     {
         /// <summary>
         /// Constructor
@@ -139,5 +155,11 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty("Timestamp")]
         [DataMember(Order = 1)]
         public DateTime Timestamp { get; set; }
+
+        /// <inheritdoc />
+        public int CompareTo(RecentBannedIPAddress other)
+        {
+            return base.CompareTo(other);
+        }
     }
 }

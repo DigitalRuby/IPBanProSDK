@@ -22,6 +22,7 @@ using DigitalRuby.IPBanCore;
 
 using System;
 using System.Threading.Tasks;
+using System.Web;
 
 #endregion Imports
 
@@ -92,18 +93,37 @@ namespace DigitalRuby.IPBanProSDK
         /// Private: Retrieve the naughty list
         /// </summary>
         /// <returns>Naughty list, this is a curated list of the most banned or other problem ip addresses</returns>
-        public async Task<BannedIPAddressesModel> GetNaughtyListAsync()
+        public Task<BannedIPAddressesModel> GetNaughtyListAsync()
         {
-            return await MakeRequestAsync<BannedIPAddressesModel>("IPNaughtyList?ranges=1");
+            return MakeRequestAsync<BannedIPAddressesModel>("IPNaughtyList?ranges=1");
         }
 
         /// <summary>
         /// Private: Retrieve the recent ban list
         /// </summary>
         /// <returns>Recent ban list, contains the most recently banned ip addresses</returns>
-        public async Task<RecentBannedIPAddressesModel> GetRecentBanListAsync()
+        public Task<RecentBannedIPAddressesModel> GetRecentBanListAsync()
         {
-            return await MakeRequestAsync<RecentBannedIPAddressesModel>("IPRecentList?ranges=1");
+            return MakeRequestAsync<RecentBannedIPAddressesModel>("IPRecentList?ranges=1");
+        }
+
+        /// <summary>
+        /// Get ip list information
+        /// </summary>
+        /// <returns>IP list information</returns>
+        public Task<IPListsMetadataModel> GetIPListsMetadataAsync()
+        {
+            return MakeRequestAsync<IPListsMetadataModel>("iplistsmetadata");
+        }
+
+        /// <summary>
+        /// Private: Get an ip list
+        /// </summary>
+        /// <param name="name">Name of the list</param>
+        /// <returns>IP list</returns>
+        public Task<IPListModel> GetIPList(string name)
+        {
+            return MakeRequestAsync<IPListModel>("iplist?name=" + HttpUtility.UrlEncode(name));
         }
 
         /// <summary>
