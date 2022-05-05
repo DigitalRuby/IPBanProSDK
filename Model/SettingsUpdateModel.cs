@@ -229,12 +229,13 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ProcessInternalIPAddresses))]
         [DataMember(Order = 28)]
-        public bool? ProcessInternalIPAddresses { get; set; }
+        public bool ProcessInternalIPAddresses { get; set; }
 
         /// <summary>
-        /// Entity framework storage for EnableMonitoringBool
+        /// Enable monitoring
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.SetFirewallMonitoring))]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 29)]
         public string EnableMonitoring { get; set; }
 
@@ -244,5 +245,14 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.AutoWhitelistSuccessLogins))]
         [DataMember(Order = 30)]
         public int SuccessfulLoginAutoWhitelistDays { get; set; }
+
+        /// <summary>
+        /// Other lists (by name) to enable, comma separated.
+        /// Format is name=enabled (0 or 1),repeated
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.OtherLists))]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 31)]
+        public string OtherLists { get; set; } = string.Empty;
     }
 }

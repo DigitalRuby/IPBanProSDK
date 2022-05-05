@@ -413,5 +413,18 @@ namespace DigitalRuby.IPBanProSDK
         [Range(0, 365)]
         [DataMember(Order = 30)]
         public int SuccessfulLoginAutoWhitelistDays { get; set; }
+
+        /// <summary>
+        /// Other lists (by name) to enable, comma separated.
+        /// Format is name=enabled (0 or 1),repeated
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.OtherLists))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 31)]
+        public string OtherLists { get; set; } = string.Empty;
+
+        // IMPORTANT: When adding additional properties, update the api controller in the web admin and the settings update model
     }
 }
