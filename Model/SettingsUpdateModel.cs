@@ -52,14 +52,14 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ResetFailedLoginCountForUnbannedIPAddresses))]
         [DataMember(Order = 3)]
-        public bool? ResetFailedLoginCountForUnbannedIPAddresses { get; set; }
+        public bool ResetFailedLoginCountForUnbannedIPAddresses { get; set; }
 
         /// <summary>
         /// Clear bans on restart
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ClearBannedIPAddressesOnRestart))]
         [DataMember(Order = 4)]
-        public bool? ClearBannedIPAddressesOnRestart { get; set; }
+        public bool ClearBannedIPAddressesOnRestart { get; set; }
 
         /// <summary>
         /// Expire time to forget failed login
