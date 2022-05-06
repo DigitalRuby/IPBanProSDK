@@ -61,6 +61,12 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DataMember(Order = 3)]
         public string Description { get; set; }
+
+        /// <summary>
+        /// Count of entries
+        /// </summary>
+        [DataMember(Order = 4)]
+        public int Count { get; set; }
     }
 
     /// <summary>
