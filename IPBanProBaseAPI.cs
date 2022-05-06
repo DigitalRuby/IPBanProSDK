@@ -118,6 +118,11 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushCountryBlacklistChanged = "push_country_blacklist_changed";
 
         /// <summary>
+        /// Push an other list change
+        /// </summary>
+        public const string MessagePushOtherList = "push_other_blacklist";
+
+        /// <summary>
         /// Push a whitelist
         /// </summary>
         public const string MessagePushWhitelist = "push_whitelist";

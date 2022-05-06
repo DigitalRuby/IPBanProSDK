@@ -42,18 +42,24 @@ namespace DigitalRuby.IPBanProSDK
     /// <summary>
     /// Entry in IPListMetadataModel
     /// </summary>
-    public class IPListMetadataEntryModel
+    public class IPListMetadataEntryModel : BaseModel
     {
+        /// <summary>
+        /// Unique key for this list
+        /// </summary>
+        [DataMember(Order = 1)]
+        public string Key { get; set; }
+
         /// <summary>
         /// Name
         /// </summary>
-        [DataMember(Order = 1)]
+        [DataMember(Order = 2)]
         public string Name { get; set; }
 
         /// <summary>
         /// Description
         /// </summary>
-        [DataMember(Order = 2)]
+        [DataMember(Order = 3)]
         public string Description { get; set; }
     }
 
@@ -62,7 +68,7 @@ namespace DigitalRuby.IPBanProSDK
     /// </summary>
     [Serializable]
     [DataContract]
-    public class IPListModel : BaseModel
+    public class IPListModel : IPListMetadataEntryModel
     {
         /// <summary>
         /// IP addresses/ranges

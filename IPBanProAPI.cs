@@ -119,11 +119,11 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Private: Get an ip list
         /// </summary>
-        /// <param name="name">Name of the list</param>
+        /// <param name="key">Key of the list</param>
         /// <returns>IP list</returns>
-        public Task<IPListModel> GetIPList(string name)
+        public Task<IPListModel> GetIPList(string key)
         {
-            return MakeRequestAsync<IPListModel>("iplist?name=" + HttpUtility.UrlEncode(name));
+            return MakeRequestAsync<IPListModel>("iplist?key=" + HttpUtility.UrlEncode(key));
         }
 
         /// <summary>
