@@ -80,6 +80,6 @@ namespace DigitalRuby.IPBanProSDK
         /// IP addresses/ranges
         /// </summary>
         [DataMember(Order = 1)]
-        public string[] Entries { get; set; }
+        public IReadOnlyCollection<string> Entries { get; set; }
     }
 }
