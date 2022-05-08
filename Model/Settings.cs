@@ -83,6 +83,7 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.RecentListCount))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 4)]
+        [Obsolete]
         public int RecentListCount { get; set; }
 
         /// <summary>
@@ -93,6 +94,7 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.NaughtyListCount))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 5)]
+        [Obsolete]
         public int NaughtyListCount { get; set; }
 
         /// <summary>
