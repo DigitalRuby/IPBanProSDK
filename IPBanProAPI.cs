@@ -127,6 +127,15 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
+        /// Get counts of items in recent and naughty list
+        /// </summary>
+        /// <returns>Counts of recent and naughty list</returns>
+        public Task<IPRecentNaughtyCountsModel> GetRecentNaughtyCounts()
+        {
+            return MakeRequestAsync<IPRecentNaughtyCountsModel>("iprecentnaughtylistcount");
+        }
+
+        /// <summary>
         /// Private: Get country ip address codes
         /// </summary>
         /// <param name="isoTwoLetterCountryCode">Two letter iso country code in uppercase</param>

@@ -82,4 +82,24 @@ namespace DigitalRuby.IPBanProSDK
         [DataMember(Order = 1)]
         public IReadOnlyCollection<string> Entries { get; set; } = Array.Empty<string>();
     }
+
+    /// <summary>
+    /// Recent and naughty list count
+    /// </summary>
+    [Serializable]
+    [DataContract]
+    public class IPRecentNaughtyCountsModel : BaseModel
+    {
+        /// <summary>
+        /// Recent list count
+        /// </summary>
+        [DataMember(Order = 1)]
+        public int Recent { get; set; }
+
+        /// <summary>
+        /// Naughty list count
+        /// </summary>
+        [DataMember(Order = 2)]
+        public int Naughty { get; set; }
+    }
 }
