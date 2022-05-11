@@ -16,7 +16,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
+using Newtonsoft.Json;
+
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
@@ -125,7 +128,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Timestamp
         /// </summary>
-        public long TimeStamp { get; init; }
+        public DateTime TimeStamp { get; init; }
     }
 
     /// <summary>
