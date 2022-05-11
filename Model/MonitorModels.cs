@@ -123,11 +123,6 @@ namespace DigitalRuby.IPBanProSDK
     public class MonitorCountryModel : MonitorCountryModelBase
     {
         /// <summary>
-        /// Id
-        /// </summary>
-        public long Id { get; init; }
-
-        /// <summary>
         /// Timestamp
         /// </summary>
         public long TimeStamp { get; init; }
