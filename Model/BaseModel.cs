@@ -41,7 +41,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// True if there is an error (check Message), false otherwise
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         [DataMember(Order = 2)]
         public bool Error { get; set; }
     }
