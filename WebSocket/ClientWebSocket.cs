@@ -303,13 +303,12 @@ namespace DigitalRuby.IPBanProSDK
                             }
                         }
                     }
-                    catch (OperationCanceledException)
-                    {
-                        // dont care
-                    }
                     catch (Exception ex)
                     {
-                        IPBanCore.Logger.Info(ex.ToString());
+                        if (!(ex is OperationCanceledException || ex is ObjectDisposedException))cat
+                        {
+                            Logger.Info(ex.ToString());
+                        }
                     }
                 });
                 cancellationTokenSource.Dispose();
@@ -446,7 +445,10 @@ namespace DigitalRuby.IPBanProSDK
                         }
                         catch (Exception ex)
                         {
-                            IPBanCore.Logger.Info(ex.ToString());
+                            if (!(ex is OperationCanceledException || ex is ObjectDisposedException))
+                            {
+                                Logger.Info(ex.ToString());
+                            }
                         }
                     }
                 };
@@ -473,7 +475,10 @@ namespace DigitalRuby.IPBanProSDK
                             }
                             catch (Exception ex)
                             {
-                                IPBanCore.Logger.Info(ex.ToString());
+                                if (!(ex is OperationCanceledException || ex is ObjectDisposedException))
+                                {
+                                    Logger.Info(ex.ToString());
+                                }
                             }
                         }
                     }
@@ -706,13 +711,12 @@ namespace DigitalRuby.IPBanProSDK
                             }
                         }
                     }
-                    catch (OperationCanceledException)
-                    {
-                        // dont care
-                    }
                     catch (Exception ex)
                     {
-                        IPBanCore.Logger.Info(ex.ToString());
+                        if (!(ex is OperationCanceledException || ex is ObjectDisposedException))
+                        {
+                            IPBanCore.Logger.Info(ex.ToString());
+                        }
                     }
                     result = default;
                 }
