@@ -305,7 +305,7 @@ namespace DigitalRuby.IPBanProSDK
                     }
                     catch (Exception ex)
                     {
-                        if (!(ex is OperationCanceledException || ex is ObjectDisposedException))cat
+                        if (!(ex is OperationCanceledException || ex is ObjectDisposedException))
                         {
                             Logger.Info(ex.ToString());
                         }
