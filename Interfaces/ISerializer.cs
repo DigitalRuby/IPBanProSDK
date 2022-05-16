@@ -18,19 +18,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 #nullable enable
 
-using DigitalRuby.IPBanCore;
+using System;
+using System.IO;
 
 using K4os.Compression.LZ4.Streams;
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-
 using ProtoBuf;
 
-using System;
-using System.IO;
-using System.IO.Compression;
-using System.Text;
+using SharpCompress.Compressors;
+using SharpCompress.Compressors.Deflate;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -88,8 +84,9 @@ namespace DigitalRuby.IPBanProSDK
             {
                 return null;
             }
-            var stream = new DeflateStream(new MemoryStream(bytes), CompressionMode.Decompress);
-            return System.Text.Json.JsonSerializer.Deserialize(stream, type);
+            using var stream = new DeflateStream(new MemoryStream(bytes), CompressionMode.Decompress);
+            var result = System.Text.Json.JsonSerializer.Deserialize(stream, type);
+            return result;
         }
 
         /// <summary>
@@ -104,11 +101,12 @@ namespace DigitalRuby.IPBanProSDK
                 return null;
             }
             MemoryStream ms = new();
-            using (DeflateStream deflater = new(ms, CompressionLevel.Optimal, true))
             {
-                System.Text.Json.JsonSerializer.Serialize(deflater, obj);
+                using var nonDisposeStream = new SharpCompress.IO.NonDisposingStream(ms);
+                using var deflateStream = new DeflateStream(nonDisposeStream, CompressionMode.Compress, CompressionLevel.BestCompression);
+                System.Text.Json.JsonSerializer.Serialize(deflateStream, obj);
             }
-            return (ms.GetBuffer().AsSpan(0, (int)ms.Length).ToArray());
+            return ms.ToArray();
         }
 
         /// <summary>
