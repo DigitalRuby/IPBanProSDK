@@ -266,6 +266,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         public string UserAgent { get; set; } = "IPBanProSDK";
 
+        /// <summary>
+        /// Whether to disable cache. This should be left enabled generally.
+        /// </summary>
+        public bool DisableCache { get; set; }
+
         private DateTime? timestamp;
 
         /// <summary>
@@ -451,6 +456,10 @@ namespace DigitalRuby.IPBanProSDK
                 headers.Add(new KeyValuePair<string, object>("Authorization", Authorization));
             }
             headers.Add(new KeyValuePair<string, object>("User-Agent", UserAgent));
+            if (DisableCache)
+            {
+                headers.Add(new KeyValuePair<string, object>("Cache-Control", "no-store, no-cache"));
+            }
             return headers;
         }
 
