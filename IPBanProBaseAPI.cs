@@ -269,7 +269,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Whether to disable cache. This should be left enabled generally.
         /// </summary>
-        public bool DisableCache { get; set; }
+        public static bool DisableCache { get; set; }
 
         private DateTime? timestamp;
 
