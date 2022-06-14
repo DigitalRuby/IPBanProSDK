@@ -26,7 +26,8 @@ using System.Runtime.Serialization;
 namespace DigitalRuby.IPBanProSDK
 {
     /// <summary>
-    /// Wraps settings from the SettingsModel and XML IPBan config to make it easier to use a UI to update
+    /// Wraps settings from the SettingsModel and XML IPBan config to make it easier to use a UI to update.
+    /// Only the properties from the ipban config xml need to go in this class.
     /// </summary>
     [Serializable]
     [DataContract]
@@ -199,60 +200,38 @@ namespace DigitalRuby.IPBanProSDK
         public List<IPBanLogFileToParse> LogFilesToParse { get; set; } = new List<IPBanLogFileToParse>();
 
         /// <summary>
-        /// Number of ip address ranges currently in the country block list
-        /// </summary>
-        [DataMember(Order = 24)]
-        public int CountryBlockRangeEntryCount { get; set; }
-
-        /// <summary>
-        /// Number of ip addresses currently in the recent block list
-        /// </summary>
-        [DataMember(Order = 25)]
-        public int RecentListEntryCount { get; set; }
-
-        /// <summary>
-        /// Number of ip addresses currently in the naughty block list
-        /// </summary>
-        [DataMember(Order = 26)]
-        public int NaughtyListEntryCount { get; set; }
-
-        /// <summary>
         /// Uris to pull lists of ip addresses from. Format is RulePrefix,Interval(DD:HH:MM:SS),Uri[NEWLINE].
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.FirewallUriRules))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 27)]
+        [DataMember(Order = 24)]
         public string FirewallUriRules { get; set; }
 
         /// <summary>
         /// Whether to process internal ip addresses
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ProcessInternalIPAddresses))]
-        [DataMember(Order = 28)]
+        [DataMember(Order = 25)]
         public bool ProcessInternalIPAddresses { get; set; }
 
-        /// <summary>
-        /// Enable monitoring
-        /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.SetFirewallMonitoring))]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 29)]
-        public string EnableMonitoring { get; set; }
+        // informational
 
         /// <summary>
-        /// Auto whitelist successful logins
+        /// Country block range entry count
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.AutoWhitelistSuccessLogins))]
-        [DataMember(Order = 30)]
-        public int SuccessfulLoginAutoWhitelistDays { get; set; }
+        [DataMember(Order = 90)]
+        public int CountryBlockRangeEntryCount { get; set; }
 
         /// <summary>
-        /// Other lists (by name) to enable, comma separated.
-        /// Format is name=enabled (0 or 1),repeated
+        /// Recent list count
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.OtherLists))]
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 31)]
-        public string OtherLists { get; set; } = string.Empty;
+        [DataMember(Order = 91)]
+        public int RecentListEntryCount { get; set; }
+
+        /// <summary>
+        /// Naughty list count
+        /// </summary>
+        [DataMember(Order = 92)]
+        public int NaughtyListEntryCount { get; set; }
     }
 }

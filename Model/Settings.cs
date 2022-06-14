@@ -427,6 +427,14 @@ namespace DigitalRuby.IPBanProSDK
         [DataMember(Order = 31)]
         public string OtherLists { get; set; } = string.Empty;
 
-        // IMPORTANT: When adding additional properties, update the api controller in the web admin and the settings update model
+        /// <summary>
+        /// TimeSpan for ignoring duplicate notifications, empty/zero for no duplicate checking
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.NotificationDuplicateFilterWindow))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 32)]
+        public string NotificationDuplicateFilterWindow { get; set; } = string.Empty;
     }
 }
