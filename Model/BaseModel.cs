@@ -16,11 +16,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.Serialization;
+
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-
-using System;
-using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -36,6 +39,8 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 1)]
+        [NotMapped]
+        [BindNever]
         public string Message { get; set; }
 
         /// <summary>
@@ -43,6 +48,8 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
         [DataMember(Order = 2)]
+        [NotMapped]
+        [BindNever]
         public bool Error { get; set; }
     }
 
