@@ -214,6 +214,13 @@ namespace DigitalRuby.IPBanProSDK
         [DataMember(Order = 25)]
         public bool ProcessInternalIPAddresses { get; set; }
 
+        /// <summary>
+        /// IP threat api key
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.IPThreatApiKey))]
+        [DataMember(Order = 26)]
+        public string IPThreatApiKey { get; set; }
+
         // informational
 
         /// <summary>

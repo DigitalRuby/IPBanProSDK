@@ -490,12 +490,20 @@ namespace DigitalRuby.IPBanProSDK
                 await new SynchronizationContextRemover();
                 Uri uri = new(BaseUri, pathAndQuery);
                 ICollection<KeyValuePair<string, object>> headers = GetApiRequestHeaders(uri);
-                string postJsonString = postJson as string;
-                if (postJsonString is null && postJson != null)
+                byte[] postJsonBytes = postJson as byte[];
+                if (postJsonBytes is null)
                 {
-                    postJsonString = JsonConvert.SerializeObject(postJson);
+                    string postJsonString = postJson as string;
+                    if (postJsonString is not null)
+                    {
+                        postJsonBytes = Encoding.UTF8.GetBytes(postJsonString);
+                    }
+                    else if (postJson is not null)
+                    {
+                        postJsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(postJson));
+                    }
                 }
-                byte[] response = await RequestMaker.MakeRequestAsync(uri, postJsonString, headers);
+                byte[] response = await RequestMaker.MakeRequestAsync(uri, postJsonBytes, headers);
                 if (response is null || response.Length == 0)
                 {
                     return null;
