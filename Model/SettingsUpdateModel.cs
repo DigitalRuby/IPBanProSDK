@@ -156,7 +156,7 @@ namespace DigitalRuby.IPBanProSDK
         /// Failed login attempts for a whitelisted user name before banning
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.FailedLoginsBeforeBanUserNameWhitelist))]
-        [Range(0, 60)]
+        [Range(0, 9999)]
         [DataMember(Order = 17)]
         public int? FailedLoginAttemptsBeforeBanUserNameWhitelist { get; set; }
 
