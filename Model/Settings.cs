@@ -436,5 +436,28 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 32)]
         public string NotificationDuplicateFilterWindow { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Country blacklist precise bool
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklistPrecise))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [IgnoreDataMember]
+        [NotMapped]
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool CountryBlacklistPreciseBool
+        {
+            get => CountryBlacklistPrecise == 1;
+            set => CountryBlacklistPrecise = (value ? 1 : 0);
+        }
+
+        /// <summary>
+        /// Country blacklist precise int
+        /// </summary>
+        [DataMember(Order = 33)]
+        public int CountryBlacklistPrecise { get; set; }
     }
 }

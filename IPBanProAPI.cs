@@ -139,14 +139,15 @@ namespace DigitalRuby.IPBanProSDK
         /// Private: Get country ip address codes
         /// </summary>
         /// <param name="isoTwoLetterCountryCode">Two letter iso country code in uppercase</param>
+        /// <param name="precise">Whether to get precise ranges, default is false</param>
         /// <returns>IP address ranges for the country</returns>
-        public async Task<IPAddressCountryRangesModel> GetIPAddressCountryRangesAsync(string isoTwoLetterCountryCode)
+        public async Task<IPAddressCountryRangesModel> GetIPAddressCountryRangesAsync(string isoTwoLetterCountryCode, bool precise = false)
         {
             if (string.IsNullOrWhiteSpace(isoTwoLetterCountryCode) || isoTwoLetterCountryCode.Length != 2)
             {
                 throw new InvalidOperationException("Country code must be two letters uppercase");
             }
-            return await MakeRequestAsync<IPAddressCountryRangesModel>("IPCountryRanges/" + isoTwoLetterCountryCode);
+            return await MakeRequestAsync<IPAddressCountryRangesModel>($"IPCountryRanges/{isoTwoLetterCountryCode}?precise={precise}");
         }
     }
 

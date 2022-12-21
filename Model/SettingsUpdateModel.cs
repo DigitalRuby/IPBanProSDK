@@ -18,10 +18,14 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using DigitalRuby.IPBanCore;
 
+using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -220,6 +224,13 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.IPThreatApiKey))]
         [DataMember(Order = 26)]
         public string IPThreatApiKey { get; set; }
+
+        /// <summary>
+        /// Whether country lists are precise
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklistPrecise))]
+        [DataMember(Order = 27)]
+        public bool CountryBlacklistPrecise { get; set; }
 
         // informational
 
