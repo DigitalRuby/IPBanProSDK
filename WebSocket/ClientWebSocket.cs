@@ -573,7 +573,7 @@ namespace DigitalRuby.IPBanProSDK
                             {
                                 // make a copy of the bytes, the memory stream will be re-used and could potentially corrupt in multi-threaded environments
                                 // not using ToArray just in case it is making a slice/span from the internal bytes, we want an actual physical copy
-                                byte[] bytesCopy = new byte[stream.Length];
+                                using var bytesCopy = BytePool.Rent((int)stream.Length);
                                 Array.Copy(stream.GetBuffer(), bytesCopy, stream.Length);
                                 if (OnMessage != null)
                                 {
