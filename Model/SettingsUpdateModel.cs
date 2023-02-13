@@ -232,6 +232,14 @@ namespace DigitalRuby.IPBanProSDK
         [DataMember(Order = 27)]
         public bool CountryBlacklistPrecise { get; set; }
 
+        /// <summary>
+        /// User name truncation characters
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.UserNameTruncationChars))]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 28)]
+        public string TruncateUserNameChars { get; set; }
+
         // informational
 
         /// <summary>
