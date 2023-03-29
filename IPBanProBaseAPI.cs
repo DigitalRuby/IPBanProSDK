@@ -158,6 +158,16 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushMonitorData = "push_monitor_data";
 
         /// <summary>
+        /// Push firewall rules
+        /// </summary>
+        public const string MessagePushFirewallRules = "push_firewall_rules";
+
+        /// <summary>
+        /// Push a request for firewall rules
+        /// </summary>
+        public const string MessagePushRequestFirewallRules = "push_request_firewall_rules";
+
+        /// <summary>
         /// Key for ip address
         /// </summary>
         public const string KeyIPAddress = "IPAddress";

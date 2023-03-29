@@ -222,6 +222,7 @@ namespace DigitalRuby.IPBanProSDK
         /// IP threat api key
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.IPThreatApiKey))]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 26)]
         public string IPThreatApiKey { get; set; }
 
