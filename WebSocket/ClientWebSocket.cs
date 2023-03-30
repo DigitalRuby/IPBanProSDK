@@ -184,9 +184,9 @@ namespace DigitalRuby.IPBanProSDK
         public Uri Uri { get; set; }
 
         /// <summary>
-        /// Max message to process, anything bigger is ignored. Default is 16777216.
+        /// Max message to process, anything bigger is ignored. Default is 1024 * 1024 * 64 (64mb).
         /// </summary>
-        public int MaxMessageSize { get; set; } = 16777216;
+        public int MaxMessageSize { get; set; } = 1024 * 1024 * 64;
 
         /// <summary>
         /// Amount to wait between dropped connections for a reconnect attempt, default is 5 seconds
