@@ -165,11 +165,18 @@ namespace DigitalRuby.IPBanProSDK
         public int? FailedLoginAttemptsBeforeBanUserNameWhitelist { get; set; }
 
         /// <summary>
+        /// Whether to clear failed logins on a successful login
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.ClearFailedLoginsOnSuccessfulLogin))]
+        [DataMember(Order = 18)]
+        public bool ClearFailedLoginsOnSuccessfulLogin { get; set; }
+
+        /// <summary>
         /// Process to run when there is a ban, relative to the local machine
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ProcessToRunOnBan))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 18)]
+        [DataMember(Order = 19)]
         public string ProcessToRunOnBan { get; set; }
 
         /// <summary>
@@ -177,30 +184,30 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ProcessToRunOnUnban))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 19)]
+        [DataMember(Order = 20)]
         public string ProcessToRunOnUnban { get; set; }
 
         [LocalizedDisplayName(nameof(IPBanResources.FirewallRules))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 20)]
+        [DataMember(Order = 21)]
         public string FirewallRules { get; set; }
 
         /// <summary>
         /// Event viewer expressions to block (failed logins)
         /// </summary>
-        [DataMember(Order = 21)]
+        [DataMember(Order = 22)]
         public EventViewerExpressionsToBlock EventViewerExpressionsBlock { get; set; } = new EventViewerExpressionsToBlock();
 
         /// <summary>
         /// Event viewer expressions to notify (successful logins)
         /// </summary>
-        [DataMember(Order = 22)]
+        [DataMember(Order = 23)]
         public EventViewerExpressionsToNotify EventViewerExpressionsNotify { get; set; } = new EventViewerExpressionsToNotify();
 
         /// <summary>
         /// Log files to parse
         /// </summary>
-        [DataMember(Order = 23)]
+        [DataMember(Order = 24)]
         public List<IPBanLogFileToParse> LogFilesToParse { get; set; } = new List<IPBanLogFileToParse>();
 
         /// <summary>
@@ -208,14 +215,14 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.FirewallUriRules))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 24)]
+        [DataMember(Order = 25)]
         public string FirewallUriRules { get; set; }
 
         /// <summary>
         /// Whether to process internal ip addresses
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.ProcessInternalIPAddresses))]
-        [DataMember(Order = 25)]
+        [DataMember(Order = 26)]
         public bool ProcessInternalIPAddresses { get; set; }
 
         /// <summary>
@@ -223,14 +230,14 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.IPThreatApiKey))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 26)]
+        [DataMember(Order = 27)]
         public string IPThreatApiKey { get; set; }
 
         /// <summary>
         /// Whether country lists are precise
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklistPrecise))]
-        [DataMember(Order = 27)]
+        [DataMember(Order = 28)]
         public bool CountryBlacklistPrecise { get; set; }
 
         /// <summary>
@@ -238,7 +245,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.UserNameTruncationChars))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 28)]
+        [DataMember(Order = 29)]
         public string TruncateUserNameChars { get; set; }
 
         // informational
