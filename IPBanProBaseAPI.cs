@@ -491,9 +491,10 @@ namespace DigitalRuby.IPBanProSDK
         /// <typeparam name="T">Type of return value</typeparam>
         /// <param name="pathAndQuery">Path and query to request, not including the root scheme and host</param>
         /// <param name="postJson">Optional data to POST, if null GET is used instead</param>
+        /// <param name="method">Method or null for default</param>
         /// <returns>Task of T</returns>
         /// <exception cref="HttpRequestException">Any error</exception>
-        public async Task<T> MakeRequestAsync<T>(string pathAndQuery, object postJson = null) where T : BaseModel
+        public async Task<T> MakeRequestAsync<T>(string pathAndQuery, object postJson = null, string method = null) where T : BaseModel
         {
             try
             {
@@ -513,7 +514,7 @@ namespace DigitalRuby.IPBanProSDK
                         postJsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(postJson));
                     }
                 }
-                byte[] response = await RequestMaker.MakeRequestAsync(uri, postJsonBytes, headers);
+                byte[] response = await RequestMaker.MakeRequestAsync(uri, postJsonBytes, headers, method);
                 if (response is null || response.Length == 0)
                 {
                     return null;

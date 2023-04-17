@@ -21,7 +21,7 @@ namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
     /// <summary>
     /// Consume url response
     /// </summary>
-    public sealed class ConsumeUrlResponse
+    public sealed class ConsumeUrlResponse : BaseModel
     {
         /// <summary>
         /// Whether the url was consumed successfully

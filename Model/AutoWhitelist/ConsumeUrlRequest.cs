@@ -24,6 +24,11 @@ namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
     public sealed class ConsumeUrlRequest
     {
         /// <summary>
+        /// Group id
+        /// </summary>
+        public string GroupId { get; set; }
+
+        /// <summary>
         /// Url id to consume
         /// </summary>
         public string Id { get; set; }

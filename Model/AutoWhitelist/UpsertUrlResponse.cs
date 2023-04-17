@@ -21,7 +21,7 @@ namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
     /// <summary>
     /// Upsert url response
     /// </summary>
-    public sealed class UpsertUrlResponse
+    public sealed class UpsertUrlResponse : BaseModel
     {
         /// <summary>
         /// Full url

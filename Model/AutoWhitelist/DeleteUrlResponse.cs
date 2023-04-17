@@ -21,7 +21,7 @@ namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
     /// <summary>
     /// Delete url response
     /// </summary>
-    public sealed class DeleteUrlResponse
+    public sealed class DeleteUrlResponse : BaseModel
     {
         /// <summary>
         /// Whether a url was found and deleted

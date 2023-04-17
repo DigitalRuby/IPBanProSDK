@@ -23,7 +23,7 @@ namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
     /// <summary>
     /// Get urls response
     /// </summary>
-    public sealed class GetUrlsResponse
+    public sealed class GetUrlsResponse : BaseModel
     {
         /// <summary>
         /// Found urls

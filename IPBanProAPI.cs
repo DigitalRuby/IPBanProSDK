@@ -19,6 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #region Imports
 
 using DigitalRuby.IPBanCore;
+using DigitalRuby.IPBanProSDK.Model.AutoWhitelist;
 
 using System;
 using System.Threading.Tasks;
@@ -148,6 +149,66 @@ namespace DigitalRuby.IPBanProSDK
                 throw new InvalidOperationException("Country code must be two letters uppercase");
             }
             return await MakeRequestAsync<IPAddressCountryRangesModel>($"IPCountryRanges/{isoTwoLetterCountryCode}?precise={precise}");
+        }
+
+        /// <summary>
+        /// Get defined auto whitelist urls
+        /// </summary>
+        /// <param name="request">Request</param>
+        /// <returns>Response</returns>
+        public Task<GetUrlsResponse> AutoWhitelistGetUrls(GetUrlsRequest request)
+        {
+            var id = string.IsNullOrWhiteSpace(request.Id) ? null : "id=" + HttpUtility.UrlEncode(request.Id);
+            var timestamp = request.Timestamp is null ? null : "timestamp=" + HttpUtility.UrlEncode(request.Timestamp.Value.ToString("o"));
+            var query = string.Empty;
+            if (id is not null)
+            {
+                query = "?" + id;
+            }
+            if (timestamp is not null)
+            {
+                if (query is null)
+                {
+                    query = "?";
+                }
+                else
+                {
+                    query += "&";
+                }
+                query += timestamp;
+            }
+            return MakeRequestAsync<GetUrlsResponse>($"aw/urls{query}");
+        }
+
+        /// <summary>
+        /// Upsert a new url for consumption
+        /// </summary>
+        /// <param name="request">Request</param>
+        /// <returns>Response</returns>
+        public Task<UpsertUrlResponse> UpsertUrl(UpsertUrlRequest request)
+        {
+            return MakeRequestAsync<UpsertUrlResponse>($"aw/upsert", request);
+        }
+
+        /// <summary>
+        /// Delete a url so it can no longer be consumed. Any consumptions for the url are also deleted.
+        /// </summary>
+        /// <param name="request">Request</param>
+        /// <returns>Response</returns>
+        public Task<DeleteUrlResponse> DeleteUrl(DeleteUrlRequest request)
+        {
+            return MakeRequestAsync<DeleteUrlResponse>($"aw/delete", request, System.Net.Http.HttpMethod.Delete.Method);
+        }
+
+        /// <summary>
+        /// Consume a url so that an entry is created with the callers ip address to allow access
+        /// </summary>
+        /// <param name="request">Request</param>
+        /// <returns>Response</returns>
+        public Task<ConsumeUrlResponse> ConsumeUrl(ConsumeUrlRequest request)
+        {
+            var query = "?a=" + HttpUtility.UrlEncode(request.GroupId) + "&b=" + HttpUtility.UrlEncode(request.Id);
+            return MakeRequestAsync<ConsumeUrlResponse>($"aw/use{query}");
         }
     }
 
