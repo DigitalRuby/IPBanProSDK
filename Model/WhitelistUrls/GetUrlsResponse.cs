@@ -28,6 +28,6 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
         /// <summary>
         /// Found urls
         /// </summary>
-        public IReadOnlyCollection<WhitelistUrl> Urls { get; set; }
+        public List<WhitelistUrl> Urls { get; set; }
     }
 }
