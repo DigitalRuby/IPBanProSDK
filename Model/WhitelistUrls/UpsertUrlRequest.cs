@@ -16,18 +16,36 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using System.Collections.Generic;
-
-namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
+namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
 {
     /// <summary>
-    /// Get urls response
+    /// Upsert url request
     /// </summary>
-    public sealed class GetUrlsResponse : BaseModel
+    public sealed class UpsertUrlRequest
     {
         /// <summary>
-        /// Found urls
+        /// Url id or null for a new one
         /// </summary>
-        public IReadOnlyCollection<AutoWhitelistUrl> Urls { get; set; }
+        public string Id { get; init; }
+
+        /// <summary>
+        /// Duration seconds for the url to exist
+        /// </summary>
+        public int DurationSeconds { get; init; }
+
+        /// <summary>
+        /// Duration for each url use to last before the ip is removed from access
+        /// </summary>
+        public int DurationAccessSeconds { get; init; }
+
+        /// <summary>
+        /// Max uses
+        /// </summary>
+        public int MaxUses { get; init; }
+
+        /// <summary>
+        /// Comma separated ip addresses or fqdn to apply the access to or null for all
+        /// </summary>
+        public string MachineAccess { get; init; }
     }
 }

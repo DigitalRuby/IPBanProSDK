@@ -16,36 +16,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
+namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
 {
     /// <summary>
-    /// Upsert url request
+    /// Upsert url response
     /// </summary>
-    public sealed class UpsertUrlRequest
+    public sealed class UpsertUrlResponse : BaseModel
     {
         /// <summary>
-        /// Url id or null for a new one
+        /// Full url
         /// </summary>
-        public string Id { get; init; }
+        public string FullUrl { get; set; }
 
         /// <summary>
-        /// Duration seconds for the url to exist
+        /// Url id
         /// </summary>
-        public int DurationSeconds { get; init; }
-
-        /// <summary>
-        /// Duration for each url use to last before the ip is removed from access
-        /// </summary>
-        public int DurationAccessSeconds { get; init; }
-
-        /// <summary>
-        /// Max uses
-        /// </summary>
-        public int MaxUses { get; init; }
-
-        /// <summary>
-        /// Comma separated ip addresses or fqdn to apply the access to or null for all
-        /// </summary>
-        public string MachineAccess { get; init; }
+        public string Id { get; set; }
     }
 }

@@ -19,7 +19,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 #region Imports
 
 using DigitalRuby.IPBanCore;
-using DigitalRuby.IPBanProSDK.Model.AutoWhitelist;
+using DigitalRuby.IPBanProSDK.Model.WhitelistUrls;
 
 using System;
 using System.Threading.Tasks;

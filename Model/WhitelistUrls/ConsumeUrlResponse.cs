@@ -16,7 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
+namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
 {
     /// <summary>
     /// Consume url response

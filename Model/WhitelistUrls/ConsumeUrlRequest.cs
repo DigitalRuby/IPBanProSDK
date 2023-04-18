@@ -16,59 +16,21 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using System;
-using System.Collections.Generic;
-
-namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
+namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
 {
-
     /// <summary>
-    /// Auto whitelist url
+    /// Consume url request
     /// </summary>
-    public sealed class AutoWhitelistUrl
+    public sealed class ConsumeUrlRequest
     {
         /// <summary>
-        /// Id
+        /// Group id
         /// </summary>
-        public string Id { get; init; }
+        public string GroupId { get; set; }
 
         /// <summary>
-        /// Expiration timestamp
+        /// Url id to consume
         /// </summary>
-        public string Expires { get; init; }
-
-        /// <summary>
-        /// Access duration for each use
-        /// </summary>
-        public TimeSpan AccessDuration { get; init; }
-
-        /// <summary>
-        /// Remaining allowed uses
-        /// </summary>
-        public int RemainingUses { get; init; }
-
-        /// <summary>
-        /// Machine access or null for all
-        /// </summary>
-        public string MachineAccess { get; init; }
-
-        /// <summary>
-        /// IP addresses that have registered with this url
-        /// </summary>
-        public List<UrlIPAddress> IPAddresses { get; init; } = new();
-    }
-
-    /// <summary>
-    /// Url ip address
-    /// </summary>
-    /// <param name="IPAddress">IP address</param>
-    /// <param name="Expires">Expires</param>
-    public record UrlIPAddress(string IPAddress, string Expires)
-    {
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"{IPAddress},{Expires}";
-        }
+        public string Id { get; set; }
     }
 }

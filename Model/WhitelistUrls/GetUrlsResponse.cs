@@ -16,16 +16,18 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
+using System.Collections.Generic;
+
+namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
 {
     /// <summary>
-    /// Delete url response
+    /// Get urls response
     /// </summary>
-    public sealed class DeleteUrlResponse : BaseModel
+    public sealed class GetUrlsResponse : BaseModel
     {
         /// <summary>
-        /// Whether a url was found and deleted
+        /// Found urls
         /// </summary>
-        public bool Deleted { get; set; }
+        public IReadOnlyCollection<WhitelistUrl> Urls { get; set; }
     }
 }

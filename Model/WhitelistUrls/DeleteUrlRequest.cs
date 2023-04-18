@@ -16,20 +16,15 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-namespace DigitalRuby.IPBanProSDK.Model.AutoWhitelist
+namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
 {
     /// <summary>
-    /// Upsert url response
+    /// Delete url request
     /// </summary>
-    public sealed class UpsertUrlResponse : BaseModel
+    public sealed class DeleteUrlRequest
     {
         /// <summary>
-        /// Full url
-        /// </summary>
-        public string FullUrl { get; set; }
-
-        /// <summary>
-        /// Url id
+        /// Url id to delete
         /// </summary>
         public string Id { get; set; }
     }
