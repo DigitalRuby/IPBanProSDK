@@ -220,6 +220,11 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Stream of recent banned ip addresses
         /// </summary>
-        RecentBannedIPAddresses = 1000
+        RecentBannedIPAddresses = 1000,
+
+        /// <summary>
+        /// Stream of whitelist url changes
+        /// </summary>
+        WhitelistUrlChange = 1001
     }
 }
