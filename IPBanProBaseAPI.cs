@@ -30,6 +30,7 @@ using System.Net;
 using System.Net.Http;
 using System.Security;
 using System.Text;
+using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -166,6 +167,11 @@ namespace DigitalRuby.IPBanProSDK
         /// Push a request for firewall rules
         /// </summary>
         public const string MessagePushRequestFirewallRules = "push_request_firewall_rules";
+
+        /// <summary>
+        /// Push whitelist url change
+        /// </summary>
+        public const string MessagePushWhitelistUrl = "push_whitelist_url";
 
         /// <summary>
         /// Key for ip address
@@ -496,6 +502,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <exception cref="HttpRequestException">Any error</exception>
         public async Task<T> MakeRequestAsync<T>(string pathAndQuery, object postJson = null, string method = null) where T : BaseModel
         {
+            byte[] response = Array.Empty<byte>();
             try
             {
                 await new SynchronizationContextRemover();
@@ -514,14 +521,12 @@ namespace DigitalRuby.IPBanProSDK
                         postJsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(postJson));
                     }
                 }
-                byte[] response = await RequestMaker.MakeRequestAsync(uri, postJsonBytes, headers, method);
+                response = await RequestMaker.MakeRequestAsync(uri, postJsonBytes, headers, method);
                 if (response is null || response.Length == 0)
                 {
                     return null;
                 }
-                JsonTextReader reader = new(new StreamReader(new MemoryStream(response), Encoding.UTF8, false));
-                JsonSerializer serializer = IPBanProSDKExtensionMethods.GetJsonSerializer();
-                T model = serializer.Deserialize<T>(reader);
+                var model = System.Text.Json.JsonSerializer.Deserialize<T>(response, jsonOptions);
                 if (model.Error)
                 {
                     throw new HttpRequestException("Error making request to " + uri.ToString() + ", error: " + model.Message);
@@ -530,26 +535,11 @@ namespace DigitalRuby.IPBanProSDK
             }
             catch (Exception ex)
             {
-                string responseText = "Unknown Error";
-                if (ex is WebException wex)
+                if (ex is HttpRequestException rex)
                 {
-                    if (wex.Response is null)
-                    {
-                        responseText = wex.ToString();
-                    }
-                    else
-                    {
-                        try
-                        {
-                            responseText = new System.IO.StreamReader(wex.Response.GetResponseStream()).ReadToEnd();
-                        }
-                        catch (Exception ex2)
-                        {
-                            responseText = "Unknown Error: " + ex2.Message;
-                        }
-                    }
+                    throw new HttpRequestException("Request failed: " + Encoding.UTF8.GetString(response), rex, rex.StatusCode);
                 }
-                throw new HttpRequestException("Request failed: " + responseText, ex);
+                throw;
             }
         }
 
@@ -583,5 +573,10 @@ namespace DigitalRuby.IPBanProSDK
             }
             return new SetKeysScopedDisposable(this, ss1, ss2);
         }
+
+        private static readonly JsonSerializerOptions jsonOptions = new()
+        {
+            PropertyNameCaseInsensitive = true
+        };
     }
 }

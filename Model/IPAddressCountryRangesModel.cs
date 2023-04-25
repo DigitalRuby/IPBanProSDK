@@ -59,12 +59,12 @@ namespace DigitalRuby.IPBanProSDK
         /// Item 0 : Code, Item 1 = English Name, Item 2+ Other names in other languages
         /// </summary>
         [DataMember(Order = 3)]
-        public List<string> Names { get; private set; } = new List<string>();
+        public List<string> Names { get; set; } = new List<string>();
 
         /// <summary>
         /// All ip addresses
         /// </summary>
         [DataMember(Order = 4)]
-        public List<string> Ranges { get; } = new List<string>();
+        public List<string> Ranges { get; set;  } = new List<string>();
     }
 }

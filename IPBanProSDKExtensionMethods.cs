@@ -32,22 +32,6 @@ namespace DigitalRuby.IPBanProSDK
     /// </summary>
     public static class IPBanProSDKExtensionMethods
     {
-        private static readonly JsonSerializerSettings jsonSerializerSettings = new()
-        {
-            Formatting = Formatting.None,
-            NullValueHandling = NullValueHandling.Ignore
-        };
-        private static JsonSerializer defaultSerializer;
-
-        /// <summary>
-        /// Get a default json serializer which does not format or indent
-        /// </summary>
-        /// <returns>JsonSerializer</returns>
-        public static JsonSerializer GetJsonSerializer()
-        {
-            return defaultSerializer ??= JsonSerializer.CreateDefault(jsonSerializerSettings);
-        }
-
         /// <summary>
         /// Binary search a list for a key
         /// </summary>

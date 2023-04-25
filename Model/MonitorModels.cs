@@ -43,7 +43,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Type of monitor
         /// </summary>
-        public MonitorType Type { get; init; }
+        public MonitorType Type { get; set; }
     }
 
     /// <summary>
@@ -56,47 +56,47 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Fully qualified domain name
         /// </summary>
-        public string FQDN { get; init; }
+        public string FQDN { get; set; }
 
         /// <summary>
         /// IP address
         /// </summary>
-        public string IPAddress { get; init; }
+        public string IPAddress { get; set; }
 
         /// <summary>
         /// Memory total
         /// </summary>
-        public long MemoryTotal { get; init; }
+        public long MemoryTotal { get; set; }
 
         /// <summary>
         /// Memory available
         /// </summary>
-        public long MemoryAvailable { get; init; }
+        public long MemoryAvailable { get; set; }
 
         /// <summary>
         /// Storage total (all drives)
         /// </summary>
-        public long StorageTotal { get; init; }
+        public long StorageTotal { get; set; }
 
         /// <summary>
         /// Storage available (all drives)
         /// </summary>
-        public long StorageAvailable { get; init; }
+        public long StorageAvailable { get; set; }
 
         /// <summary>
         /// Cpu usage (0-1)
         /// </summary>
-        public float CpuUsage { get; init; }
+        public float CpuUsage { get; set; }
 
         /// <summary>
         /// Network usage (0-1)
         /// </summary>
-        public float NetworkUsage { get; init; }
+        public float NetworkUsage { get; set; }
 
         /// <summary>
         /// Storage IO usage (0-1) - this is the percent of total possible IOPS that current storage can handle given current load
         /// </summary>
-        public float StorageIopsUsage { get; init; }
+        public float StorageIopsUsage { get; set; }
     }
 
     /// <summary>
@@ -107,7 +107,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Country code
         /// </summary>
-        public string CountryCode { get; init; }
+        public string CountryCode { get; set; }
 
         /// <summary>
         /// Dropped packet count
@@ -128,7 +128,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Timestamp
         /// </summary>
-        public DateTime TimeStamp { get; init; }
+        public DateTime TimeStamp { get; set; }
     }
 
     /// <summary>
@@ -139,12 +139,12 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Machine names
         /// </summary>
-        public System.Collections.Generic.SortedSet<string> MachineNames { get; init; }
+        public System.Collections.Generic.SortedSet<string> MachineNames { get; set; }
 
         /// <summary>
         /// Aggregate value, 0 for nothing, 1 for everything otherwise ,fqdn1,fqdn2, format
         /// </summary>
-        public string AggregateValue { get; init; } = "0";
+        public string AggregateValue { get; set; } = "0";
 
         /// <summary>
         /// Create a machine name from an fqdn and ip address
@@ -166,6 +166,6 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Whether to enable monitoring (0 = off, 1 = on, or use a machine names / ips for targetted monitoring)
         /// </summary>
-        public string MonitoringEnabled { get; init; }
+        public string MonitoringEnabled { get; set; }
     }
 }
