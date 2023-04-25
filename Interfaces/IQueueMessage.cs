@@ -48,4 +48,17 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>True if queued, false if no group with the specified id or disposed</returns>
         bool QueueMessageForClients(int groupId, object message, System.Collections.Generic.IEnumerable<IQueueMessage> clients = null);
     }
+
+    /// <summary>
+    /// Get client by public key
+    /// </summary>
+    public interface IGetClientByPublicKey
+    {
+        /// <summary>
+        /// Attempt to get a client by public key
+        /// </summary>
+        /// <param name="publicKey">Public key</param>
+        /// <returns>Client or null if none found</returns>
+        IQueueMessage GetClientByPublicKey(string publicKey);
+    }
 }
