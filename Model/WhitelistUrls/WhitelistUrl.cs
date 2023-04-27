@@ -33,6 +33,11 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
         public string Id { get; init; }
 
         /// <summary>
+        /// Org key hashed
+        /// </summary>
+        public string OrgKeyHashed { get; init; }
+
+        /// <summary>
         /// Expiration timestamp
         /// </summary>
         public string Expires { get; init; }

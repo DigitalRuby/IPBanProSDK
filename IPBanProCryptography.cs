@@ -31,6 +31,7 @@ using Org.BouncyCastle.Security;
 using System;
 using System.IO;
 using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace DigitalRuby.IPBanProSDK
@@ -240,6 +241,18 @@ namespace DigitalRuby.IPBanProSDK
         {
             using HMACSHA256 sha = new(key);
             return Convert.ToBase64String(sha.ComputeHash(message.ToBytesUTF8()));
+        }
+
+        /// <summary>
+        /// Hash a key to a url safe value
+        /// </summary>
+        /// <param name="key">Key</param>
+        /// <returns>Hashed key</returns>
+        public static string HashKey(string key)
+        {
+            key ??= string.Empty;
+            return Convert.ToBase64String(MD5.HashData(Encoding.UTF8.GetBytes(key)))
+                .Replace('/', '-').Replace('+', '_').Trim('=');
         }
     }
 }

@@ -50,15 +50,15 @@ namespace DigitalRuby.IPBanProSDK
     }
 
     /// <summary>
-    /// Get client by public key
+    /// Get clients by key
     /// </summary>
-    public interface IGetClientByPublicKey
+    public interface IGetClientsByKey
     {
         /// <summary>
-        /// Attempt to get a client by public key
+        /// Attempt to get a client by key
         /// </summary>
-        /// <param name="publicKey">Public key</param>
-        /// <returns>Client or null if none found</returns>
-        IQueueMessage GetClientByPublicKey(string publicKey);
+        /// <param name="key">Key</param>
+        /// <returns>Clients or null if none found</returns>
+        System.Collections.Generic.IEnumerable<IQueueMessage> GetClientsByKey(string key);
     }
 }
