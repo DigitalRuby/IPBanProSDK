@@ -251,7 +251,7 @@ namespace DigitalRuby.IPBanProSDK
         public static string HashKey(string key)
         {
             key ??= string.Empty;
-            return Convert.ToBase64String(MD5.HashData(Encoding.UTF8.GetBytes(key)))
+            return Convert.ToBase64String(SHA256.HashData(Encoding.UTF8.GetBytes(key)))
                 .Replace('/', '-').Replace('+', '_').Trim('=');
         }
     }
