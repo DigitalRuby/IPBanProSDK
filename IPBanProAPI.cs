@@ -152,11 +152,11 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
-        /// Get defined auto whitelist urls
+        /// Get defined whitelist urls
         /// </summary>
         /// <param name="request">Request</param>
         /// <returns>Response</returns>
-        public Task<GetUrlsResponse> AutoWhitelistGetUrls(GetUrlsRequest request)
+        public Task<GetUrlsResponse> WhitelistGetUrls(GetUrlsRequest request)
         {
             var id = string.IsNullOrWhiteSpace(request.Id) ? null : "id=" + HttpUtility.UrlEncode(request.Id);
             var timestamp = request.Timestamp is null ? null : "timestamp=" + HttpUtility.UrlEncode(request.Timestamp.Value.ToString("o"));
@@ -181,21 +181,21 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
-        /// Upsert a new url for consumption
+        /// Upsert a new whitelist url for consumption
         /// </summary>
         /// <param name="request">Request</param>
         /// <returns>Response</returns>
-        public Task<UpsertUrlResponse> UpsertUrl(UpsertUrlRequest request)
+        public Task<UpsertUrlResponse> UpsertWhitelistUrl(UpsertUrlRequest request)
         {
             return MakeRequestAsync<UpsertUrlResponse>($"aw/upsert", request);
         }
 
         /// <summary>
-        /// Delete a url so it can no longer be consumed. Any consumptions for the url are also deleted.
+        /// Delete a whitelist url so it can no longer be consumed. Any consumptions for the url are also deleted.
         /// </summary>
         /// <param name="request">Request</param>
         /// <returns>Response</returns>
-        public Task<DeleteUrlResponse> DeleteUrl(DeleteUrlRequest request)
+        public Task<DeleteUrlResponse> DeleteWhitelistUrl(DeleteUrlRequest request)
         {
             return MakeRequestAsync<DeleteUrlResponse>($"aw/delete", request, System.Net.Http.HttpMethod.Delete.Method);
         }
