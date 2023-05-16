@@ -154,7 +154,7 @@ namespace DigitalRuby.IPBanProSDK
 
         private const int receiveChunkSize = 8192;
 
-        private static readonly TimeSpan messageQueueTimeout = TimeSpan.FromMilliseconds(500);
+        private static readonly TimeSpan messageQueueTimeout = TimeSpan.FromSeconds(1.0);
         private static Func<IEnumerable<KeyValuePair<string, object>>, IClientWebSocketImplementation> webSocketCreator;
 
         private readonly AsyncQueue<object> messageQueue = new();
@@ -376,6 +376,11 @@ namespace DigitalRuby.IPBanProSDK
                         WebSocketRawMessage rawMessage = new(actualMessage, serializer);
                         bytes = rawMessage.Data;
                         messageType = rawMessage.MessageType;
+                    }
+                    else if (message is string messageText)
+                    {
+                        bytes = Encoding.UTF8.GetBytes(messageText);
+                        messageType = WebSocketMessageType.Text;
                     }
                     else
                     {
@@ -697,8 +702,9 @@ namespace DigitalRuby.IPBanProSDK
                 // client ping if desired
                 if (PingInterval.TotalSeconds >= 1.0 && IPBanService.UtcNow - lastPing > PingInterval)
                 {
+                    Logger.Debug("Sending ping from client web socket connection to {0}", Uri);
                     lastPing = IPBanService.UtcNow;
-                    messageQueue.Enqueue("ping");
+                    QueueMessage("ping");
                 }
 
                 if ((result = await messageQueue.TryDequeueAsync(messageQueueTimeout, cancellationTokenSource.Token)).Key)
