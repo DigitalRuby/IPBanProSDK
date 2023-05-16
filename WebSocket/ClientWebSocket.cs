@@ -154,6 +154,7 @@ namespace DigitalRuby.IPBanProSDK
 
         private const int receiveChunkSize = 8192;
 
+        private static readonly TimeSpan messageQueueTimeout = TimeSpan.FromMilliseconds(500);
         private static Func<IEnumerable<KeyValuePair<string, object>>, IClientWebSocketImplementation> webSocketCreator;
 
         private readonly AsyncQueue<object> messageQueue = new();
@@ -192,6 +193,12 @@ namespace DigitalRuby.IPBanProSDK
         /// Amount to wait between dropped connections for a reconnect attempt, default is 5 seconds
         /// </summary>
         public TimeSpan ReconnectInterval { get; set; } = TimeSpan.FromSeconds(5.0);
+
+        /// <summary>
+        /// Send a ping text message to make sure server doesn't drop us, used in case ping/pong and keep alive interval is
+        /// not being honored properly
+        /// </summary>
+        public TimeSpan PingInterval { get; set; } = TimeSpan.FromSeconds(30.0);
 
         /// <summary>
         /// Action to handle incoming text messages. If null, text messages are handled with OnBinaryMessage.
@@ -285,6 +292,8 @@ namespace DigitalRuby.IPBanProSDK
         {
             if (!disposed)
             {
+                Logger.Info("Disposing client web socket that was connected to {0}", Uri);
+
                 disposed = true;
                 cancellationTokenSource.CancelAfter(1);
                 Task.Run(async () =>
@@ -536,6 +545,7 @@ namespace DigitalRuby.IPBanProSDK
                         continue;
                     }
                     wasConnected = true;
+                    Logger.Info("Client web socket successfully connected to {0}", uri);
 
                     // on connect may make additional calls that must succeed, such as rest calls
                     // for lists, etc.
@@ -639,6 +649,8 @@ namespace DigitalRuby.IPBanProSDK
                 }
                 try
                 {
+                    Logger.Info("Client web socket was disconnected from {0}, attempting reconnection...", uri);
+
                     webSocket.Dispose();
                     firstConnect = true;
                     if (!disposed)
@@ -661,6 +673,7 @@ namespace DigitalRuby.IPBanProSDK
         private async Task MessageTask()
         {
             DateTime lastCheck = IPBanService.UtcNow;
+            DateTime lastPing = IPBanService.UtcNow;
             KeyValuePair<bool, object> result;
             object message;
 
@@ -680,7 +693,15 @@ namespace DigitalRuby.IPBanProSDK
                     // eat exception, sometimes can happen as ReadTask disposes and re-creates the socket
                     continue;
                 }
-                if ((result = await messageQueue.TryDequeueAsync(cancellationTokenSource.Token)).Key)
+
+                // client ping if desired
+                if (PingInterval.TotalSeconds >= 1.0 && IPBanService.UtcNow - lastPing > PingInterval)
+                {
+                    lastPing = IPBanService.UtcNow;
+                    messageQueue.Enqueue("ping");
+                }
+
+                if ((result = await messageQueue.TryDequeueAsync(messageQueueTimeout, cancellationTokenSource.Token)).Key)
                 {
                     message = result.Value;
                     try
