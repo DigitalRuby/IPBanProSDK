@@ -513,6 +513,11 @@ namespace DigitalRuby.IPBanProSDK
             MemoryStream stream = new();
             WebSocketReceiveResult result;
             bool wasConnected = false;
+            var uri = Uri;
+            if (uri.Host.Contains("localhost"))
+            {
+                uri = new Uri(uri.ToString().Replace("localhost", "127.0.0.1"));
+            }
 
             while (!disposed)
             {
@@ -521,7 +526,7 @@ namespace DigitalRuby.IPBanProSDK
                     // open the socket
                     webSocket.KeepAliveInterval = KeepAlive;
                     wasConnected = false;
-                    await webSocket.ConnectAsync(Uri, cancellationTokenSource.Token);
+                    await webSocket.ConnectAsync(uri, cancellationTokenSource.Token);
                     while (!disposed && webSocket.State == WebSocketState.Connecting)
                     {
                         await Task.Delay(20, cancellationTokenSource.Token);
@@ -663,6 +668,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 try
                 {
+                    // wait for open state
                     if (webSocket.State != WebSocketState.Open)
                     {
                         await Task.Delay(20, cancellationTokenSource.Token);
