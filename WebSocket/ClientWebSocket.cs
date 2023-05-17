@@ -190,9 +190,9 @@ namespace DigitalRuby.IPBanProSDK
         public int MaxMessageSize { get; set; } = 1024 * 1024 * 64;
 
         /// <summary>
-        /// Amount to wait between dropped connections for a reconnect attempt, default is 5 seconds
+        /// Amount to wait between dropped connections for a reconnect attempt, default is 30 seconds
         /// </summary>
-        public TimeSpan ReconnectInterval { get; set; } = TimeSpan.FromSeconds(5.0);
+        public TimeSpan ReconnectInterval { get; set; } = TimeSpan.FromSeconds(30.0);
 
         /// <summary>
         /// Send a ping text message to make sure server doesn't drop us, used in case ping/pong and keep alive interval is
@@ -660,7 +660,7 @@ namespace DigitalRuby.IPBanProSDK
                     firstConnect = true;
                     if (!disposed)
                     {
-                        // wait 5 seconds before attempting reconnect
+                        // wait some time before attempting reconnect
                         CreateWebSocket();
                         await Task.Delay(ReconnectInterval, cancellationTokenSource.Token);
                     }
