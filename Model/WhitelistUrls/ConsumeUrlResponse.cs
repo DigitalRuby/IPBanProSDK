@@ -23,9 +23,22 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
     /// </summary>
     public sealed class ConsumeUrlResponse : BaseModel
     {
+
+    }
+
+    /// <summary>
+    /// Hash response
+    /// </summary>
+    public sealed class HashUrlResponse : BaseModel
+    {
         /// <summary>
-        /// Whether the url was consumed successfully
+        /// IP address
         /// </summary>
-        public bool Success { get; set; }
+        public string IPAddress { get; set; }
+        
+        /// <summary>
+        /// Hash
+        /// </summary>
+        public string Hash { get; set; }
     }
 }
