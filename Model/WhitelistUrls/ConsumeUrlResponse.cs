@@ -23,7 +23,10 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
     /// </summary>
     public sealed class ConsumeUrlResponse : BaseModel
     {
-
+        /// <summary>
+        /// Remaining uses
+        /// </summary>
+        public int RemainingUses { get; set; }
     }
 
     /// <summary>
