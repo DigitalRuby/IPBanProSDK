@@ -58,6 +58,11 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
         public string MachineAccess { get; init; }
 
         /// <summary>
+        /// Notes or empty if none
+        /// </summary>
+        public string Notes { get; init; } = string.Empty;
+
+        /// <summary>
         /// IP addresses that have registered with this url
         /// </summary>
         public List<UrlIPAddress> IPAddresses { get; init; } = new();
@@ -68,12 +73,13 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
     /// </summary>
     /// <param name="IPAddress">IP address</param>
     /// <param name="Expires">Expires</param>
-    public record UrlIPAddress(string IPAddress, string Expires)
+    /// <param name="Notes">Notes</param>
+    public record UrlIPAddress(string IPAddress, string Expires, string Notes)
     {
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"{IPAddress},{Expires}";
+            return $"{IPAddress},{Expires},{Notes}";
         }
     }
 }

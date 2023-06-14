@@ -47,5 +47,10 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
         /// Comma separated ip addresses or fqdn to apply the access to or null for all
         /// </summary>
         public string MachineAccess { get; init; }
+
+        /// <summary>
+        /// Notes or empty if none
+        /// </summary>
+        public string Notes { get; init; } = string.Empty;
     }
 }
