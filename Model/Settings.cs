@@ -459,5 +459,15 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DataMember(Order = 33)]
         public int CountryBlacklistPrecise { get; set; }
+
+        /// <summary>
+        /// Comma separated asn ids to block
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.AsnBlacklist))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 34)]
+        public string AsnBlacklist { get; set; }
     }
 }

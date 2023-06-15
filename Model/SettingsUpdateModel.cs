@@ -234,18 +234,11 @@ namespace DigitalRuby.IPBanProSDK
         public string IPThreatApiKey { get; set; }
 
         /// <summary>
-        /// Whether country lists are precise
-        /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklistPrecise))]
-        [DataMember(Order = 28)]
-        public bool CountryBlacklistPrecise { get; set; }
-
-        /// <summary>
         /// User name truncation characters
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.UserNameTruncationChars))]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [DataMember(Order = 29)]
+        [DataMember(Order = 28)]
         public string TruncateUserNameChars { get; set; }
 
         // informational
@@ -267,5 +260,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DataMember(Order = 92)]
         public int NaughtyListEntryCount { get; set; }
+
+        /// <summary>
+        /// Country block range entry count
+        /// </summary>
+        [DataMember(Order = 93)]
+        public int AsnBlockRangeEntryCount { get; set; }
     }
 }
