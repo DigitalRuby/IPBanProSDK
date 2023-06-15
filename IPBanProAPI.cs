@@ -152,6 +152,25 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
+        /// Get asn ranges
+        /// </summary>
+        /// <param name="asn">Asn id or name without AS or ASN prefix</param>
+        /// <returns>IP address ranges for the asn</returns>
+        public Task<IPAddressAsnRangesModel> GetIPAddressAsnRangesAsync(string asn)
+        {
+            return MakeRequestAsync<IPAddressAsnRangesModel>($"IPAsnRanges/{asn}");
+        }
+
+        /// <summary>
+        /// Get asn info
+        /// </summary>
+        /// <returns>Asn info</returns>
+        public Task<IPAddressAsnInfoModel> GetIPAddressAsnInfoAsync()
+        {
+            return MakeRequestAsync<IPAddressAsnInfoModel>($"IPAsnInfo");
+        }
+
+        /// <summary>
         /// Get defined whitelist urls
         /// </summary>
         /// <param name="request">Request</param>
