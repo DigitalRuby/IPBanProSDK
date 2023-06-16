@@ -23,11 +23,11 @@ using System.Runtime.Serialization;
 namespace DigitalRuby.IPBanProSDK
 {
     /// <summary>
-    /// IP address country name
+    /// IP address asn name
     /// </summary>
     [Serializable]
     [DataContract]
-    public struct IPAddressCountryName
+    public struct IPAddressAsnName
     {
         /// <summary>
         /// Id
@@ -42,15 +42,9 @@ namespace DigitalRuby.IPBanProSDK
         public string Name { get; set; }
 
         /// <summary>
-        /// Country code
-        /// </summary>
-        [DataMember(Order = 3)]
-        public string CountryCode { get; set; }
-
-        /// <summary>
         /// Language code
         /// </summary>
-        [DataMember(Order = 4)]
+        [DataMember(Order = 3)]
         public string LanguageCode { get; set; }
 
         /// <summary>
@@ -59,7 +53,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>String</returns>
         public override string ToString()
         {
-            return $"Id: {Id}, Name: {Name}, Code: {CountryCode}, Lang: {LanguageCode}";
+            return $"Id: {Id}, Name: {Name}, Lang: {LanguageCode}";
         }
 
         /// <summary>
@@ -69,7 +63,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>True if equal, false if not</returns>
         public override bool Equals(object obj)
         {
-            if (obj is IPAddressCountryName name)
+            if (obj is IPAddressAsnName name)
             {
                 return (Id == name.Id && LanguageCode == name.LanguageCode);
             }
@@ -82,7 +76,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="r1">Name1</param>
         /// <param name="r2">Name2</param>
         /// <returns>True if equal</returns>
-        public static bool operator ==(IPAddressCountryName r1, IPAddressCountryName r2)
+        public static bool operator ==(IPAddressAsnName r1, IPAddressAsnName r2)
         {
             return r1.Equals(r2);
         }
@@ -93,7 +87,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="r1">Name1</param>
         /// <param name="r2">Name2</param>
         /// <returns>True if not equal</returns>
-        public static bool operator !=(IPAddressCountryName r1, IPAddressCountryName r2)
+        public static bool operator !=(IPAddressAsnName r1, IPAddressAsnName r2)
         {
             return !r1.Equals(r2);
         }
@@ -109,17 +103,17 @@ namespace DigitalRuby.IPBanProSDK
     }
 
     /// <summary>
-    /// Country names list model
+    /// Asn names list model
     /// </summary>
     [Serializable]
     [DataContract]
-    public class IPAddressCountryNamesListModel : BaseModel
+    public class IPAddressAsnNamesListModel : BaseModel
     {
         /// <summary>
-        /// Country names matching the query and language
+        /// Asn names matching the query and language
         /// </summary>
         [DataMember(Order = 1)]
-        public IReadOnlyList<IPAddressCountryName> Names { get; set; }
+        public IReadOnlyList<IPAddressAsnName> Names { get; set; }
 
         /// <summary>
         /// The query
@@ -135,17 +129,17 @@ namespace DigitalRuby.IPBanProSDK
     }
 
     /// <summary>
-    /// Country codes to country names model
+    /// Asn codes to asn names model
     /// </summary>
     [Serializable]
     [DataContract]
-    public class CountryCodesToCountryNamesModel : BaseModel
+    public class AsnCodesToAsnNamesModel : BaseModel
     {
         /// <summary>
-        /// Country names matching each country code
+        /// Asn names matching each asn code
         /// </summary>
         [DataMember(Order = 1)]
-        public List<string> CountryNames { get; set; }
+        public List<string> AsnNames { get; set; }
 
         /// <summary>
         /// The language code

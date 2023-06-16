@@ -49,6 +49,15 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
+        /// Public: Get a list of all possible asn names
+        /// </summary>
+        /// <returns>List of all possible asn names</returns>
+        public async Task<IPAddressAsnNamesModel> GetAsnNamesAsync()
+        {
+            return await MakeRequestAsync<IPAddressAsnNamesModel>("AsnNames");
+        }
+
+        /// <summary>
         /// Public: Get a list of countries that match a query
         /// </summary>
         /// <param name="languageCode">Language code</param>
@@ -58,6 +67,18 @@ namespace DigitalRuby.IPBanProSDK
         {
             string url = "CountryNamesList?languageCode=" + languageCode.UrlEncode() + "&query=" + query.UrlEncode();
             return await MakeRequestAsync<IPAddressCountryNamesListModel>(url);
+        }
+
+        /// <summary>
+        /// Public: Get a list of asn that match a query
+        /// </summary>
+        /// <param name="languageCode">Language code</param>
+        /// <param name="query">Query</param>
+        /// <returns>List of all asn that match the query</returns>
+        public async Task<IPAddressAsnNamesListModel> GetAsnNamesListAsync(string languageCode, string query)
+        {
+            string url = "AsnNamesList?languageCode=" + languageCode.UrlEncode() + "&query=" + query.UrlEncode();
+            return await MakeRequestAsync<IPAddressAsnNamesListModel>(url);
         }
 
         /// <summary>

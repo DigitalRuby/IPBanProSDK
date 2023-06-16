@@ -73,7 +73,7 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklist))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 3)]
-        public string CountryBlacklist { get; set; }
+        public string CountryBlacklist { get; set; } = string.Empty;
 
         /// <summary>
         /// Recent list max count
@@ -468,6 +468,6 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.AsnBlacklist))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 34)]
-        public string AsnBlacklist { get; set; }
+        public string AsnBlacklist { get; set; } = string.Empty;
     }
 }
