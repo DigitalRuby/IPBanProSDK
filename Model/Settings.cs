@@ -105,7 +105,7 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.NotificationFlags))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 6)]
-        public IPBanCore.IPAddressEventFlags NotificationFlags { get; set; }
+        public IPBanCore.IPAddressNotificationFlags NotificationFlags { get; set; }
 
         /// <summary>
         /// Smtp server host
