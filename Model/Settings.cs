@@ -168,8 +168,18 @@ namespace DigitalRuby.IPBanProSDK
         [XmlIgnore]
         public bool SmtpEnableSslBool
         {
-            get { return SmtpEnableSsl != 0; }
-            set { SmtpEnableSsl = value ? 1 + (SmtpSslSelfSignedCertificateBool ? 1 : 0) : 0; }
+            get { return (SmtpEnableSsl & 1) == 1; }
+            set
+            {
+                if (value)
+                {
+                    SmtpEnableSsl |= 1;
+                }
+                else
+                {
+                    SmtpEnableSsl &= (~1);
+                }
+            }
         }
 
         /// <summary>
@@ -185,8 +195,18 @@ namespace DigitalRuby.IPBanProSDK
         [XmlIgnore]
         public bool SmtpSslSelfSignedCertificateBool
         {
-            get { return SmtpEnableSsl > 1; }
-            set { SmtpEnableSsl = value && SmtpEnableSsl != 0 ? 2 : SmtpEnableSsl; }
+            get { return (SmtpEnableSsl & 2) == 2; }
+            set
+            {
+                if (value)
+                {
+                    SmtpEnableSsl |= 2;
+                }
+                else
+                {
+                    SmtpEnableSsl &= (~2);
+                }
+            }
         }
 
         /// <summary>
