@@ -150,7 +150,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// All 0 = no ssl
         /// Bit 1 = enable ssl
-        /// Bit 2 = enable ssl and self signed certificate
+        /// Bit 2 = self signed certificate
         /// </summary>
         [DataMember(Order = 11)]
         public int SmtpEnableSsl { get; set; }
