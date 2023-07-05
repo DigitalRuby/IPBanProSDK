@@ -148,9 +148,9 @@ namespace DigitalRuby.IPBanProSDK
         public string SmtpPassword { get; set; }
 
         /// <summary>
-        /// 0 = no ssl
-        /// 1 = enable ssl
-        /// 2 = enable ssl and self signed certificate
+        /// All 0 = no ssl
+        /// Bit 1 = enable ssl
+        /// Bit 2 = enable ssl and self signed certificate
         /// </summary>
         [DataMember(Order = 11)]
         public int SmtpEnableSsl { get; set; }
