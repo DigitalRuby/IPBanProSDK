@@ -148,6 +148,14 @@ namespace DigitalRuby.IPBanProSDK
         public string SmtpPassword { get; set; }
 
         /// <summary>
+        /// 0 = no ssl
+        /// 1 = enable ssl
+        /// 2 = enable ssl and self signed certificate
+        /// </summary>
+        [DataMember(Order = 11)]
+        public int SmtpEnableSsl { get; set; }
+
+        /// <summary>
         /// Smtp enable ssl
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
@@ -160,15 +168,26 @@ namespace DigitalRuby.IPBanProSDK
         [XmlIgnore]
         public bool SmtpEnableSslBool
         {
-            get => SmtpEnableSsl == 1;
-            set => SmtpEnableSsl = value ? 1 : 0;
+            get { return SmtpEnableSsl != 0; }
+            set { SmtpEnableSsl = value ? 1 + (SmtpSslSelfSignedCertificateBool ? 1 : 0) : 0; }
         }
 
         /// <summary>
-        /// Entity framework storage for SmtpEnableSslBool
+        /// Smtp ssl self signed certificate
         /// </summary>
-        [DataMember(Order = 11)]
-        public int SmtpEnableSsl { get; set; }
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.SslSelfSignedCertificate))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [IgnoreDataMember]
+        [NotMapped]
+        [JsonIgnore]
+        [XmlIgnore]
+        public bool SmtpSslSelfSignedCertificateBool
+        {
+            get { return SmtpEnableSsl > 1; }
+            set { SmtpEnableSsl = value && SmtpEnableSsl != 0 ? 2 : SmtpEnableSsl; }
+        }
 
         /// <summary>
         /// Smtp from
