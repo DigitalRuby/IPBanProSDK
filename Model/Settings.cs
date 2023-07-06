@@ -164,8 +164,9 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [IgnoreDataMember]
         [NotMapped]
-        [JsonIgnore]
         [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public bool SmtpEnableSslBool
         {
             get { return (SmtpEnableSsl & 1) == 1; }
@@ -191,8 +192,9 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [IgnoreDataMember]
         [NotMapped]
-        [JsonIgnore]
         [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public bool SmtpSslSelfSignedCertificateBool
         {
             get { return (SmtpEnableSsl & 2) == 2; }
@@ -234,8 +236,9 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [IgnoreDataMember]
         [NotMapped]
-        [JsonIgnore]
         [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public IReadOnlyCollection<string> SmtpToAddresses => SmtpTo.SplitWithNoEmptyEntries(',', ';');
 
         /// <summary>
@@ -348,8 +351,9 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [IgnoreDataMember]
         [NotMapped]
-        [JsonIgnore]
         [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public bool EnableListsBool
         {
             get => EnableLists == 1;
@@ -383,8 +387,9 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [IgnoreDataMember]
         [NotMapped]
-        [JsonIgnore]
         [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public bool CountryBlacklistFirstFailedLoginBool
         {
             get => CountryBlacklistFirstFailedLogin == 1;
@@ -418,8 +423,9 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [IgnoreDataMember]
         [NotMapped]
-        [JsonIgnore]
         [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public bool CountryBlacklistInvertBool
         {
             get => CountryBlacklistInvert == 1;
@@ -485,8 +491,9 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [IgnoreDataMember]
         [NotMapped]
-        [JsonIgnore]
         [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public bool CountryBlacklistPreciseBool
         {
             get => CountryBlacklistPrecise == 1;

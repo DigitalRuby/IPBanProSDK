@@ -38,6 +38,32 @@ namespace DigitalRuby.IPBanProSDK
     public class SettingsUpdateModel : SettingsModel
     {
         /// <summary>
+        /// Get hash code
+        /// </summary>
+        /// <returns>Hash code</returns>
+        public override int GetHashCode()
+        {
+            var message = Message;
+            var error = Error;
+            Message = null;
+            Error = false;
+            try
+            {
+                var jsonText = ExtensionMethods.SerializeJson(this);
+                jsonText = jsonText.Normalize().Replace("\r", string.Empty).Replace("\n", "\r\n").Trim();
+                var jsonBytes = System.Text.Encoding.UTF8.GetBytes(jsonText);
+                var sha512 = System.Security.Cryptography.SHA512.HashData(jsonBytes);
+                var hashCode = Convert.ToBase64String(sha512).GetHashCode();
+                return hashCode;
+            }
+            finally
+            {
+                Error = error;
+                Message = message;
+            }
+        }
+
+        /// <summary>
         /// Failed login attempts before ban
         /// </summary>
         [LocalizedDisplayName(nameof(IPBanResources.FailedLoginAttemptsBeforeBan))]
@@ -244,27 +270,43 @@ namespace DigitalRuby.IPBanProSDK
         // informational
 
         /// <summary>
+        /// Current hash code
+        /// </summary>
+        [DataMember(Order = 89)]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        public int CurrentHashCode { get; set; }
+
+        /// <summary>
         /// Country block range entry count
         /// </summary>
         [DataMember(Order = 90)]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public int CountryBlockRangeEntryCount { get; set; }
 
         /// <summary>
         /// Recent list count
         /// </summary>
         [DataMember(Order = 91)]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public int RecentListEntryCount { get; set; }
 
         /// <summary>
         /// Naughty list count
         /// </summary>
         [DataMember(Order = 92)]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public int NaughtyListEntryCount { get; set; }
 
         /// <summary>
         /// Country block range entry count
         /// </summary>
         [DataMember(Order = 93)]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public int AsnBlockRangeEntryCount { get; set; }
     }
 }
