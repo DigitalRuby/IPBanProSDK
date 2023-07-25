@@ -151,10 +151,12 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         /// <param name="fqdn">FQDN</param>
         /// <param name="ipAddress">IP address</param>
+        /// <param name="alias">Alias</param>
         /// <returns></returns>
-        public static string CreateMachineName(string fqdn, string ipAddress)
+        public static string CreateMachineName(string fqdn, string ipAddress, string alias = null)
         {
-            return fqdn + "-" + ipAddress;
+            var name = string.IsNullOrWhiteSpace(alias) ? fqdn : alias;
+            return name + "-" + ipAddress;
         }
     }
 
