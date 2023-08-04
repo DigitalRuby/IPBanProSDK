@@ -648,12 +648,13 @@ namespace DigitalRuby.IPBanProSDK
                     }
                 }
 
-                if (wasConnected)
-                {
-                    QueueActions(InvokeDisconnected);
-                }
                 try
                 {
+                    if (wasConnected)
+                    {
+                        QueueActions(InvokeDisconnected);
+                    }
+
                     Logger.Info("Client web socket was disconnected from {0}, attempting reconnection...", uri);
 
                     webSocket.Dispose();
