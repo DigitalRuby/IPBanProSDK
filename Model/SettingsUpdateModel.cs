@@ -267,6 +267,14 @@ namespace DigitalRuby.IPBanProSDK
         [DataMember(Order = 28)]
         public string TruncateUserNameChars { get; set; }
 
+        /// <summary>
+        /// Whether to use default banned ip address handler
+        /// </summary>
+        [LocalizedDisplayName(nameof(IPBanResources.UseDefaultBannedIPAddressHandler))]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [DataMember(Order = 29)]
+        public bool UseDefaultBannedIPAddressHandler { get; set; } = true;
+
         // informational
 
         /// <summary>
