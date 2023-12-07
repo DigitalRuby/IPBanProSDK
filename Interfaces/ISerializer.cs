@@ -41,7 +41,19 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="bytes">Bytes to deserialize</param>
         /// <param name="type">Type of object to deserialize to</param>
         /// <returns>Deserialized object</returns>
-        object? Deserialize(byte[]? bytes, Type type);
+        object? Deserialize(MemoryStream bytes, Type type)
+        {
+            var span = bytes.GetBuffer().AsSpan();
+            return Deserialize(span, type);
+        }
+
+        /// <summary>
+        /// Deserialize
+        /// </summary>
+        /// <param name="bytes">Bytes to deserialize</param>
+        /// <param name="type">Type of object to deserialize to</param>
+        /// <returns>Deserialized object</returns>
+        object? Deserialize(ReadOnlySpan<byte> bytes, Type type);
 
         /// <summary>
         /// Serialize an object
@@ -78,15 +90,19 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="bytes">Compressed json bytes</param>
         /// <param name="type">Type of object</param>
         /// <returns>Object</returns>
-        public object? Deserialize(byte[]? bytes, Type type)
+        public unsafe object? Deserialize(ReadOnlySpan<byte> bytes, Type type)
         {
-            if (bytes is null || bytes.Length == 0)
+            if (bytes.Length == 0)
             {
                 return null;
             }
-            using var stream = new DeflateStream(new MemoryStream(bytes), CompressionMode.Decompress);
-            var result = System.Text.Json.JsonSerializer.Deserialize(stream, type);
-            return result;
+            fixed (byte* bytesPtr = bytes)
+            {
+                using UnmanagedMemoryStream ms = new(bytesPtr, bytes.Length);
+                using var stream = new DeflateStream(ms, CompressionMode.Decompress);
+                var result = System.Text.Json.JsonSerializer.Deserialize(stream, type);
+                return result;
+            }
         }
 
         /// <summary>
@@ -131,9 +147,9 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="bytes">Uncompressed json bytes</param>
         /// <param name="type">Type of object</param>
         /// <returns>Deserialized object</returns>
-        public object? Deserialize(byte[]? bytes, Type type)
+        public object? Deserialize(ReadOnlySpan<byte> bytes, Type type)
         {
-            if (bytes is null || bytes.Length == 0)
+            if (bytes.Length == 0)
             {
                 return null;
             }
@@ -173,15 +189,18 @@ namespace DigitalRuby.IPBanProSDK
         public string Description => GetType().Name;
 
         /// <inheritdoc />
-        public object? Deserialize(byte[]? bytes, Type type)
+        public unsafe object? Deserialize(ReadOnlySpan<byte> bytes, Type type)
         {
-            if (bytes is null || bytes.Length == 0)
+            if (bytes.Length == 0)
             {
                 return null;
             }
-            MemoryStream input = new(bytes);
-            Stream lz4DecoderStream = LZ4Stream.Decode(input, leaveOpen: true);
-            return Serializer.Deserialize(type, lz4DecoderStream);
+            fixed (byte* bytesPtr = bytes)
+            {
+                UnmanagedMemoryStream input = new(bytesPtr, bytes.Length);
+                Stream lz4DecoderStream = LZ4Stream.Decode(input, leaveOpen: true);
+                return Serializer.Deserialize(type, lz4DecoderStream);
+            }
         }
 
         /// <inheritdoc />

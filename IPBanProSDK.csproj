@@ -27,6 +27,7 @@
 		<RepositoryUrl>https://github.com/DigitalRuby/IPBanProSDK</RepositoryUrl>
 		<PackageTags>security;botnet;hacker;firewall;linux;windows</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
 	</PropertyGroup>
 
 	<ItemGroup>

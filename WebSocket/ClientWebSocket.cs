@@ -591,16 +591,12 @@ namespace DigitalRuby.IPBanProSDK
                             // otherwise treat message as binary
                             else
                             {
-                                // make a copy of the bytes, the memory stream will be re-used and could potentially corrupt in multi-threaded environments
-                                // not using ToArray just in case it is making a slice/span from the internal bytes, we want an actual physical copy
-                                using var bytesCopy = BytePool.Rent((int)stream.Length);
-                                Array.Copy(stream.GetBuffer(), bytesCopy, stream.Length);
                                 if (OnMessage != null)
                                 {
                                     Message message;
                                     try
                                     {
-                                        message = serializer.Deserialize(bytesCopy, Message.Type) as Message;
+                                        message = serializer.Deserialize(stream, Message.Type) as Message;
                                     }
                                     catch (Exception ex)
                                     {
@@ -627,7 +623,7 @@ namespace DigitalRuby.IPBanProSDK
                                 }
                                 else
                                 {
-                                    messageQueue.Enqueue(bytesCopy);
+                                    messageQueue.Enqueue(stream.ToArray());
                                 }
                             }
                         }
