@@ -171,7 +171,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="socket">Web socket</param>
         /// <param name="subscription">Subscription type</param>
         /// <returns>True if message queued, false if not</returns>
-        public static bool SubscribeWebSocket(this ClientWebSocket socket, IPBanProAPIWebSocketSubscription subscription)
+        public static System.Threading.Tasks.Task<bool> SubscribeWebSocket(this ClientWebSocket socket, IPBanProAPIWebSocketSubscription subscription)
         {
             return socket.QueueMessage(new Message
             {
@@ -189,7 +189,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="socket">Web socket</param>
         /// <param name="subscription">Subscription type</param>
         /// <returns>True if message queued, false if not</returns>
-        public static bool UnsubscribeWebSocket(this ClientWebSocket socket, IPBanProAPIWebSocketSubscription subscription)
+        public static System.Threading.Tasks.Task<bool> UnsubscribeWebSocket(this ClientWebSocket socket, IPBanProAPIWebSocketSubscription subscription)
         {
             return socket.QueueMessage(new Message
             {
