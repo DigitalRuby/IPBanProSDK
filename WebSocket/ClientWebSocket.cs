@@ -158,7 +158,7 @@ namespace DigitalRuby.IPBanProSDK
         private static Func<IEnumerable<KeyValuePair<string, object>>, IClientWebSocketImplementation> webSocketCreator;
 
         private readonly AsyncQueue<object> messageQueue = new();
-        private readonly Dictionary<string, ManualResetEvent> acks = new();
+        private readonly Dictionary<string, ManualResetEvent> acks = [];
         private readonly ISerializer serializer;
         private readonly CancellationTokenSource cancellationTokenSource = new();
 

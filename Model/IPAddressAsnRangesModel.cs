@@ -59,6 +59,6 @@ namespace DigitalRuby.IPBanProSDK
         /// All ip addresses
         /// </summary>
         [DataMember(Order = 3)]
-        public List<string> Ranges { get; set;  } = new List<string>();
+        public List<string> Ranges { get; set;  } = [];
     }
 }

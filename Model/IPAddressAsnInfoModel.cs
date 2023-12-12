@@ -33,7 +33,7 @@ namespace DigitalRuby.IPBanProSDK
         /// Asns
         /// </summary>
         [DataMember(Order = 1)]
-        public List<IPAddressAsnInfo> Asns { get; set; } = new();
+        public List<IPAddressAsnInfo> Asns { get; set; } = [];
     }
 
     /// <summary>
