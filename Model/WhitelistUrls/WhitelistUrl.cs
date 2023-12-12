@@ -38,7 +38,7 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
         /// <summary>
         /// IP addresses
         /// </summary>
-        public List<UrlIPAddress> IPAddresses { get; set; }
+        public List<UrlIPAddress> IPAddresses { get; set; } = new(0);
     };
 
     /// <summary>
