@@ -56,19 +56,14 @@ namespace DigitalRuby.IPBanProSDK
     /// <summary>
     /// Banned ip address
     /// </summary>
+    /// <remarks>
+    /// Constructor
+    /// </remarks>
+    /// <param name="ipAddress">IP address</param>
+    /// <param name="banCount">Ban count</param>
     [Serializable]
-    public class BannedIPAddress : IComparable<BannedIPAddress>
+    public class BannedIPAddress(string ipAddress, long banCount) : IComparable<BannedIPAddress>
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ipAddress">IP address</param>
-        /// <param name="banCount">Ban count</param>
-        public BannedIPAddress(string ipAddress, long banCount)
-        {
-            IPAddress = ipAddress;
-            BanCount = banCount;
-        }
 
         /// <summary>
         /// ToString
@@ -121,40 +116,36 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [JsonProperty(IPBanProBaseAPI.KeyIPAddress)]
         [DataMember(Order = 1)]
-        public string IPAddress { get; set; }
+        public string IPAddress { get; set; } = ipAddress;
 
         /// <summary>
         /// Ban count
         /// </summary>
         [JsonProperty(IPBanProBaseAPI.KeyCount)]
         [DataMember(Order = 2)]
-        public long BanCount { get; set; }
+        public long BanCount { get; set; } = banCount;
     }
 
     /// <summary>
     /// Banned ip address
     /// </summary>
+    /// <remarks>
+    /// Constructor
+    /// </remarks>
+    /// <param name="ipAddress">IP address</param>
+    /// <param name="banCount">Ban count</param>
+    /// <param name="timestamp">Timestamp</param>
     [Serializable]
     [DataContract]
-    public class RecentBannedIPAddress : BannedIPAddress, IComparable<RecentBannedIPAddress>
+    public class RecentBannedIPAddress(string ipAddress, long banCount, DateTime timestamp) : BannedIPAddress(ipAddress, banCount), IComparable<RecentBannedIPAddress>
     {
-        /// <summary>
-        /// Constructor
-        /// </summary>
-        /// <param name="ipAddress">IP address</param>
-        /// <param name="banCount">Ban count</param>
-        /// <param name="timestamp">Timestamp</param>
-        public RecentBannedIPAddress(string ipAddress, long banCount, DateTime timestamp) : base(ipAddress, banCount)
-        {
-            Timestamp = timestamp;
-        }
 
         /// <summary>
         /// Timestamp
         /// </summary>
         [JsonProperty("Timestamp")]
         [DataMember(Order = 1)]
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; set; } = timestamp;
 
         /// <inheritdoc />
         public int CompareTo(RecentBannedIPAddress other)

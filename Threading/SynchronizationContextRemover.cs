@@ -30,7 +30,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Is the context completed
         /// </summary>
-        public bool IsCompleted
+        public readonly bool IsCompleted
         {
             get { return SynchronizationContext.Current is null; }
         }
@@ -39,7 +39,7 @@ namespace DigitalRuby.IPBanProSDK
         /// Fires when context completes
         /// </summary>
         /// <param name="continuation">Continuation</param>
-        public void OnCompleted(Action continuation)
+        public readonly void OnCompleted(Action continuation)
         {
             var prevContext = SynchronizationContext.Current;
             if (prevContext is null)
@@ -64,7 +64,7 @@ namespace DigitalRuby.IPBanProSDK
         /// Get an awaiter
         /// </summary>
         /// <returns></returns>
-        public SynchronizationContextRemover GetAwaiter()
+        public readonly SynchronizationContextRemover GetAwaiter()
         {
             return this;
         }
@@ -72,7 +72,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Get the result
         /// </summary>
-        public void GetResult()
+        public readonly void GetResult()
         {
         }
     }

@@ -36,7 +36,11 @@ namespace DigitalRuby.IPBanProSDK
     /// <summary>
     /// Wraps a client web socket for easy dispose later, along with auto-reconnect and message and reader queues
     /// </summary>
-    public sealed class ClientWebSocket : IQueueMessage
+    /// <remarks>
+    /// Default constructor, does not begin listening immediately. You must set the properties and then call Start.
+    /// </remarks>
+    /// <param name="serializer">Serializer, null for default serializer</param>
+    public sealed class ClientWebSocket(ISerializer serializer = null) : IQueueMessage
     {
         /// <summary>
         /// Client web socket implementation
@@ -159,7 +163,7 @@ namespace DigitalRuby.IPBanProSDK
 
         private readonly AsyncQueue<object> messageQueue = new();
         private readonly Dictionary<string, ManualResetEvent> acks = [];
-        private readonly ISerializer serializer;
+        private readonly ISerializer serializer = (serializer ?? DefaultSerializer.Instance);
         private readonly CancellationTokenSource cancellationTokenSource = new();
 
         // created from factory, allows swapping out underlying implementation
@@ -262,15 +266,6 @@ namespace DigitalRuby.IPBanProSDK
         public static void RegisterWebSocketCreator(Func<IEnumerable<KeyValuePair<string, object>>, IClientWebSocketImplementation> creator)
         {
             webSocketCreator = creator;
-        }
-
-        /// <summary>
-        /// Default constructor, does not begin listening immediately. You must set the properties and then call Start.
-        /// </summary>
-        /// <param name="serializer">Serializer, null for default serializer</param>
-        public ClientWebSocket(ISerializer serializer = null)
-        {
-            this.serializer = (serializer ?? DefaultSerializer.Instance);
         }
 
         /// <summary>

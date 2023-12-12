@@ -502,7 +502,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <exception cref="HttpRequestException">Any error</exception>
         public async Task<T> MakeRequestAsync<T>(string pathAndQuery, object postJson = null, string method = null) where T : BaseModel
         {
-            byte[] response = Array.Empty<byte>();
+            byte[] response = [];
             try
             {
                 await new SynchronizationContextRemover();
