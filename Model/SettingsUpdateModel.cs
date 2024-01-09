@@ -234,7 +234,7 @@ namespace DigitalRuby.IPBanProSDK
         /// Log files to parse
         /// </summary>
         [DataMember(Order = 24)]
-        public List<IPBanLogFileToParse> LogFilesToParse { get; set; } = new List<IPBanLogFileToParse>();
+        public List<IPBanLogFileToParse> LogFilesToParse { get; set; } = [];
 
         /// <summary>
         /// Uris to pull lists of ip addresses from. Format is RulePrefix,Interval(DD:HH:MM:SS),Uri[NEWLINE].

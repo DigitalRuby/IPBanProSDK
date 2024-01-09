@@ -254,7 +254,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Allow override of BaseUri for all constructor calls. If null, no override is done. Great for unit testing.
         /// </summary>
-        public static Dictionary<Type, Uri> BaseUriOverride { get; } = new Dictionary<Type, Uri>();
+        public static Dictionary<Type, Uri> BaseUriOverride { get; } = [];
 
         /// <summary>
         /// Public API key (required for private API use)
@@ -299,7 +299,7 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         private IHttpRequestMaker requestMaker = DefaultHttpRequestMaker.Instance;
-        private readonly List<KeyValuePair<string, object>> headers = new();
+        private readonly List<KeyValuePair<string, object>> headers = [];
 
         /// <summary>
         /// The request maker. Defaults to a standard http request maker.
@@ -451,7 +451,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <returns>Http headers</returns>
         public ICollection<KeyValuePair<string, object>> GetApiRequestHeaders(Uri uri)
         {
-            List<KeyValuePair<string, object>> headers = new();
+            List<KeyValuePair<string, object>> headers = [];
             if (PublicApiKey != null)
             {
                 headers.Add(new KeyValuePair<string, object>(HeaderApiKey, PublicApiKey));
@@ -502,7 +502,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <exception cref="HttpRequestException">Any error</exception>
         public async Task<T> MakeRequestAsync<T>(string pathAndQuery, object postJson = null, string method = null) where T : BaseModel
         {
-            byte[] response = Array.Empty<byte>();
+            byte[] response = [];
             try
             {
                 await new SynchronizationContextRemover();

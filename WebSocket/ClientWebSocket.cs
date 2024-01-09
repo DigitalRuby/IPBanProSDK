@@ -36,7 +36,11 @@ namespace DigitalRuby.IPBanProSDK
     /// <summary>
     /// Wraps a client web socket for easy dispose later, along with auto-reconnect and message and reader queues
     /// </summary>
-    public sealed class ClientWebSocket : IQueueMessage
+    /// <remarks>
+    /// Default constructor, does not begin listening immediately. You must set the properties and then call Start.
+    /// </remarks>
+    /// <param name="serializer">Serializer, null for default serializer</param>
+    public sealed class ClientWebSocket(ISerializer serializer = null) : IQueueMessage
     {
         /// <summary>
         /// Client web socket implementation
@@ -158,8 +162,8 @@ namespace DigitalRuby.IPBanProSDK
         private static Func<IEnumerable<KeyValuePair<string, object>>, IClientWebSocketImplementation> webSocketCreator;
 
         private readonly AsyncQueue<object> messageQueue = new();
-        private readonly Dictionary<string, ManualResetEvent> acks = new();
-        private readonly ISerializer serializer;
+        private readonly Dictionary<string, ManualResetEvent> acks = [];
+        private readonly ISerializer serializer = (serializer ?? DefaultSerializer.Instance);
         private readonly CancellationTokenSource cancellationTokenSource = new();
 
         // created from factory, allows swapping out underlying implementation
@@ -265,15 +269,6 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
-        /// Default constructor, does not begin listening immediately. You must set the properties and then call Start.
-        /// </summary>
-        /// <param name="serializer">Serializer, null for default serializer</param>
-        public ClientWebSocket(ISerializer serializer = null)
-        {
-            this.serializer = (serializer ?? DefaultSerializer.Instance);
-        }
-
-        /// <summary>
         /// Start the web socket listening and processing
         /// </summary>
         public void Start()
@@ -330,7 +325,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="message">Message to send</param>
         /// <param name="groupId">Group id, ignored for now</param>
         /// <returns>True if success, false if error</returns>
-        public bool QueueMessage(object message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone)
+        public async Task<bool> QueueMessage(object message, int groupId = IPBanProBaseAPI.WebSocketGroupIdNone)
         {
             if (webSocket is null ||
                 message is null ||
@@ -413,7 +408,7 @@ namespace DigitalRuby.IPBanProSDK
                 }
             }
 
-            QueueActions(enqueueCallback);
+            await QueueActions(enqueueCallback);
             return true;
         }
 
@@ -444,7 +439,7 @@ namespace DigitalRuby.IPBanProSDK
             }
         }
 
-        private void QueueActions(params Func<IQueueMessage, Task>[] actions)
+        private async Task QueueActions(params Func<IQueueMessage, Task>[] actions)
         {
             if (actions != null && actions.Length != 0)
             {
@@ -467,16 +462,16 @@ namespace DigitalRuby.IPBanProSDK
                     }
                 };
 
-                messageQueue.Enqueue(enqueueActionsFunc);
+                await messageQueue.EnqueueAsync(enqueueActionsFunc);
             }
         }
 
-        private void QueueActionsWithNoExceptions(params Func<IQueueMessage, Task>[] actions)
+        private async Task QueueActionsWithNoExceptions(params Func<IQueueMessage, Task>[] actions)
         {
             if (actions != null && actions.Length != 0)
             {
                 Func<IQueueMessage, Task>[] actionsCopy = actions;
-                messageQueue.Enqueue((Func<Task>)(async () =>
+                await messageQueue.EnqueueAsync((Func<Task>)(async () =>
                 {
                     foreach (var action in actionsCopy.Where(a => a != null))
                     {
@@ -554,7 +549,7 @@ namespace DigitalRuby.IPBanProSDK
 
                     // on connect may make additional calls that must succeed, such as rest calls
                     // for lists, etc.
-                    QueueActionsWithNoExceptions(InvokeConnected);
+                    await QueueActionsWithNoExceptions(InvokeConnected);
 
                     while (webSocket.State == WebSocketState.Open)
                     {
@@ -566,7 +561,7 @@ namespace DigitalRuby.IPBanProSDK
                                 if (result.MessageType == WebSocketMessageType.Close)
                                 {
                                     await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, string.Empty, cancellationTokenSource.Token);
-                                    QueueActions(InvokeDisconnected);
+                                    await QueueActions(InvokeDisconnected);
                                 }
                                 else
                                 {
@@ -586,7 +581,7 @@ namespace DigitalRuby.IPBanProSDK
                             if (result.MessageType == WebSocketMessageType.Text)
                             {
                                 string text = Encoding.UTF8.GetString(stream.GetBuffer(), 0, (int)stream.Length);
-                                messageQueue.Enqueue(text);
+                                await messageQueue.EnqueueAsync(text);
                             }
                             // otherwise treat message as binary
                             else
@@ -618,12 +613,12 @@ namespace DigitalRuby.IPBanProSDK
                                     }
                                     else
                                     {
-                                        messageQueue.Enqueue(message);
+                                        await messageQueue.EnqueueAsync(message);
                                     }
                                 }
                                 else
                                 {
-                                    messageQueue.Enqueue(stream.ToArray());
+                                    await messageQueue.EnqueueAsync(stream.ToArray());
                                 }
                             }
                         }
@@ -648,7 +643,7 @@ namespace DigitalRuby.IPBanProSDK
                 {
                     if (wasConnected)
                     {
-                        QueueActions(InvokeDisconnected);
+                        await QueueActions(InvokeDisconnected);
                     }
 
                     Logger.Info("Client web socket was disconnected from {0}, attempting reconnection...", uri);
@@ -701,7 +696,7 @@ namespace DigitalRuby.IPBanProSDK
                 {
                     Logger.Debug("Sending ping from client web socket connection to {0}", Uri);
                     lastPing = IPBanService.UtcNow;
-                    QueueMessage("ping");
+                    await QueueMessage("ping");
                 }
 
                 if ((result = await messageQueue.TryDequeueAsync(messageQueueTimeout, cancellationTokenSource.Token)).Key)
@@ -755,7 +750,7 @@ namespace DigitalRuby.IPBanProSDK
                     lastCheck = IPBanService.UtcNow;
 
                     // this must succeed, the callback may be requests lists or other resources that must not fail
-                    QueueActionsWithNoExceptions(InvokeConnected);
+                    await QueueActionsWithNoExceptions(InvokeConnected);
                 }
             }
         }

@@ -81,6 +81,6 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Client specific state
         /// </summary>
-        public Dictionary<object, object> Items { get; } = new Dictionary<object, object>();
+        public Dictionary<object, object> Items { get; } = [];
     }
 }

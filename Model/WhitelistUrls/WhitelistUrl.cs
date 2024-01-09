@@ -25,48 +25,21 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
     /// <summary>
     /// Whitelist url
     /// </summary>
-    public sealed class WhitelistUrl
+    /// <param name="Id">Id</param>
+    /// <param name="OrgKeyHashed">Org key hashed</param>
+    /// <param name="Expires">Expires</param>
+    /// <param name="AccessDuration">Access duration</param>
+    /// <param name="RemainingUses">Remaining uses</param>
+    /// <param name="MachineAccess">Machine access or null for none</param>
+    /// <param name="Notes">Notes</param>
+    /// <param name="IPAddresses">IP addresses</param>
+    public record WhitelistUrl(string Id, string OrgKeyHashed, string Expires, TimeSpan AccessDuration, int RemainingUses, string MachineAccess, string Notes)
     {
         /// <summary>
-        /// Id
+        /// IP addresses
         /// </summary>
-        public string Id { get; init; }
-
-        /// <summary>
-        /// Org key hashed
-        /// </summary>
-        public string OrgKeyHashed { get; init; }
-
-        /// <summary>
-        /// Expiration timestamp
-        /// </summary>
-        public string Expires { get; init; }
-
-        /// <summary>
-        /// Access duration for each use
-        /// </summary>
-        public TimeSpan AccessDuration { get; init; }
-
-        /// <summary>
-        /// Remaining allowed uses
-        /// </summary>
-        public int RemainingUses { get; init; }
-
-        /// <summary>
-        /// Machine access or null for all
-        /// </summary>
-        public string MachineAccess { get; init; }
-
-        /// <summary>
-        /// Notes or empty if none
-        /// </summary>
-        public string Notes { get; init; } = string.Empty;
-
-        /// <summary>
-        /// IP addresses that have registered with this url
-        /// </summary>
-        public List<UrlIPAddress> IPAddresses { get; init; } = new();
-    }
+        public List<UrlIPAddress> IPAddresses { get; set; } = new(0);
+    };
 
     /// <summary>
     /// Url ip address
@@ -74,12 +47,5 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
     /// <param name="IPAddress">IP address</param>
     /// <param name="Expires">Expires</param>
     /// <param name="Notes">Notes</param>
-    public record UrlIPAddress(string IPAddress, string Expires, string Notes)
-    {
-        /// <inheritdoc />
-        public override string ToString()
-        {
-            return $"{IPAddress},{Expires},{Notes}";
-        }
-    }
+    public record UrlIPAddress(string IPAddress, string Expires, string Notes);
 }

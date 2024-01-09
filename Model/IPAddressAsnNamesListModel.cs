@@ -51,7 +51,7 @@ namespace DigitalRuby.IPBanProSDK
         /// ToString
         /// </summary>
         /// <returns>String</returns>
-        public override string ToString()
+        public override readonly string ToString()
         {
             return $"Id: {Id}, Name: {Name}, Lang: {LanguageCode}";
         }
@@ -61,7 +61,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         /// <param name="obj">Object</param>
         /// <returns>True if equal, false if not</returns>
-        public override bool Equals(object obj)
+        public override readonly bool Equals(object obj)
         {
             if (obj is IPAddressAsnName name)
             {
@@ -96,7 +96,7 @@ namespace DigitalRuby.IPBanProSDK
         /// Get hash code
         /// </summary>
         /// <returns>Hash code</returns>
-        public override int GetHashCode()
+        public override readonly int GetHashCode()
         {
             return Id;
         }

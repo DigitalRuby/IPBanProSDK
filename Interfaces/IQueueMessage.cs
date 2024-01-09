@@ -31,7 +31,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="message">Message to send, should be a Message or byte[]</param>
         /// <param name="groupId">Group id, or 0 for none</param>
         /// <returns>True if success, false if error</returns>
-        bool QueueMessage(object message, int groupId = 0);
+        System.Threading.Tasks.Task<bool> QueueMessage(object message, int groupId = 0);
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="message">Message to queue, should be Message or byte[]</param>
         /// <param name="clients">Clients to send to (null for all)</param>
         /// <returns>True if queued, false if no group with the specified id or disposed</returns>
-        bool QueueMessageForClients(int groupId, object message, System.Collections.Generic.IEnumerable<IQueueMessage> clients = null);
+        System.Threading.Tasks.Task<bool> QueueMessageForClients(int groupId, object message, System.Collections.Generic.IEnumerable<IQueueMessage> clients = null);
     }
 
     /// <summary>
