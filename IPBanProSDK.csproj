@@ -37,7 +37,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
 		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
 		<PackageReference Include="protobuf-net" Version="3.2.30" />
-		<PackageReference Include="SharpCompress" Version="0.35.0" />
+		<PackageReference Include="SharpCompress" Version="0.36.0" />
 	</ItemGroup>
 
 	<ItemGroup>
