@@ -426,6 +426,11 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.AggregateBanUserNamesAllowBlank))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [IgnoreDataMember]
+        [NotMapped]
+        [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
         public bool AggregateBanUserNamesAllowBlankBool
         {
             get => AggregateBanUserNamesAllowBlank == 1;
