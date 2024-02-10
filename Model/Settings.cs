@@ -404,7 +404,7 @@ namespace DigitalRuby.IPBanProSDK
         public int CountryBlacklistFirstFailedLogin { get; set; } = 1;
 
         /// <summary>
-        /// Entity framework storage for AggregateBanUserNamesBool
+        /// Count and hour timeframe to aggregate user names and ban over time
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
@@ -412,6 +412,25 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 27)]
         public string AggregateBanUserNames { get; set; } = "5,24";
+
+        /// <summary>
+        /// Entity framework storage for AggregateBanUserNamesAllowBlankBool
+        /// </summary>
+        [DataMember(Order = 28)]
+        public int AggregateBanUserNamesAllowBlank { get; set; } = 0;
+
+        /// <summary>
+        /// Entity framework storage for AggregateBanUserNamesBool
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.AggregateBanUserNamesAllowBlank))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool AggregateBanUserNamesAllowBlankBool
+        {
+            get => AggregateBanUserNamesAllowBlank == 1;
+            set => AggregateBanUserNamesAllowBlank = (value ? 1 : 0);
+        }
 
         /// <summary>
         /// Whether to invert the country block list as allow only in list and block everything else (true) or to
@@ -436,7 +455,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Entity framework storage for CountryBlacklistInvertBool
         /// </summary>
-        [DataMember(Order = 28)]
+        [DataMember(Order = 29)]
         public int CountryBlacklistInvert { get; set; }
 
         /// <summary>
@@ -447,7 +466,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.SetFirewallMonitoring))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 29)]
+        [DataMember(Order = 30)]
         public string EnableMonitoring { get; set; } = "0";
 
         /// <summary>
@@ -458,7 +477,7 @@ namespace DigitalRuby.IPBanProSDK
         [LocalizedDisplayName(nameof(IPBanResources.AutoWhitelistSuccessLogins))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [Range(0, 365)]
-        [DataMember(Order = 30)]
+        [DataMember(Order = 31)]
         public int SuccessfulLoginAutoWhitelistDays { get; set; }
 
         /// <summary>
@@ -469,7 +488,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.OtherLists))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 31)]
+        [DataMember(Order = 32)]
         public string OtherLists { get; set; } = string.Empty;
 
         /// <summary>
@@ -479,7 +498,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.NotificationDuplicateFilterWindow))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 32)]
+        [DataMember(Order = 33)]
         public string NotificationDuplicateFilterWindow { get; set; } = string.Empty;
 
         /// <summary>
@@ -503,7 +522,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Country blacklist precise int
         /// </summary>
-        [DataMember(Order = 33)]
+        [DataMember(Order = 34)]
         public int CountryBlacklistPrecise { get; set; }
 
         /// <summary>
@@ -513,7 +532,7 @@ namespace DigitalRuby.IPBanProSDK
         [Required(AllowEmptyStrings = true)]
         [LocalizedDisplayName(nameof(IPBanResources.AsnBlacklist))]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 34)]
+        [DataMember(Order = 35)]
         public string AsnBlacklist { get; set; } = string.Empty;
     }
 }
