@@ -174,6 +174,11 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushWhitelistUrl = "push_whitelist_url";
 
         /// <summary>
+        /// Push pro config
+        /// </summary>
+        public const string MessagePushProConfig = "push_pro_config";
+
+        /// <summary>
         /// Key for ip address
         /// </summary>
         public const string KeyIPAddress = "IPAddress";

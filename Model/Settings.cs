@@ -539,5 +539,15 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 35)]
         public string AsnBlacklist { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Concurrent ip banning
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [LocalizedDisplayName(nameof(IPBanResources.ConcurrentRemoteIPBan))]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 36)]
+        public string ConcurrentRemoteIPBan { get; set; } = string.Empty;
     }
 }
