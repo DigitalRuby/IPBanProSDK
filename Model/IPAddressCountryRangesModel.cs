@@ -50,21 +50,27 @@ namespace DigitalRuby.IPBanProSDK
         public int Id { get; set; }
 
         /// <summary>
-        /// Two letter iso code
+        /// Geo name parent id
         /// </summary>
         [DataMember(Order = 2)]
+        public int ParentId { get; set; }
+
+        /// <summary>
+        /// Two letter iso code
+        /// </summary>
+        [DataMember(Order = 3)]
         public string Code { get; set; }
 
         /// <summary>
         /// Item 0 : Code, Item 1 = English Name, Item 2+ Other names in other languages
         /// </summary>
-        [DataMember(Order = 3)]
+        [DataMember(Order = 4)]
         public List<string> Names { get; set; } = [];
 
         /// <summary>
         /// All ip addresses
         /// </summary>
-        [DataMember(Order = 4)]
+        [DataMember(Order = 5)]
         public List<string> Ranges { get; set;  } = [];
     }
 }
