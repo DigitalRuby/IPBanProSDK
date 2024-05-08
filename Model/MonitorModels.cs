@@ -137,9 +137,23 @@ namespace DigitalRuby.IPBanProSDK
     public class MachineNamesModel : BaseMonitorModel
     {
         /// <summary>
+        /// Machine name
+        /// </summary>
+        /// <param name="Name">Name</param>
+        /// <param name="Value">Value</param>
+        public record MachineName(string Name, string Value) : IComparable<MachineName>
+        {
+            /// <inheritdoc />
+            public int CompareTo(MachineName other)
+            {
+                return string.Compare(Name, other.Name, StringComparison.OrdinalIgnoreCase);
+            }
+        }
+        
+        /// <summary>
         /// Machine names
         /// </summary>
-        public System.Collections.Generic.SortedSet<string> MachineNames { get; set; }
+        public System.Collections.Generic.SortedSet<MachineName> MachineNames { get; set; }
 
         /// <summary>
         /// Aggregate value, 0 for nothing, 1 for everything otherwise ,fqdn1,fqdn2, format
