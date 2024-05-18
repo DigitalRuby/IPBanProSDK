@@ -220,11 +220,6 @@ namespace DigitalRuby.IPBanProSDK
         public Func<IQueueMessage, Message, Task> OnMessage { get; set; }
 
         /// <summary>
-        /// Interval to call connect at regularly (default is 1 hour)
-        /// </summary>
-        public TimeSpan ConnectInterval { get; set; } = TimeSpan.FromHours(1.0);
-
-        /// <summary>
         /// Keep alive interval (default is 30 seconds)
         /// </summary>
         public TimeSpan KeepAlive { get; set; } = TimeSpan.FromSeconds(30.0);
@@ -404,6 +399,14 @@ namespace DigitalRuby.IPBanProSDK
                         {
                         }
                     }
+                    try
+                    {
+                        await webSocket.CloseAsync(WebSocketCloseStatus.InternalServerError, "Failed to send message", cancellationTokenSource.Token);
+                        webSocket.Dispose();
+                    }
+                    catch
+                    {
+                    }
                     throw;
                 }
             }
@@ -547,8 +550,6 @@ namespace DigitalRuby.IPBanProSDK
                     wasConnected = true;
                     Logger.Info("Client web socket successfully connected to {0}", uri);
 
-                    // on connect may make additional calls that must succeed, such as rest calls
-                    // for lists, etc.
                     await QueueActionsWithNoExceptions(InvokeConnected);
 
                     while (webSocket.State == WebSocketState.Open)
@@ -743,14 +744,6 @@ namespace DigitalRuby.IPBanProSDK
                             IPBanCore.Logger.Info(ex.ToString());
                         }
                     }
-                    result = default;
-                }
-                if (ConnectInterval.Ticks > 0 && (IPBanService.UtcNow - lastCheck) >= ConnectInterval)
-                {
-                    lastCheck = IPBanService.UtcNow;
-
-                    // this must succeed, the callback may be requests lists or other resources that must not fail
-                    await QueueActionsWithNoExceptions(InvokeConnected);
                 }
             }
         }
