@@ -179,6 +179,11 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushProConfig = "push_pro_config";
 
         /// <summary>
+        /// Push log
+        /// </summary>
+        public const string MessagePushLog = "push_log";
+
+        /// <summary>
         /// Key for ip address
         /// </summary>
         public const string KeyIPAddress = "IPAddress";
