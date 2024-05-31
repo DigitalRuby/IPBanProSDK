@@ -549,5 +549,113 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 36)]
         public string ConcurrentRemoteIPBan { get; set; } = string.Empty;
+
+        /// <summary>
+        /// All other properties go here. Can document in this comment.
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [DataMember(Order = 37)]
+        public string PropertiesJson { get; set;  } = string.Empty;
+
+        [NotMapped]
+        [IgnoreDataMember]
+        [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        public Dictionary<string, string> Properties
+        {
+            get => string.IsNullOrWhiteSpace(PropertiesJson) ? [] : JsonConvert.DeserializeObject<Dictionary<string, string>>(PropertiesJson);
+            set => PropertiesJson = JsonConvert.SerializeObject(value);
+        }
+
+        [NotMapped]
+        [IgnoreDataMember]
+        [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        public int LogsMachineId
+        {
+            get
+            {
+                string value = PropHelper.GetProp(PropertiesJson, nameof(LogsMachineId));
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    return 0;
+                }
+                return int.Parse(value);
+            }
+            set
+            {
+                PropertiesJson = PropHelper.SetProp(PropertiesJson, nameof(LogsMachineId), value.ToString());
+            }
+        }
+
+        [NotMapped]
+        [IgnoreDataMember]
+        [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        public DigitalRuby.IPBanCore.LogLevel LogsLevel
+        {
+            get
+            {
+                string value = PropHelper.GetProp(PropertiesJson, nameof(LogsLevel));
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    return DigitalRuby.IPBanCore.LogLevel.Information;
+                }
+                return Enum.Parse<DigitalRuby.IPBanCore.LogLevel>(value);
+            }
+            set
+            {
+                PropertiesJson = PropHelper.SetProp(PropertiesJson, nameof(LogsLevel), value.ToString());
+            }
+        }
+
+        [NotMapped]
+        [IgnoreDataMember]
+        [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        public DateTime LogsTimestamp
+        {
+            get
+            {
+                string value = PropHelper.GetProp(PropertiesJson, nameof(LogsTimestamp));
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    return IPBanService.UtcNow;
+                }
+                return DateTime.Parse(value);
+            }
+            set
+            {
+                PropertiesJson = PropHelper.SetProp(PropertiesJson, nameof(LogsTimestamp), value.ToUniversalTime().ToString("s") + "Z");
+            }
+        }
+
+        [NotMapped]
+        [IgnoreDataMember]
+        [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        public int LogsMaxCount
+        {
+            get
+            {
+                string value = PropHelper.GetProp(PropertiesJson, nameof(LogsMaxCount));
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    return 10000;
+                }
+                return int.Parse(value);
+            }
+            set
+            {
+                PropertiesJson = PropHelper.SetProp(PropertiesJson, nameof(LogsMaxCount), value.ToString());
+            }
+        }
     }
 }
