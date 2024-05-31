@@ -604,7 +604,7 @@ namespace DigitalRuby.IPBanProSDK
                 string value = PropHelper.GetProp(PropertiesJson, nameof(LogsLevel));
                 if (string.IsNullOrWhiteSpace(value))
                 {
-                    return DigitalRuby.IPBanCore.LogLevel.Information;
+                    return DigitalRuby.IPBanCore.LogLevel.Error;
                 }
                 return Enum.Parse<DigitalRuby.IPBanCore.LogLevel>(value);
             }
