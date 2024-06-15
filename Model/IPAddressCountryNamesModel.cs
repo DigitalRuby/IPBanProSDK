@@ -33,6 +33,6 @@ namespace DigitalRuby.IPBanProSDK
         /// Country names
         /// </summary>
         [DataMember(Order = 1)]
-        public IReadOnlyDictionary<int, IList<string>> Names { get; set; }
+        public IReadOnlyDictionary<int, List<string>> Names { get; set; }
     }
 }
