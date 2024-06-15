@@ -592,6 +592,8 @@ namespace DigitalRuby.IPBanProSDK
             }
         }
 
+        private DigitalRuby.IPBanCore.LogLevel lastLogLevel;
+        private string lastLogLevelString;
         [NotMapped]
         [IgnoreDataMember]
         [XmlIgnore]
@@ -606,7 +608,13 @@ namespace DigitalRuby.IPBanProSDK
                 {
                     return DigitalRuby.IPBanCore.LogLevel.Error;
                 }
-                return Enum.Parse<DigitalRuby.IPBanCore.LogLevel>(value);
+                else if (value == lastLogLevelString)
+                {
+                    return lastLogLevel;
+                }
+                lastLogLevelString = value;
+                lastLogLevel = Enum.Parse<DigitalRuby.IPBanCore.LogLevel>(value);
+                return lastLogLevel;
             }
             set
             {
