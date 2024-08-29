@@ -551,9 +551,24 @@ namespace DigitalRuby.IPBanProSDK
         public string ConcurrentRemoteIPBan { get; set; } = string.Empty;
 
         /// <summary>
-        /// All other properties go here. Can document in this comment.
+        /// Threshold for banning an ip address range /24 (count, days)
         /// </summary>
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [NotMapped]
+        [IgnoreDataMember]
+        [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        [LocalizedDisplayName(nameof(IPBanResources.BanRangeThreshold))]
+        public string BanRangeThreshold
+        {
+            get { return PropHelper.GetProp(PropertiesJson, nameof(BanRangeThreshold)); }
+            set { PropertiesJson = PropHelper.SetProp(PropertiesJson, nameof(BanRangeThreshold), value); }
+        }
+
+       /// <summary>
+       /// All other properties go here. Can document in this comment.
+       /// </summary>
+       [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 37)]
