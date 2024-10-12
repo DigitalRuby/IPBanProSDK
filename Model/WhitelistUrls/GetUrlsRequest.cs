@@ -29,10 +29,5 @@ namespace DigitalRuby.IPBanProSDK.Model.WhitelistUrls
         /// Id of the url to get or null/empty for no id filter
         /// </summary>
         public string Id { get; set; }
-
-        /// <summary>
-        /// Only get urls beyond this timestamp, or null for no timestamp filter
-        /// </summary>
-        public DateTime? Timestamp { get; set; }
     }
 }

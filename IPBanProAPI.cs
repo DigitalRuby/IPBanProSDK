@@ -194,23 +194,10 @@ namespace DigitalRuby.IPBanProSDK
         public Task<GetUrlsResponse> WhitelistGetUrls(GetUrlsRequest request)
         {
             var id = string.IsNullOrWhiteSpace(request.Id) ? null : "id=" + HttpUtility.UrlEncode(request.Id);
-            var timestamp = request.Timestamp is null ? null : "timestamp=" + HttpUtility.UrlEncode(request.Timestamp.Value.ToString("o"));
             var query = string.Empty;
             if (id is not null)
             {
                 query = "?" + id;
-            }
-            if (timestamp is not null)
-            {
-                if (query is null)
-                {
-                    query = "?";
-                }
-                else
-                {
-                    query += "&";
-                }
-                query += timestamp;
             }
             return MakeRequestAsync<GetUrlsResponse>($"aw/urls{query}");
         }
