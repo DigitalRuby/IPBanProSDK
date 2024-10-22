@@ -67,5 +67,11 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 4)]
         public string Source { get; set; }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            return $"Failed login, Machine: {Machine?.FQDN}, User: {UserName}, Source: {Source}, Timestamp: {CreatedAt}";
+        }
     }
 }
