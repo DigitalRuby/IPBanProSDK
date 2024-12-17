@@ -16,7 +16,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
+using Newtonsoft.Json;
+
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
@@ -26,5 +29,25 @@ namespace DigitalRuby.IPBanProSDK
     /// </summary>
     [Serializable]
     [DataContract]
-    public class BlacklistedIPAddress : IPAddressEntry { }
+    public class BlacklistedIPAddress : IPAddressEntry
+    {
+        /// <summary>
+        /// Notes
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [Required(AllowEmptyStrings = true)]
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [MaxLength(1024)]
+        public string Notes { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Updated at
+        /// </summary>
+        public DateTime UpdatedAt { get; set; }
+
+        /// <summary>
+        /// Active
+        /// </summary>
+        public bool Active { get; set; } = true;
+    }
 }

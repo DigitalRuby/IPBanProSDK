@@ -68,15 +68,5 @@ namespace DigitalRuby.IPBanProSDK
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 3)]
         public DateTime CreatedAt { get; set; }
-
-        /// <summary>
-        /// Notes
-        /// </summary>
-        [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [Required(AllowEmptyStrings = true)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [DataMember(Order = 4)]
-        [MaxLength(1024)]
-        public string Notes { get; set; } = string.Empty;
     }
 }
