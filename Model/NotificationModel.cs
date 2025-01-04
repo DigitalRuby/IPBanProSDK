@@ -50,6 +50,12 @@ namespace DigitalRuby.IPBanProSDK
         public IReadOnlyCollection<string> ToAddresses { get; set; }
 
         /// <summary>
+        /// Extra data
+        /// </summary>
+        [DataMember(Order = 4)]
+        public Dictionary<string, object> Data { get; } = new(StringComparer.OrdinalIgnoreCase);
+
+        /// <summary>
         /// Format a string
         /// </summary>
         /// <param name="context">Context</param>
