@@ -402,10 +402,19 @@ namespace DigitalRuby.IPBanProSDK
                     try
                     {
                         await webSocket.CloseAsync(WebSocketCloseStatus.InternalServerError, "Failed to send message", cancellationTokenSource.Token);
-                        webSocket.Dispose();
                     }
                     catch
                     {
+                    }
+                    finally
+                    {
+                        try
+                        {
+                            webSocket.Dispose();
+                        }
+                        catch
+                        {
+                        }
                     }
                     throw;
                 }
