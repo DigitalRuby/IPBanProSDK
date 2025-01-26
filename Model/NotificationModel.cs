@@ -20,6 +20,7 @@ using DigitalRuby.IPBanCore;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace DigitalRuby.IPBanProSDK
@@ -73,6 +74,13 @@ namespace DigitalRuby.IPBanProSDK
                 Logger.Error("Unable to format string '{0}' ({1}): {2}", text, context, ex);
                 return null;
             }
+        }
+
+        /// <inheritdoc />
+        public override string ToString()
+        {
+            var to = string.Join(',', ToAddresses ?? []);
+            return $"{to} {Subject}";
         }
     }
 }
