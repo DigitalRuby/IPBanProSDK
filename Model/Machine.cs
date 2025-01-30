@@ -145,7 +145,7 @@ namespace DigitalRuby.IPBanProSDK
         public string Status { get; set; }
 
         /// <summary>
-        /// Comma separated ip addresses to always allow on just this machine
+        /// Comma separated ip addresses to always allow on just this machine. Can use | to delimit with allowed ports (all other ports are blocked).
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]

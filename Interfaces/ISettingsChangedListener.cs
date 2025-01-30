@@ -26,7 +26,9 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Notify that settings have changed
         /// </summary>
+        /// <param name="newSettings">New settings</param>
+        /// <param name="inUpdate">Whether the settings listener is already in update</param>
         /// <returns>Task</returns>
-        System.Threading.Tasks.Task SettingsChanged(Settings newSettings);
+        System.Threading.Tasks.Task SettingsChanged(Settings newSettings, bool inUpdate);
     }
 }
