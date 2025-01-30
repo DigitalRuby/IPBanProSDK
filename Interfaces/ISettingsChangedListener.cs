@@ -26,6 +26,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Notify that settings have changed
         /// </summary>
-        void SettingsChanged(Settings newSettings);
+        /// <returns>Task</returns>
+        System.Threading.Tasks.Task SettingsChanged(Settings newSettings);
     }
 }
