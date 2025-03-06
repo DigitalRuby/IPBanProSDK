@@ -54,7 +54,7 @@ namespace DigitalRuby.IPBanProSDK
         /// Extra data
         /// </summary>
         [DataMember(Order = 4)]
-        public Dictionary<string, object> Data { get; } = new(StringComparer.OrdinalIgnoreCase);
+        public Dictionary<string, object> Data { get; set; }
 
         /// <summary>
         /// Format a string
