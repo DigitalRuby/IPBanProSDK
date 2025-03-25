@@ -38,7 +38,7 @@
 		<PackageReference Include="Portable.BouncyCastle" Version="1.9.0" />
 		<PackageReference Include="protobuf-net" Version="3.2.46" />
 		<PackageReference Include="SharpCompress" Version="0.39.0" />
-		<PackageReference Include="System.Text.Encodings.Web" Version="9.0.2" />
+		<PackageReference Include="System.Text.Encodings.Web" Version="9.0.3" />
 	</ItemGroup>
 
 	<ItemGroup>
