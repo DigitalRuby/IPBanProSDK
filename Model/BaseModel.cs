@@ -75,6 +75,27 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
+        /// Get a property from a json string
+        /// </summary>
+        /// <param name="props">Json string</param>
+        /// <param name="name">Property name</param>
+        /// <returns>Found property value or null if not found/empty</returns>
+        public static T GetProp<T>(string props, string name)
+        {
+            if (string.IsNullOrWhiteSpace(props))
+            {
+                return default;
+            }
+            JToken token = JToken.Parse(props);
+            var stringValue = token[name]?.ToString();
+            if (string.IsNullOrWhiteSpace(stringValue))
+            {
+                return default;
+            }
+            return (T)Convert.ChangeType(stringValue, typeof(T));
+        }
+
+        /// <summary>
         /// Set a property on a json string
         /// </summary>
         /// <param name="props">Json string</param>

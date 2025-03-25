@@ -540,6 +540,22 @@ namespace DigitalRuby.IPBanProSDK
         [DataMember(Order = 35)]
         public string AsnBlacklist { get; set; } = string.Empty;
 
+
+        /// <summary>
+        /// Whether to whitelist asns instead of blacklist
+        /// </summary>
+        [NotMapped]
+        [IgnoreDataMember]
+        [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        [LocalizedDisplayName(nameof(IPBanResources.AsnBlacklistWhitelist))]
+        public bool AsnBlacklistWhitelistBool
+        {
+            get { return PropHelper.GetProp<bool>(PropertiesJson, nameof(AsnBlacklistWhitelistBool)); }
+            set { PropertiesJson = PropHelper.SetProp(PropertiesJson, nameof(AsnBlacklistWhitelistBool), value.ToString()); }
+        }
+
         /// <summary>
         /// Concurrent ip banning
         /// </summary>
