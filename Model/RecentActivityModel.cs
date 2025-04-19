@@ -91,4 +91,37 @@ namespace DigitalRuby.IPBanProSDK
         [DataMember(Order = 4)]
         public bool IsBlacklisted { get; set; }
     }
+
+    /// <summary>
+    /// Failged logins model
+    /// </summary>
+    public class RecentActivityFailedLoginsModel : BaseModel
+    {
+        /// <summary>
+        /// Failed logins
+        /// </summary>
+        public List<RecentActivityFailedLogin> FailedLogins { get; set; }
+    }
+
+    /// <summary>
+    /// Blocked ip addresses model
+    /// </summary>
+    public class RecentActivityBlockedIPAddressesModel : BaseModel
+    {
+        /// <summary>
+        /// Blocked ip addresses
+        /// </summary>
+        public List<BlacklistedIPAddress> BlockedIPAddresses { get; set; }
+    }
+
+    /// <summary>
+    /// Successful logins model
+    /// </summary>
+    public class RecentActivitySuccessfulLoginsModel : BaseModel
+    {
+        /// <summary>
+        /// Successful logins
+        /// </summary>
+        public List<SuccessLoginAttempt> SuccessfulLogins { get; set; }
+    }
 }

@@ -27,7 +27,7 @@ namespace DigitalRuby.IPBanProSDK
     /// </summary>
     [Serializable]
     [DataContract]
-    public class RecentActivitySummaryModel
+    public class RecentActivitySummaryModel : BaseModel
     {
         /// <summary>
         /// Country summary list
@@ -77,5 +77,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DataMember(Order = 3)]
         public int FailedLoginCount { get; set; }
+
+        /// <summary>
+        /// Successful login count
+        /// </summary>
+        [DataMember(Order = 4)]
+        public int SuccessfulLoginCount { get; set; }
     }
 }
