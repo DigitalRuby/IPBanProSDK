@@ -184,6 +184,11 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushLog = "push_log";
 
         /// <summary>
+        /// Push reset machine guid
+        /// </summary>
+        public const string MessagePushResetMachineGuid = "push_reset_machine_guid";
+
+        /// <summary>
         /// Key for ip address
         /// </summary>
         public const string KeyIPAddress = "IPAddress";
