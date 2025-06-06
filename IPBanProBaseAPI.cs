@@ -347,7 +347,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="uri">Uri</param>
         /// <param name="timestamp">Timestamp (unix milliseconds)</param>
         /// <param name="publicApiKey">Public api key</param>
-        /// <param name="ipAddress">IP address or '*' for any ip adress</param>
+        /// <param name="ipAddress">IP address or '*' for any ip address</param>
         /// <returns>Signature data string</returns>
         public static string CreateSignatureDataString(Uri uri, string timestamp, SecureString publicApiKey, string ipAddress = "*")
         {
@@ -387,7 +387,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <param name="timestamp">Timestamp (unix milliseconds)</param>
         /// <param name="publicApiKey">Public api key</param>
         /// <param name="privateApiKey">Private api key</param>
-        /// <param name="ipAddress">IP address or '*' for any ip adress</param>
+        /// <param name="ipAddress">IP address or '*' for any ip address</param>
         /// <returns>Signature</returns>
         /// <exception cref="System.ArgumentException">Invalid parameters</exception>
         public static string ComputeSignature(Uri uri, string timestamp, SecureString publicApiKey, SecureString privateApiKey, string ipAddress = "*")
