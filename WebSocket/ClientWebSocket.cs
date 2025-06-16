@@ -24,7 +24,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Net.WebSockets;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -40,7 +42,8 @@ namespace DigitalRuby.IPBanProSDK
     /// Default constructor, does not begin listening immediately. You must set the properties and then call Start.
     /// </remarks>
     /// <param name="serializer">Serializer, null for default serializer</param>
-    public sealed class ClientWebSocket(ISerializer serializer = null) : IQueueMessage
+    /// <param name="clientCertificate">Optional client certificate</param>
+    public sealed class ClientWebSocket(ISerializer serializer = null, X509Certificate2 clientCertificate = null) : IQueueMessage
     {
         /// <summary>
         /// Client web socket implementation
@@ -105,6 +108,7 @@ namespace DigitalRuby.IPBanProSDK
         private class ClientWebSocketImplementation : IClientWebSocketImplementation
         {
             private readonly System.Net.WebSockets.ClientWebSocket webSocket = new();
+            private X509Certificate2 clientCertificate;
 
             public WebSocketState State
             {
@@ -117,12 +121,18 @@ namespace DigitalRuby.IPBanProSDK
                 set => webSocket.Options.KeepAliveInterval = value;
             }
 
-            public ClientWebSocketImplementation(IEnumerable<KeyValuePair<string, object>> requestHeaders)
+            /// <summary>
+            /// Constructor
+            /// </summary>
+            /// <param name="requestHeaders">Request headers</param>
+            /// <param name="clientCertificate">Optional client certificate (caller is responsible for cleaning this up)</param>
+            public ClientWebSocketImplementation(IEnumerable<KeyValuePair<string, object>> requestHeaders, X509Certificate2 clientCertificate = null)
             {
                 foreach (KeyValuePair<string, object> header in requestHeaders)
                 {
                     webSocket.Options.SetRequestHeader(header.Key, header.Value.ToHttpHeaderString());
                 }
+                this.clientCertificate = clientCertificate;
             }
 
             public void Dispose()
@@ -142,7 +152,14 @@ namespace DigitalRuby.IPBanProSDK
 
             public Task ConnectAsync(Uri uri, CancellationToken cancellationToken)
             {
-                return webSocket.ConnectAsync(uri, cancellationToken);
+                HttpMessageInvoker invoker = null;
+                if (clientCertificate is not null)
+                {
+                    var handler = new HttpClientHandler();
+                    handler.ClientCertificates.Add(clientCertificate);
+                    invoker = new(handler);
+                }
+                return webSocket.ConnectAsync(uri, invoker, cancellationToken);
             }
 
             public Task<WebSocketReceiveResult> ReceiveAsync(ArraySegment<byte> buffer, CancellationToken cancellationToken)
@@ -175,7 +192,7 @@ namespace DigitalRuby.IPBanProSDK
         {
             if (webSocketCreator is null)
             {
-                webSocket = new ClientWebSocketImplementation(RequestHeaders ?? emptyRequestHeaders);
+                webSocket = new ClientWebSocketImplementation(RequestHeaders ?? emptyRequestHeaders, clientCertificate);
             }
             else
             {
