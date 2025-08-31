@@ -79,7 +79,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         /// <param name="props">Json string</param>
         /// <param name="name">Property name</param>
-        /// <returns>Found property value or null if not found/empty</returns>
+        /// <returns>Found property value or default if not found/empty</returns>
         public static T GetProp<T>(string props, string name)
         {
             if (string.IsNullOrWhiteSpace(props))
@@ -92,7 +92,14 @@ namespace DigitalRuby.IPBanProSDK
             {
                 return default;
             }
-            return (T)Convert.ChangeType(stringValue, typeof(T));
+            try
+            {
+                return (T)Convert.ChangeType(stringValue, typeof(T));
+            }
+            catch
+            {
+                return default;
+            }
         }
 
         /// <summary>
@@ -130,6 +137,13 @@ namespace DigitalRuby.IPBanProSDK
                 props = obj.ToString();
             }
             return props;
+        }
+
+        public static T SetProp<T>(string props, string name, T value)
+        {
+            string stringValue = value is null ? null : Convert.ToString(value, System.Globalization.CultureInfo.InvariantCulture);
+            SetProp(props, name, stringValue);
+            return value;
         }
     }
 }

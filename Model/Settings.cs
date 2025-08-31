@@ -696,5 +696,21 @@ namespace DigitalRuby.IPBanProSDK
                 PropertiesJson = PropHelper.SetProp(PropertiesJson, nameof(LogsMaxCount), value.ToString());
             }
         }
+
+        /// <summary>
+        /// Days to show in whitelist/blacklist UI form
+        /// </summary>
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
+        [LocalizedDisplayName(nameof(IPBanResources.DefaultWhitelistBlacklistDurationDays))]
+        [NotMapped]
+        [IgnoreDataMember]
+        [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        public int DefaultWhitelistBlacklistDurationDays
+        {
+            get => PropHelper.GetProp<int>(PropertiesJson, nameof(DefaultWhitelistBlacklistDurationDays));
+            set => PropertiesJson = PropHelper.SetProp(PropertiesJson, nameof(DefaultWhitelistBlacklistDurationDays), value.ToString());
+        }
     }
 }
