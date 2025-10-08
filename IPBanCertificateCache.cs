@@ -133,8 +133,13 @@ public sealed class IPBanCertificateCache : ICertificateCache
     {
         if (!File.Exists(publicKeyFile))
         {
-            throw new FileNotFoundException("Unable to find certificates at " + publicKeyFile + " and " + privateKeyFile);
+            throw new FileNotFoundException("Unable to find certificates at " + publicKeyFile);
         }
+        else if (!string.IsNullOrWhiteSpace(privateKeyFile) && !File.Exists(privateKeyFile))
+        {
+            throw new FileNotFoundException("Unable to find private key at " + privateKeyFile);
+        }
+
         X509Certificate2? result = null;
 
         // this should throw if loading the certificate fails
