@@ -189,6 +189,11 @@ namespace DigitalRuby.IPBanProSDK
         public const string MessagePushResetMachineGuid = "push_reset_machine_guid";
 
         /// <summary>
+        /// Push reset (purge) all banned ip addresses request
+        /// </summary>
+        public const string MessagePushResetBannedIPs = "push_reset_banned_ips";
+
+        /// <summary>
         /// Key for ip address
         /// </summary>
         public const string KeyIPAddress = "IPAddress";
