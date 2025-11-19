@@ -27,6 +27,7 @@ using ProtoBuf;
 
 using SharpCompress.Compressors;
 using SharpCompress.Compressors.Deflate;
+using SharpCompress.IO;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -118,7 +119,7 @@ namespace DigitalRuby.IPBanProSDK
             }
             MemoryStream ms = new();
             {
-                using var nonDisposeStream = SharpCompress.IO.NonDisposingStream.Create(ms);
+                using var nonDisposeStream = SharpCompressStream.Create(ms, true);
                 using var deflateStream = new DeflateStream(nonDisposeStream, CompressionMode.Compress, CompressionLevel.BestCompression);
                 System.Text.Json.JsonSerializer.Serialize(deflateStream, obj);
             }
