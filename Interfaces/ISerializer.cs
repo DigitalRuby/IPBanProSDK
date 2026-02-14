@@ -106,6 +106,13 @@ namespace DigitalRuby.IPBanProSDK
             }
         }
 
+        private class NoDisposeMemoryStream : MemoryStream
+        {
+            protected override void Dispose(bool disposing)
+            {
+            }
+        }
+
         /// <summary>
         /// Serialize an object to compressed json bytes
         /// </summary>
@@ -117,9 +124,9 @@ namespace DigitalRuby.IPBanProSDK
             {
                 return null;
             }
-            MemoryStream ms = new();
+            var ms = new NoDisposeMemoryStream();
             {
-                using var deflateStream = new DeflateStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression, true);
+                using var deflateStream = new DeflateStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression);
                 System.Text.Json.JsonSerializer.Serialize(deflateStream, obj);
             }
             return ms.ToArray();
