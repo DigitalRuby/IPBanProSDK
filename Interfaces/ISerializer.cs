@@ -119,8 +119,7 @@ namespace DigitalRuby.IPBanProSDK
             }
             MemoryStream ms = new();
             {
-                using var nonDisposeStream = SharpCompressStream.Create(ms, true);
-                using var deflateStream = new DeflateStream(nonDisposeStream, CompressionMode.Compress, CompressionLevel.BestCompression);
+                using var deflateStream = new DeflateStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression, true);
                 System.Text.Json.JsonSerializer.Serialize(deflateStream, obj);
             }
             return ms.ToArray();
