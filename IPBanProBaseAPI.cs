@@ -452,15 +452,15 @@ namespace DigitalRuby.IPBanProSDK
             header = header["Basic ".Length..];
             byte[] base64Bytes = Convert.FromBase64String(header);
             string base64String = Encoding.UTF8.GetString(base64Bytes);
-        int separatorIndex = base64String.IndexOf(':');
-        if (separatorIndex < 0)
+            int separatorIndex = base64String.IndexOf(':');
+            if (separatorIndex < 0)
             {
                 userName = "Unknown";
                 password = null;
                 return header;
             }
-        userName = base64String[..separatorIndex];
-        password = base64String[(separatorIndex + 1)..];
+            userName = base64String[..separatorIndex];
+            password = base64String[(separatorIndex + 1)..];
             return CreateBasicAuthorization(userName, password.ToSHA256String());
         }
 
