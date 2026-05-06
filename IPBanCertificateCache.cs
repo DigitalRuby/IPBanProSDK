@@ -112,10 +112,10 @@ public sealed class IPBanCertificateCache : ICertificateCache
                 return valid.Value;
             }
 
-            var clientCertificate = GetOrLoad(clientCertificatePath, clientCertificatePrivateKeyPath, clientCertificatePassword);
-            chain.ChainPolicy.ExtraStore.Add(clientCertificate);
-            chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
-            var result = chain.Build(clientCertificate);
+            var configuredClientCertificate = GetOrLoad(clientCertificatePath, clientCertificatePrivateKeyPath, clientCertificatePassword);
+            var result =
+                CertificateThumbprintsMatch(presentedCert, configuredClientCertificate) ||
+                PresentedCertificateChainsToConfiguredCertificate(presentedCert, configuredClientCertificate, chain);
             memoryCache.Set<bool?>(cacheKey, result, cacheOpt);
             return result;
         }
@@ -128,6 +128,29 @@ public sealed class IPBanCertificateCache : ICertificateCache
 
     /// <inheritdoc />
     public bool ShouldValidateClientCertificate => File.Exists(clientCertificatePath);
+
+    private static bool PresentedCertificateChainsToConfiguredCertificate(X509Certificate2 presentedCert, X509Certificate2 configuredClientCertificate, X509Chain chain)
+    {
+        chain.ChainPolicy.ExtraStore.Add(configuredClientCertificate);
+        chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllowUnknownCertificateAuthority;
+        if (!chain.Build(presentedCert))
+        {
+            return false;
+        }
+
+        foreach (var element in chain.ChainElements)
+        {
+            if (CertificateThumbprintsMatch(element.Certificate, configuredClientCertificate))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static bool CertificateThumbprintsMatch(X509Certificate2 a, X509Certificate2 b) =>
+        !string.IsNullOrWhiteSpace(a.Thumbprint) &&
+        StringComparer.OrdinalIgnoreCase.Equals(a.Thumbprint, b.Thumbprint);
 
     private static X509Certificate2 LoadCertificateInternal(string publicKeyFile, string? privateKeyFile, SecureString? password)
     {

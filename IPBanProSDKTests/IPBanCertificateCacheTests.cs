@@ -147,7 +147,16 @@ public class IPBanCertificateCacheTests
         // first call computes, second call hits the cache
         var first = cache.ValidateClientCertificate(presented, new X509Chain(), SslPolicyErrors.None);
         var second = cache.ValidateClientCertificate(presented, new X509Chain(), SslPolicyErrors.None);
-        Assert.That(first, Is.EqualTo(second));
+        Assert.That(first, Is.True);
+        Assert.That(second, Is.True);
+    }
+
+    [Test]
+    public void ValidateClientCertificate_DifferentPresentedCertificateReturnsFalse()
+    {
+        var cache = MakeCache(pubPemPath, privPemPath);
+        using var presented = CreateSelfSignedCertificate("different-client");
+        Assert.That(cache.ValidateClientCertificate(presented, new X509Chain(), SslPolicyErrors.None), Is.False);
     }
 
     [Test]
@@ -249,5 +258,12 @@ public class IPBanCertificateCacheTests
         {
             try { Directory.Delete(dir, recursive: true); } catch { }
         }
+    }
+
+    private static X509Certificate2 CreateSelfSignedCertificate(string commonName)
+    {
+        using var rsa = RSA.Create(2048);
+        var req = new CertificateRequest("CN=" + commonName, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        return req.CreateSelfSigned(DateTimeOffset.UtcNow.AddDays(-1), DateTimeOffset.UtcNow.AddDays(1));
     }
 }

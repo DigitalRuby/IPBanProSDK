@@ -330,5 +330,5 @@ ASALocalRun/
 .mfractor/
 
 # Coverage
-report/
-results/
+/coverage/report/
+/coverage/results/
