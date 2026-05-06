@@ -302,6 +302,9 @@ namespace DigitalRuby.IPBanProSDK
                 Logger.Info("Disposing client web socket that was connected to {0}", Uri);
 
                 disposed = true;
+                // Release any pending ack waiters before tearing the socket down so callers in
+                // WaitForAck do not block for the full 60s default timeout after Dispose.
+                ReleaseAllPendingAcks();
                 cancellationTokenSource.CancelAfter(1);
                 Task.Run(async () =>
                 {
@@ -461,10 +464,26 @@ namespace DigitalRuby.IPBanProSDK
                         return;
                     }
                 }
-                if (!evt.WaitOne(timeoutMilliseconds))
+
+                // Wait, but bail out promptly if the socket is disposed/cancelled. Polling here
+                // (instead of using a single combined wait handle) keeps the implementation simple
+                // and lets disposal release the ack via ReleaseAllPendingAcks for an immediate exit.
+                int remaining = timeoutMilliseconds;
+                const int slice = 100;
+                while (remaining > 0)
                 {
-                    throw new TimeoutException("Timeout waiting for ack id " + id);
+                    if (disposed || cancellationTokenSource.IsCancellationRequested)
+                    {
+                        return;
+                    }
+                    int wait = Math.Min(slice, remaining);
+                    if (evt.WaitOne(wait))
+                    {
+                        return;
+                    }
+                    remaining -= wait;
                 }
+                throw new TimeoutException("Timeout waiting for ack id " + id);
             }
         }
 
@@ -668,6 +687,13 @@ namespace DigitalRuby.IPBanProSDK
 
                 try
                 {
+                    // Release any callers waiting on a synchronous ack — without this, WaitForAck
+                    // would block its caller for up to 60s after a disconnect (the ack will never arrive
+                    // on this socket). Affected real-world flows: IPBanProServiceDelegate.QueueMessage
+                    // (single-threaded mode) which calls WaitForAck after every server-bound message; on
+                    // disconnect the next service cycle would stall for ~60s waiting on a phantom ack.
+                    ReleaseAllPendingAcks();
+
                     if (wasConnected)
                     {
                         await QueueActions(InvokeDisconnected);
@@ -691,6 +717,24 @@ namespace DigitalRuby.IPBanProSDK
                         IPBanCore.Logger.Info(ex.ToString());
                     }
                 }
+            }
+        }
+
+        private void ReleaseAllPendingAcks()
+        {
+            int count;
+            lock (acks)
+            {
+                count = acks.Count;
+                foreach (var kv in acks)
+                {
+                    try { kv.Value.Set(); } catch { }
+                }
+                acks.Clear();
+            }
+            if (count > 0)
+            {
+                Logger.Warn("ReleaseAllPendingAcks released {0} pending ack waiters on disconnect/dispose for {1}", count, Uri);
             }
         }
 
