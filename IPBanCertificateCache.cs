@@ -150,21 +150,23 @@ public sealed class IPBanCertificateCache : ICertificateCache
             {
                 result = X509CertificateLoader.LoadPkcs12FromFile(publicKeyFile, password?.ToUnsecureString());
             }
-
-            try
+            else
             {
-                if (password is null)
+                try
                 {
-                    result = X509Certificate2.CreateFromPemFile(publicKeyFile, privateKeyFile);
+                    if (password is null)
+                    {
+                        result = X509Certificate2.CreateFromPemFile(publicKeyFile, privateKeyFile);
+                    }
+                    else
+                    {
+                        result = X509Certificate2.CreateFromEncryptedPemFile(publicKeyFile, password.ToUnsecureString(), privateKeyFile);
+                    }
                 }
-                else
+                catch
                 {
-                    result = X509Certificate2.CreateFromEncryptedPemFile(publicKeyFile, password?.ToUnsecureString(), privateKeyFile);
+                    result = LoadCertificateInternalLegacy(publicKeyFile, privateKeyFile, password);
                 }
-            }
-            catch
-            {
-                result = LoadCertificateInternalLegacy(publicKeyFile, privateKeyFile, password);
             }
             Logger.Info("Loaded new server certificate from files: {0}, {1}", publicKeyFile, privateKeyFile);
         });

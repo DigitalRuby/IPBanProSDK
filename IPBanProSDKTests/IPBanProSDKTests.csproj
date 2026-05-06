@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net10.0</TargetFramework>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+		<IsPackable>false</IsPackable>
+		<RootNamespace>DigitalRuby.IPBanProSDKTests</RootNamespace>
+		<AssemblyName>DigitalRuby.IPBanProSDKTests</AssemblyName>
+		<PreserveCompilationContext>true</PreserveCompilationContext>
+		<LangVersion>latest</LangVersion>
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+		<TrimMode>partial</TrimMode>
+		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
+		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.TestPlatform.TestHost" Version="18.5.1" />
+		<PackageReference Include="nunit" Version="4.5.1" />
+		<PackageReference Include="NUnit3TestAdapter" Version="6.2.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.5.1" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="10.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.7" />
+		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="10.0.7" />
+		<!-- Coverlet collector hooks the XPlat Code Coverage data collector so we can
+		     measure line / branch coverage of IPBanProSDK via the test run. See coverage/run.ps1
+		     and coverage/coverlet.runsettings for the runner config. -->
+		<PackageReference Include="coverlet.collector" Version="6.0.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\IPBanProSDK.csproj" />
+	</ItemGroup>
+
+</Project>
