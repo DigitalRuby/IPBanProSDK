@@ -184,4 +184,16 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         public string MonitoringEnabled { get; set; }
     }
+
+    /// <summary>
+    /// Update the firewall monitor rule filter
+    /// </summary>
+    public class UpdateMonitorRuleFilterModel : BaseModel
+    {
+        /// <summary>
+        /// Whether the firewall monitor only reports IPBan Pro rule events (true) or all firewall rule
+        /// events including implicit / default-deny drops (false).
+        /// </summary>
+        public bool RestrictToIPBanProEvents { get; set; }
+    }
 }

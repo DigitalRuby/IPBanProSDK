@@ -557,6 +557,27 @@ namespace DigitalRuby.IPBanProSDK
         }
 
         /// <summary>
+        /// Whether the firewall monitor only reports IPBan Pro rule events (true, default) or all firewall
+        /// rule events including implicit/default-deny drops (false). Defaults to true when unset.
+        /// </summary>
+        [NotMapped]
+        [IgnoreDataMember]
+        [XmlIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
+        [Newtonsoft.Json.JsonIgnore]
+        [LocalizedDisplayName(nameof(IPBanResources.RestrictToIPBanProEvents))]
+        public bool RestrictToIPBanProEventsBool
+        {
+            get
+            {
+                // default to true (restrict to IPBan Pro rules) when the property has never been set
+                string value = PropHelper.GetProp(PropertiesJson, nameof(RestrictToIPBanProEventsBool));
+                return string.IsNullOrWhiteSpace(value) || (bool.TryParse(value, out bool b) && b);
+            }
+            set { PropertiesJson = PropHelper.SetProp(PropertiesJson, nameof(RestrictToIPBanProEventsBool), value.ToString()); }
+        }
+
+        /// <summary>
         /// Concurrent ip banning
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
