@@ -101,7 +101,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 using UnmanagedMemoryStream ms = new(bytesPtr, bytes.Length);
                 using var stream = new DeflateStream(ms, CompressionMode.Decompress);
-                var result = System.Text.Json.JsonSerializer.Deserialize(stream, type);
+                var result = System.Text.Json.JsonSerializer.Deserialize(stream, type, JsonSerializerUtility.Options);
                 return result;
             }
         }
@@ -127,7 +127,7 @@ namespace DigitalRuby.IPBanProSDK
             var ms = new NoDisposeMemoryStream();
             {
                 using var deflateStream = new DeflateStream(ms, CompressionMode.Compress, CompressionLevel.BestCompression);
-                System.Text.Json.JsonSerializer.Serialize(deflateStream, obj);
+                System.Text.Json.JsonSerializer.Serialize(deflateStream, obj, JsonSerializerUtility.Options);
             }
             return ms.ToArray();
         }
@@ -160,7 +160,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 return null;
             }
-            return System.Text.Json.JsonSerializer.Deserialize(bytes, type);
+            return System.Text.Json.JsonSerializer.Deserialize(bytes, type, JsonSerializerUtility.Options);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace DigitalRuby.IPBanProSDK
             {
                 return null;
             }
-            return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(obj);
+            return System.Text.Json.JsonSerializer.SerializeToUtf8Bytes(obj, JsonSerializerUtility.Options);
         }
 
         public string Description { get; } = "json";

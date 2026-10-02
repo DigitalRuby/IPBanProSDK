@@ -44,6 +44,38 @@ public class SerializerTests
     }
 
     [Test]
+    public void JsonDeflate_RoundTripWithParameters()
+    {
+        var s = JsonDeflateSerializer.Instance;
+        var msg = new Message
+        {
+            Id = "id1",
+            Name = "hello",
+            Parameters =
+            [
+                new("message", "blocked by country"),
+                new("CountryCodes", "US,CA"),
+                new("CountryBlacklistInvert", false),
+                new("Count", 42),
+            ],
+            Data = new Machine { Id = 9, FQDN = "a.example.com" },
+        };
+        var bytes = s.Serialize(msg);
+        Assert.That(bytes, Is.Not.Null);
+        var roundtrip = (Message)s.Deserialize(bytes, typeof(Message));
+        Assert.That(roundtrip.Id, Is.EqualTo("id1"));
+        Assert.That(roundtrip.Name, Is.EqualTo("hello"));
+        Assert.That(roundtrip.Parameters, Is.Not.Null);
+        Assert.That(roundtrip.Parameters.Count, Is.EqualTo(4));
+        Assert.That(roundtrip.Parameters[0].Key, Is.EqualTo("message"));
+        Assert.That(roundtrip.Parameters[0].Value?.ToString(), Is.EqualTo("blocked by country"));
+        Assert.That(roundtrip.Parameters[2].Key, Is.EqualTo("CountryBlacklistInvert"));
+        Assert.That(roundtrip.Parameters[2].Value, Is.EqualTo(false));
+        Assert.That(roundtrip.Parameters[3].Value, Is.EqualTo(42L).Or.EqualTo(42));
+        Assert.That(roundtrip.Data, Is.Not.Null);
+    }
+
+    [Test]
     public void JsonDeflate_NullSerializesToNull()
     {
         Assert.That(JsonDeflateSerializer.Instance.Serialize(null), Is.Null);
