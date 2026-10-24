@@ -255,27 +255,27 @@ public class IPBanProBaseAPITests
     }
 
     [Test]
-    public void MakeRequestAsync_ErrorTrueResponseThrows()
+    public async Task MakeRequestAsync_ErrorTrueResponseThrows()
     {
         var fake = new FakeHttpRequestMaker
         {
             Response = FakeHttpRequestMaker.Json(new { Error = true, Message = "bad" }),
         };
         using var api = new IPBanProBaseAPI { BaseUri = new Uri("https://api.ipban.com"), RequestMaker = fake };
-        var ex = Assert.ThrowsAsync<HttpRequestException>(async () =>
+        var ex = await Assert.ThrowsAsync<HttpRequestException>(async () =>
             await api.MakeRequestAsync<BlacklistedIPAddressesModel>("foo"));
         Assert.That(ex.Message, Does.Contain("bad"));
     }
 
     [Test]
-    public void MakeRequestAsync_TransportErrorRethrowsWrapped()
+    public async Task MakeRequestAsync_TransportErrorRethrowsWrapped()
     {
         var fake = new FakeHttpRequestMaker
         {
             ToThrow = new HttpRequestException("boom", null, System.Net.HttpStatusCode.BadGateway),
         };
         using var api = new IPBanProBaseAPI { BaseUri = new Uri("https://api.ipban.com"), RequestMaker = fake };
-        Assert.ThrowsAsync<HttpRequestException>(async () =>
+        await Assert.ThrowsAsync<HttpRequestException>(async () =>
             await api.MakeRequestAsync<BlacklistedIPAddressesModel>("foo"));
     }
 
