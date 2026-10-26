@@ -138,8 +138,12 @@ public class ClientWebSocketTests
         var rawAck = new WebSocketRawMessage(ackMessage);
         fake.EnqueueBinary(rawAck.Data);
 
+        // let the read loop pick up the ack without blocking a pool thread, the read loop needs one;
+        // a blocking wait here timed out under a loaded thread pool before the ack was ever read
+        await WaitFor(() => !fake.HasPendingIncoming, 10000);
+
         // WaitForAck should not throw; if the ack arrived it returns quickly
-        Assert.DoesNotThrow(() => sock.WaitForAck("abc-123", 2000));
+        Assert.DoesNotThrow(() => sock.WaitForAck("abc-123", 10000));
     }
 
     [Test]

@@ -25,6 +25,7 @@ internal sealed class FakeClientWebSocket : SdkClientWebSocket.IClientWebSocketI
     public Uri ConnectedUri { get; private set; }
     public bool Disposed { get; private set; }
     public bool ConnectAsyncCalled { get; private set; }
+    public bool HasPendingIncoming => !incoming.IsEmpty;
     public Func<Uri, Task> OnConnect { get; set; }
     public Exception ConnectThrows { get; set; }
     public Exception SendThrows { get; set; }
