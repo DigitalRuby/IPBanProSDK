@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 IPBanPro SDK - https://ipban.com | https://github.com/DigitalRuby/IPBanProSDK
 IPBan and IPBan Pro Copyright(c) 2012 Digital Ruby, LLC
@@ -16,8 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using Newtonsoft.Json;
-
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -35,7 +34,7 @@ namespace DigitalRuby.IPBanProSDK
         /// Ban state of ip addresses
         /// </summary>
         [DataMember(Order = 1)]
-        [JsonProperty(PropertyName = "ipAddressesBanState")]
+        [JsonPropertyName("ipAddressesBanState")]
         public IReadOnlyDictionary<string, string> IPAddressesBanState { get; set; }
     }
 }

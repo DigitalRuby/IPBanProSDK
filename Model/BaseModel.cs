@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 IPBanPro SDK - https://ipban.com | https://github.com/DigitalRuby/IPBanProSDK
 IPBan and IPBan Pro Copyright(c) 2012 Digital Ruby, LLC
@@ -19,11 +19,11 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.Serialization;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using System.Text.Json.Serialization;
 
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace DigitalRuby.IPBanProSDK
 {
@@ -37,7 +37,6 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Message if any
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 1)]
         [NotMapped]
         [BindNever]
@@ -46,7 +45,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// True if there is an error (check Message), false otherwise
         /// </summary>
-        [JsonProperty(DefaultValueHandling = DefaultValueHandling.Ignore)]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         [DataMember(Order = 2)]
         [NotMapped]
         [BindNever]
@@ -70,8 +69,8 @@ namespace DigitalRuby.IPBanProSDK
             {
                 return null;
             }
-            JToken token = JToken.Parse(props);
-            return token[name]?.ToString();
+            JsonNode node = JsonNode.Parse(props);
+            return NodeToString(node?[name]);
         }
 
         /// <summary>
@@ -86,8 +85,8 @@ namespace DigitalRuby.IPBanProSDK
             {
                 return default;
             }
-            JToken token = JToken.Parse(props);
-            var stringValue = token[name]?.ToString();
+            JsonNode node = JsonNode.Parse(props);
+            var stringValue = NodeToString(node?[name]);
             if (string.IsNullOrWhiteSpace(stringValue))
             {
                 return default;
@@ -119,7 +118,7 @@ namespace DigitalRuby.IPBanProSDK
                 }
                 props = "{}";
             }
-            JObject obj = JObject.Parse(props);
+            JsonObject obj = JsonNode.Parse(props) as JsonObject ?? new JsonObject();
             if (string.IsNullOrWhiteSpace(value))
             {
                 obj.Remove(name);
@@ -134,7 +133,7 @@ namespace DigitalRuby.IPBanProSDK
             }
             else
             {
-                props = obj.ToString();
+                props = obj.ToJsonString();
             }
             return props;
         }
@@ -144,6 +143,19 @@ namespace DigitalRuby.IPBanProSDK
             string stringValue = value is null ? null : Convert.ToString(value, System.Globalization.CultureInfo.InvariantCulture);
             SetProp(props, name, stringValue);
             return value;
+        }
+
+        private static string NodeToString(JsonNode node)
+        {
+            if (node is null)
+            {
+                return null;
+            }
+            if (node is JsonValue val && val.TryGetValue<string>(out string s))
+            {
+                return s;
+            }
+            return node.ToJsonString();
         }
     }
 }

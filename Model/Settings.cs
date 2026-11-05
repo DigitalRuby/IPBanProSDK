@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 IPBanPro SDK - https://ipban.com | https://github.com/DigitalRuby/IPBanProSDK
 IPBan and IPBan Pro Copyright(c) 2012 Digital Ruby, LLC
@@ -18,9 +18,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using DigitalRuby.IPBanCore;
 
-using Newtonsoft.Json;
-
 using System;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -48,7 +48,6 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [DataMember(Order = 1)]
@@ -59,8 +58,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.MaxActiveBlacklistedIPAddresses))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("MaxActiveBlacklistedIPAddresses")]
         [Range(0, 1000000)]
         [DataMember(Order = 2)]
         public int MaxActiveBlacklistedIPAddresses { get; set; }
@@ -70,8 +68,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklist))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("CountryBlacklist")]
         [DataMember(Order = 3)]
         public string CountryBlacklist { get; set; } = string.Empty;
 
@@ -80,8 +77,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.RecentListCount))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("RecentListCount")]
         [DataMember(Order = 4)]
         [Obsolete]
         public int RecentListCount { get; set; }
@@ -91,8 +87,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.NaughtyListCount))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("NaughtyListCount")]
         [DataMember(Order = 5)]
         [Obsolete]
         public int NaughtyListCount { get; set; }
@@ -102,8 +97,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.NotificationFlags))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("NotificationFlags")]
         [DataMember(Order = 6)]
         public IPBanCore.IPAddressNotificationFlags NotificationFlags { get; set; }
 
@@ -112,8 +106,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SmtpServer))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("SmtpServer")]
         [DataMember(Order = 7)]
         public string SmtpServer { get; set; }
 
@@ -122,8 +115,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SmtpPort))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("SmtpPort")]
         [DataMember(Order = 8)]
         public int SmtpPort { get; set; }
 
@@ -132,8 +124,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.UserName))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("UserName")]
         [DataMember(Order = 9)]
         public string SmtpUser { get; set; }
 
@@ -142,8 +133,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.Password))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("Password")]
         [DataMember(Order = 10)]
         public string SmtpPassword { get; set; }
 
@@ -160,13 +150,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.EnableSSL))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [IgnoreDataMember]
+        [LocalizedDisplayName("EnableSSL")]
+                [IgnoreDataMember]
         [NotMapped]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public bool SmtpEnableSslBool
         {
             get { return (SmtpEnableSsl & 1) == 1; }
@@ -188,13 +176,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SslSelfSignedCertificate))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [IgnoreDataMember]
+        [LocalizedDisplayName("SslSelfSignedCertificate")]
+                [IgnoreDataMember]
         [NotMapped]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public bool SmtpSslSelfSignedCertificateBool
         {
             get { return (SmtpEnableSsl & 2) == 2; }
@@ -216,8 +202,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SmtpFrom))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("SmtpFrom")]
         [DataMember(Order = 12)]
         public string SmtpFrom { get; set; }
 
@@ -226,8 +211,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SmtpTo))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("SmtpTo")]
         [DataMember(Order = 13)]
         public string SmtpTo { get; set; }
 
@@ -237,8 +221,7 @@ namespace DigitalRuby.IPBanProSDK
         [IgnoreDataMember]
         [NotMapped]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public IReadOnlyCollection<string> SmtpToAddresses => SmtpTo.SplitWithNoEmptyEntries(',', ';');
 
         /// <summary>
@@ -246,8 +229,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SmtpSubjectTemplate))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("SmtpSubjectTemplate")]
         [DataMember(Order = 14)]
         public string SmtpSubjectTemplate { get; set; }
 
@@ -256,8 +238,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SmtpBodyTemplate))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("SmtpBodyTemplate")]
         [DataMember(Order = 15)]
         public string SmtpBodyTemplate { get; set; }
 
@@ -266,8 +247,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SmtpWhoisSubjectTemplate))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("SmtpWhoisSubjectTemplate")]
         [DataMember(Order = 16)]
         public string SmtpWhoIsSubjectTemplate { get; set; }
 
@@ -276,8 +256,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SmtpWhoisBodyTemplate))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("SmtpWhoisBodyTemplate")]
         [DataMember(Order = 17)]
         public string SmtpWhoIsBodyTemplate { get; set; }
 
@@ -286,8 +265,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.NotificationWebHook))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("NotificationWebHook")]
         [DataMember(Order = 18)]
         public string NotificationWebHook { get; set; }
 
@@ -296,8 +274,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.ClientConfiguration))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("ClientConfiguration")]
         [DataMember(Order = 19)]
         public string ConfigXml { get; set; }
 
@@ -306,8 +283,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.PublicAPIKey))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("PublicAPIKey")]
         [DataMember(Order = 20)]
         public string PublicAPIKey { get; set; }
 
@@ -316,8 +292,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.PrivateAPIKey))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("PrivateAPIKey")]
         [DataMember(Order = 21)]
         public string PrivateAPIKey { get; set; }
 
@@ -326,8 +301,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.MinimumTrustLevel))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("MinimumTrustLevel")]
         [Range(0, 11)]
         [DataMember(Order = 22)]
         public int MinimumTrustLevel { get; set; }
@@ -337,8 +311,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.BaseUrl))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("BaseUrl")]
         [DataMember(Order = 23)]
         public string BaseUrl { get; set; }
 
@@ -347,13 +320,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.EnableLists))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [IgnoreDataMember]
+        [LocalizedDisplayName("EnableLists")]
+                [IgnoreDataMember]
         [NotMapped]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public bool EnableListsBool
         {
             get => EnableLists == 1;
@@ -371,8 +342,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.AllowedPorts))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("AllowedPorts")]
         [DataMember(Order = 25)]
 
         public string CountryBlacklistAllowedPorts { get; set; } = string.Empty;
@@ -383,13 +353,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklistFirstFailedLogin))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [IgnoreDataMember]
+        [LocalizedDisplayName("CountryBlacklistFirstFailedLogin")]
+                [IgnoreDataMember]
         [NotMapped]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public bool CountryBlacklistFirstFailedLoginBool
         {
             get => CountryBlacklistFirstFailedLogin == 1;
@@ -408,8 +376,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.AggregateBanUserNames))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("AggregateBanUserNames")]
         [DataMember(Order = 27)]
         public string AggregateBanUserNames { get; set; } = "5,24";
 
@@ -424,13 +391,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.AggregateBanUserNamesAllowBlank))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [IgnoreDataMember]
+        [LocalizedDisplayName("AggregateBanUserNamesAllowBlank")]
+                [IgnoreDataMember]
         [NotMapped]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public bool AggregateBanUserNamesAllowBlankBool
         {
             get => AggregateBanUserNamesAllowBlank == 1;
@@ -443,13 +408,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklistInvert))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [IgnoreDataMember]
+        [LocalizedDisplayName("CountryBlacklistInvert")]
+                [IgnoreDataMember]
         [NotMapped]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public bool CountryBlacklistInvertBool
         {
             get => CountryBlacklistInvert == 1;
@@ -469,8 +432,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.SetFirewallMonitoring))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("SetFirewallMonitoring")]
         [DataMember(Order = 30)]
         public string EnableMonitoring { get; set; } = "0";
 
@@ -479,8 +441,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.AutoWhitelistSuccessLogins))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("AutoWhitelistSuccessLogins")]
         [Range(0, 365)]
         [DataMember(Order = 31)]
         public int SuccessfulLoginAutoWhitelistDays { get; set; }
@@ -491,8 +452,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.OtherLists))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("OtherLists")]
         [DataMember(Order = 32)]
         public string OtherLists { get; set; } = string.Empty;
 
@@ -501,8 +461,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.NotificationDuplicateFilterWindow))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("NotificationDuplicateFilterWindow")]
         [DataMember(Order = 33)]
         public string NotificationDuplicateFilterWindow { get; set; } = string.Empty;
 
@@ -511,13 +470,11 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.CountryBlacklistPrecise))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        [IgnoreDataMember]
+        [LocalizedDisplayName("CountryBlacklistPrecise")]
+                [IgnoreDataMember]
         [NotMapped]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public bool CountryBlacklistPreciseBool
         {
             get => CountryBlacklistPrecise == 1;
@@ -535,8 +492,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.AsnBlacklist))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("AsnBlacklist")]
         [DataMember(Order = 35)]
         public string AsnBlacklist { get; set; } = string.Empty;
 
@@ -547,9 +503,8 @@ namespace DigitalRuby.IPBanProSDK
         [NotMapped]
         [IgnoreDataMember]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
-        [LocalizedDisplayName(nameof(IPBanResources.AsnBlacklistWhitelist))]
+        [JsonIgnore]
+        [LocalizedDisplayName("AsnBlacklistWhitelist")]
         public bool AsnBlacklistWhitelistBool
         {
             get { return PropHelper.GetProp<bool>(PropertiesJson, nameof(AsnBlacklistWhitelistBool)); }
@@ -563,9 +518,8 @@ namespace DigitalRuby.IPBanProSDK
         [NotMapped]
         [IgnoreDataMember]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
-        [LocalizedDisplayName(nameof(IPBanResources.RestrictToIPBanProEvents))]
+        [JsonIgnore]
+        [LocalizedDisplayName("RestrictToIPBanProEvents")]
         public bool RestrictToIPBanProEventsBool
         {
             get
@@ -582,8 +536,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.ConcurrentRemoteIPBan))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("ConcurrentRemoteIPBan")]
         [DataMember(Order = 36)]
         public string ConcurrentRemoteIPBan { get; set; } = string.Empty;
 
@@ -593,9 +546,8 @@ namespace DigitalRuby.IPBanProSDK
         [NotMapped]
         [IgnoreDataMember]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
-        [LocalizedDisplayName(nameof(IPBanResources.BanRangeThreshold))]
+        [JsonIgnore]
+        [LocalizedDisplayName("BanRangeThreshold")]
         public string BanRangeThreshold
         {
             get { return PropHelper.GetProp(PropertiesJson, nameof(BanRangeThreshold)); }
@@ -607,26 +559,25 @@ namespace DigitalRuby.IPBanProSDK
        /// </summary>
        [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 37)]
         public string PropertiesJson { get; set;  } = string.Empty;
 
         [NotMapped]
         [IgnoreDataMember]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public Dictionary<string, string> Properties
         {
-            get => string.IsNullOrWhiteSpace(PropertiesJson) ? [] : JsonConvert.DeserializeObject<Dictionary<string, string>>(PropertiesJson);
-            set => PropertiesJson = JsonConvert.SerializeObject(value);
+            get => string.IsNullOrWhiteSpace(PropertiesJson)
+                ? []
+                : JsonSerializer.Deserialize<Dictionary<string, string>>(PropertiesJson, JsonSerializerUtility.Options) ?? [];
+            set => PropertiesJson = value is null ? string.Empty : JsonSerializer.Serialize(value, JsonSerializerUtility.Options);
         }
 
         [NotMapped]
         [IgnoreDataMember]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public int LogsMachineId
         {
             get
@@ -649,8 +600,7 @@ namespace DigitalRuby.IPBanProSDK
         [NotMapped]
         [IgnoreDataMember]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public DigitalRuby.IPBanCore.LogLevel LogsLevel
         {
             get
@@ -677,8 +627,7 @@ namespace DigitalRuby.IPBanProSDK
         [NotMapped]
         [IgnoreDataMember]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public DateTime LogsTimestamp
         {
             get
@@ -699,8 +648,7 @@ namespace DigitalRuby.IPBanProSDK
         [NotMapped]
         [IgnoreDataMember]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public int LogsMaxCount
         {
             get
@@ -722,12 +670,11 @@ namespace DigitalRuby.IPBanProSDK
         /// Days to show in whitelist/blacklist UI form
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
-        [LocalizedDisplayName(nameof(IPBanResources.DefaultWhitelistBlacklistDurationDays))]
+        [LocalizedDisplayName("DefaultWhitelistBlacklistDurationDays")]
         [NotMapped]
         [IgnoreDataMember]
         [XmlIgnore]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public int DefaultWhitelistBlacklistDurationDays
         {
             get => PropHelper.GetProp<int>(PropertiesJson, nameof(DefaultWhitelistBlacklistDurationDays));

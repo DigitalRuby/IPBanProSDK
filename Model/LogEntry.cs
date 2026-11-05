@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 IPBanPro SDK - https://ipban.com | https://github.com/DigitalRuby/IPBanProSDK
 IPBan and IPBan Pro Copyright(c) 2012 Digital Ruby, LLC
@@ -21,7 +21,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 using DigitalRuby.IPBanCore;
 
 namespace DigitalRuby.IPBanProSDK
@@ -38,7 +38,6 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Key]
         [DataMember(Order = 1)]
@@ -49,7 +48,6 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 2)]
         public long MachineId { get; set; }
 
@@ -58,7 +56,6 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 3)]
         public int LogLevel { get; set; }
 
@@ -67,7 +64,6 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 4)]
         public DateTime CreatedAt { get; set; }
 
@@ -76,8 +72,7 @@ namespace DigitalRuby.IPBanProSDK
         /// </summary>
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [Required(AllowEmptyStrings = true)]
-        [LocalizedDisplayName(nameof(IPBanResources.Notes))]
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        [LocalizedDisplayName("Notes")]
         [DataMember(Order = 5)]
         public string Message { get; set; } = string.Empty;
     }

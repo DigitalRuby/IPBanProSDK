@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 IPBanPro SDK - https://ipban.com | https://github.com/DigitalRuby/IPBanProSDK
 IPBan and IPBan Pro Copyright(c) 2012 Digital Ruby, LLC
@@ -18,8 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using DigitalRuby.IPBanCore;
 
-using Newtonsoft.Json;
-
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -114,14 +113,14 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// IP address
         /// </summary>
-        [JsonProperty(IPBanProBaseAPI.KeyIPAddress)]
+        [JsonPropertyName(IPBanProBaseAPI.KeyIPAddress)]
         [DataMember(Order = 1)]
         public string IPAddress { get; set; } = ipAddress;
 
         /// <summary>
         /// Ban count
         /// </summary>
-        [JsonProperty(IPBanProBaseAPI.KeyCount)]
+        [JsonPropertyName(IPBanProBaseAPI.KeyCount)]
         [DataMember(Order = 2)]
         public long BanCount { get; set; } = banCount;
     }
@@ -143,7 +142,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Timestamp
         /// </summary>
-        [JsonProperty("Timestamp")]
+        [JsonPropertyName("Timestamp")]
         [DataMember(Order = 1)]
         public DateTime Timestamp { get; set; } = timestamp;
 

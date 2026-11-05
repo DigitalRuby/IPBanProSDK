@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 IPBanPro SDK - https://ipban.com | https://github.com/DigitalRuby/IPBanProSDK
 IPBan and IPBan Pro Copyright(c) 2012 Digital Ruby, LLC
@@ -16,8 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using Newtonsoft.Json;
-
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +25,7 @@ using System.Runtime.Serialization;
 namespace DigitalRuby.IPBanProSDK
 {
     /// <summary>
-    /// A generic message useful for communciations in a variety of scenarios. Data will most likely be a JToken as json is the standard format used internally.
+    /// A generic message useful for communciations in a variety of scenarios. Data will most likely be JSON (JsonElement or similar) as json is the standard format used internally.
     /// </summary>
     [Serializable]
     [DataContract]
@@ -35,7 +34,6 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Unique id for the message, null if none
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 1)]
         public string Id { get; set; }
 

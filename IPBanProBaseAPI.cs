@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 IPBanPro SDK - https://ipban.com | https://github.com/DigitalRuby/IPBanProSDK
 IPBan and IPBan Pro Copyright(c) 2012 Digital Ruby, LLC
@@ -20,8 +20,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using DigitalRuby.IPBanCore;
 
-using Newtonsoft.Json;
-
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -538,7 +537,7 @@ namespace DigitalRuby.IPBanProSDK
                     }
                     else if (postJson is not null)
                     {
-                        postJsonBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(postJson));
+                        postJsonBytes = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(postJson, jsonOptions));
                     }
                 }
                 response = await RequestMaker.MakeRequestAsync(uri, postJsonBytes, headers, method);

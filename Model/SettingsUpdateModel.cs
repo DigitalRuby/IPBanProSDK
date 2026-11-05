@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 IPBanPro SDK - https://ipban.com | https://github.com/DigitalRuby/IPBanProSDK
 IPBan and IPBan Pro Copyright(c) 2012 Digital Ruby, LLC
@@ -18,8 +18,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 using DigitalRuby.IPBanCore;
 
-using Newtonsoft.Json;
-
+using System.Text.Json.Serialization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -66,7 +65,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Failed login attempts before ban
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.FailedLoginAttemptsBeforeBan))]
+        [LocalizedDisplayName("FailedLoginAttemptsBeforeBan")]
         [Range(0, 60)]
         [DataMember(Order = 1)]
         public int? FailedLoginAttemptsBeforeBan { get; set; }
@@ -74,28 +73,28 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Ban time
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.BanTime))]
+        [LocalizedDisplayName("BanTime")]
         [DataMember(Order = 2)]
         public string BanTime { get; set; }
 
         /// <summary>
         /// Whether to reset failed login count to 0 for unbanned ip addresses
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.ResetFailedLoginCountForUnbannedIPAddresses))]
+        [LocalizedDisplayName("ResetFailedLoginCountForUnbannedIPAddresses")]
         [DataMember(Order = 3)]
         public bool ResetFailedLoginCountForUnbannedIPAddresses { get; set; }
 
         /// <summary>
         /// Clear bans on restart
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.ClearBannedIPAddressesOnRestart))]
+        [LocalizedDisplayName("ClearBannedIPAddressesOnRestart")]
         [DataMember(Order = 4)]
         public bool ClearBannedIPAddressesOnRestart { get; set; }
 
         /// <summary>
         /// Expire time to forget failed login
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.ExpireTime))]
+        [LocalizedDisplayName("ExpireTime")]
         [DisplayFormat(DataFormatString = "{0:dd\\:hh\\:mm\\:ss}", ApplyFormatInEditMode = true)]
         [DataMember(Order = 5)]
         public TimeSpan? ExpireTime { get; set; }
@@ -103,7 +102,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// How often to run the ipban service
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.CycleTime))]
+        [LocalizedDisplayName("CycleTime")]
         [DisplayFormat(DataFormatString = "{0:dd\\:hh\\:mm\\:ss}", ApplyFormatInEditMode = true)]
         [DataMember(Order = 6)]
         public TimeSpan? CycleTime { get; set; }
@@ -111,7 +110,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Minimum time between failed login attempts to still count them
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.MinimumTimeBetweenFailedLoginAttempts))]
+        [LocalizedDisplayName("MinimumTimeBetweenFailedLoginAttempts")]
         [DisplayFormat(DataFormatString = "{0:dd\\:hh\\:mm\\:ss}", ApplyFormatInEditMode = true)]
         [DataMember(Order = 7)]
         public TimeSpan? MinimumTimeBetweenFailedLoginAttempts { get; set; }
@@ -121,7 +120,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Firewall rule prefix, use only letters, numbers and underscore
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.FirewallRulePrefix))]
+        [LocalizedDisplayName("FirewallRulePrefix")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 9)]
         public string FirewallRulePrefix { get; set; }
@@ -129,7 +128,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Comma separated list of ip addresses to always allow
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.IPWhitelist))]
+        [LocalizedDisplayName("IPWhitelist")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 10)]
         public string Whitelist { get; set; }
@@ -137,7 +136,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Regex of ip addresses to always allow
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.IPWhitelistRegex))]
+        [LocalizedDisplayName("IPWhitelistRegex")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 11)]
         public string WhitelistRegex { get; set; }
@@ -145,7 +144,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Comma separated list of ip addresses to always ban
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.IPBlacklist))]
+        [LocalizedDisplayName("IPBlacklist")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 12)]
         public string Blacklist { get; set; }
@@ -153,7 +152,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Regex of ip addresses to always ban
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.IPBlacklistRegex))]
+        [LocalizedDisplayName("IPBlacklistRegex")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 13)]
         public string BlacklistRegex { get; set; }
@@ -161,7 +160,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Comma separated list of user names to always allow
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.UserNameWhitelist))]
+        [LocalizedDisplayName("UserNameWhitelist")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 14)]
         public string UserNameWhitelist { get; set; }
@@ -169,7 +168,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// User name whitelist regex. If set, any mismatch user name causes immediate ban.
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.UserNameWhitelistRegex))]
+        [LocalizedDisplayName("UserNameWhitelistRegex")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 15)]
         public string UserNameWhitelistRegex { get; set; }
@@ -177,7 +176,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Always ban a user name if it is not within this edit distance of a user name white list entry. Ignored if user name whitelist is empty.
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.UserNameWhitelistMinimumEditDistance))]
+        [LocalizedDisplayName("UserNameWhitelistMinimumEditDistance")]
         [Range(0, 5)]
         [DataMember(Order = 16)]
         public int? UserNameWhitelistMinimumEditDistance { get; set; }
@@ -185,7 +184,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Failed login attempts for a whitelisted user name before banning
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.FailedLoginsBeforeBanUserNameWhitelist))]
+        [LocalizedDisplayName("FailedLoginsBeforeBanUserNameWhitelist")]
         [Range(0, 9999)]
         [DataMember(Order = 17)]
         public int? FailedLoginAttemptsBeforeBanUserNameWhitelist { get; set; }
@@ -193,14 +192,14 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Whether to clear failed logins on a successful login
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.ClearFailedLoginsOnSuccessfulLogin))]
+        [LocalizedDisplayName("ClearFailedLoginsOnSuccessfulLogin")]
         [DataMember(Order = 18)]
         public bool ClearFailedLoginsOnSuccessfulLogin { get; set; }
 
         /// <summary>
         /// Process to run when there is a ban, relative to the local machine
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.ProcessToRunOnBan))]
+        [LocalizedDisplayName("ProcessToRunOnBan")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 19)]
         public string ProcessToRunOnBan { get; set; }
@@ -208,7 +207,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Process to run when there is a successful login, relative to the local machine
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.ProcessToRunOnSuccessfulLogin))]
+        [LocalizedDisplayName("ProcessToRunOnSuccessfulLogin")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 20)]
         public string ProcessToRunOnSuccessfulLogin { get; set; }
@@ -216,12 +215,12 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Process to run when there is a unban, relative to the local machine
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.ProcessToRunOnUnban))]
+        [LocalizedDisplayName("ProcessToRunOnUnban")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 21)]
         public string ProcessToRunOnUnban { get; set; }
 
-        [LocalizedDisplayName(nameof(IPBanResources.FirewallRules))]
+        [LocalizedDisplayName("FirewallRules")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 22)]
         public string FirewallRules { get; set; }
@@ -247,7 +246,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Uris to pull lists of ip addresses from. Format is RulePrefix,Interval(DD:HH:MM:SS),Uri[NEWLINE].
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.FirewallUriRules))]
+        [LocalizedDisplayName("FirewallUriRules")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 26)]
         public string FirewallUriRules { get; set; }
@@ -255,14 +254,14 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Whether to process internal ip addresses
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.ProcessInternalIPAddresses))]
+        [LocalizedDisplayName("ProcessInternalIPAddresses")]
         [DataMember(Order = 27)]
         public bool ProcessInternalIPAddresses { get; set; }
 
         /// <summary>
         /// IP threat api key
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.IPThreatApiKey))]
+        [LocalizedDisplayName("IPThreatApiKey")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 28)]
         public string IPThreatApiKey { get; set; }
@@ -270,7 +269,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// User name truncation characters
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.UserNameTruncationChars))]
+        [LocalizedDisplayName("UserNameTruncationChars")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 29)]
         public string TruncateUserNameChars { get; set; }
@@ -278,7 +277,7 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// Whether to use default banned ip address handler
         /// </summary>
-        [LocalizedDisplayName(nameof(IPBanResources.UseDefaultBannedIPAddressHandler))]
+        [LocalizedDisplayName("UseDefaultBannedIPAddressHandler")]
         [DisplayFormat(ConvertEmptyStringToNull = false)]
         [DataMember(Order = 30)]
         public bool UseDefaultBannedIPAddressHandler { get; set; } = true;
@@ -289,40 +288,35 @@ namespace DigitalRuby.IPBanProSDK
         /// Current hash code
         /// </summary>
         [DataMember(Order = 89)]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public int CurrentHashCode { get; set; }
 
         /// <summary>
         /// Country block range entry count
         /// </summary>
         [DataMember(Order = 90)]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public int CountryBlockRangeEntryCount { get; set; }
 
         /// <summary>
         /// Recent list count
         /// </summary>
         [DataMember(Order = 91)]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public int RecentListEntryCount { get; set; }
 
         /// <summary>
         /// Naughty list count
         /// </summary>
         [DataMember(Order = 92)]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public int NaughtyListEntryCount { get; set; }
 
         /// <summary>
         /// Country block range entry count
         /// </summary>
         [DataMember(Order = 93)]
-        [System.Text.Json.Serialization.JsonIgnore]
-        [Newtonsoft.Json.JsonIgnore]
+        [JsonIgnore]
         public int AsnBlockRangeEntryCount { get; set; }
     }
 }

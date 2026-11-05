@@ -27,7 +27,10 @@
 		<PackageTags>security;botnet;hacker;firewall;linux;windows</PackageTags>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+		<!-- partial + reflection JSON by design for API clients. Analyzer noise is silenced;
+		     Publish apps use SuppressTrimAnalysisWarnings for ILLink. -->
 		<TrimMode>partial</TrimMode>
+		<EnableTrimAnalyzer>false</EnableTrimAnalyzer>
 		<JsonSerializerIsReflectionEnabledByDefault>true</JsonSerializerIsReflectionEnabledByDefault>
 		<UserSecretsId>4720c394-cad1-476e-a838-a9e47c82ad42</UserSecretsId>
 	</PropertyGroup>
@@ -44,9 +47,9 @@
 		<PackageReference Include="K4os.Compression.LZ4" Version="1.3.8" />
 		<PackageReference Include="K4os.Compression.LZ4.Streams" Version="1.3.8" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.13" />
-		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.13" />
+		<PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="10.0.14" />
 		<PackageReference Include="protobuf-net" Version="3.4.40" />
-		<PackageReference Include="SharpCompress" Version="0.50.7" />
+		<PackageReference Include="SharpCompress" Version="0.50.8" />
 	</ItemGroup>
 
 	<ItemGroup>

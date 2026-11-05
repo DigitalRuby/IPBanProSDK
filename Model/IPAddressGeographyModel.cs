@@ -1,4 +1,4 @@
-﻿/*
+/*
 
 IPBanPro SDK - https://ipban.com | https://github.com/DigitalRuby/IPBanProSDK
 IPBan and IPBan Pro Copyright(c) 2012 Digital Ruby, LLC
@@ -16,8 +16,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 */
 
-using Newtonsoft.Json;
-
+using System.Text.Json.Serialization;
 using System;
 using System.Runtime.Serialization;
 
@@ -33,7 +32,6 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// IP address
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 1)]
         public string IPAddress { get; set; }
 
@@ -60,84 +58,72 @@ namespace DigitalRuby.IPBanProSDK
         /// <summary>
         /// City
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 1)]
         public string City { get; set; }
 
         /// <summary>
         /// Postal code
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 2)]
         public string PostalCode { get; set; }
 
         /// <summary>
         /// Region
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 3)]
         public string Region { get; set; }
 
         /// <summary>
         /// Region code
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 4)]
         public string RegionCode { get; set; }
 
         /// <summary>
         /// Country
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 5)]
         public string Country { get; set; }
 
         /// <summary>
         /// Country code
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 6)]
         public string CountryCode { get; set; }
 
         /// <summary>
         /// Continent
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 7)]
         public string Continent { get; set; }
 
         /// <summary>
         /// Continent code
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 8)]
         public string ContinentCode { get; set; }
 
         /// <summary>
         /// Latitude
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 9)]
         public float? Latitude { get; set; }
 
         /// <summary>
         /// Longitude
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 10)]
         public float? Longitude { get; set; }
 
         /// <summary>
         /// Location accuracy radius
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 11)]
         public int? LocationAccuracyRadius { get; set; }
 
         /// <summary>
         /// ISP (Internet service provider)
         /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         [DataMember(Order = 12)]
         public string ISP { get; set; }
 

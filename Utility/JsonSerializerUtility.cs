@@ -33,6 +33,7 @@ namespace DigitalRuby.IPBanProSDK
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
             };
             options.Converters.Add(new KeyValuePairStringObjectJsonConverter());
             options.Converters.Add(new ObjectValueJsonConverter());

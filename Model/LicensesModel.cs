@@ -1,4 +1,4 @@
-﻿using DigitalRuby.IPBanCore;
+using DigitalRuby.IPBanCore;
 
 using System;
 using System.Runtime.Serialization;
@@ -16,14 +16,14 @@ namespace DigitalRuby.IPBanProSDK
         /// License key info, newline (\n) delimited.
         /// </summary>
         [DataMember(Order = 1)]
-        [LocalizedDisplayName(nameof(IPBanResources.Licenses))]
+        [LocalizedDisplayName("Licenses")]
         public string Licenses { get; set; }
 
         /// <summary>
         /// Number of connected clients
         /// </summary>
         [DataMember(Order = 2)]
-        [LocalizedDisplayName(nameof(IPBanResources.ConnectedClients))]
+        [LocalizedDisplayName("ConnectedClients")]
         public long ConnectedClients { get; set; }
     }
 }
